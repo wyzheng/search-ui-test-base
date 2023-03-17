@@ -1,7 +1,4 @@
 import {
-  getHeightOfEle,
-  getLeftOfEle,
-  getLineNum,
   getOCRRes,
 } from "../../lib/utils/helper";
 import { setup } from "../../lib/utils/setup";
@@ -38,6 +35,7 @@ describe("testBiz#公众号组件测试", () => {
     num = num + 1;
   })
 
+  /**@authoredBy:joycesong**/
   test("testBizRecall#query=果壳，验证混排页召回果壳公众号", async () => {
     await addMsg({
       context: undefined,
@@ -71,6 +69,7 @@ describe("testBiz#公众号组件测试", () => {
   },50000);
 
 
+  /**@authoredBy:joycesong**/
   test("testBizBoxTitle#query = 果壳，公众号box标题为\"query-公众号\"", async () => {
     await addMsg({
       context: undefined,

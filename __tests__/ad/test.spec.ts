@@ -17,6 +17,7 @@ describe("test#测试demo", () => {
   beforeEach(() => {
   })
 
+  /**@authoredBy:joycesong**/
   test("test_change#测试切换搜索词", async () => {
     let num = 3;
     while (num != 0) {
@@ -32,6 +33,8 @@ describe("test#测试demo", () => {
     }
   }, 500000);
 
+
+  /**@authoredBy:joycesong**/
   test("test_error1#测试错误", async () => {
     let num = 3;
     while (num != 0) {
