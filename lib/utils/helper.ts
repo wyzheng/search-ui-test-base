@@ -263,28 +263,21 @@ export function getListByCondition(conditions, list){
   return res;
 }
 
-async function mmSearch(url, data) {
-  let uin = "3192443972";
-  let  header_dict = {
-    "Accept": "*!/!*",
-    "Content-Type": "application/json; charset=utf-8",
-    "Cookie": "tapdsession=ac0f9e3e8b5fead25fa0db7ee6960230; t_u=882c902be955cc61%7C53fb9085e7b0ba04; t_uid=joycesong; paas_perm_sessionid=sevzntn7x5spf1qxpknmjnyf6e1nic0o; x_host_key_access_https=611efdf034330249b37b37ff4da260b60c031205_s; x-client-ssid=186b6c82bdf-e32d8b5b3a8a7d828d32472f7fda2b729a027f6b; x-tofapi-host-key=186b6c82c34-3f26cbf735a51db1c258bc43d0a15f2336fb2164; wx_oss_login_name=joycesong; x_host_key_access=611efdf034330249b37b37ff4da260b60c031205_s; ERP_USERNAME=joycesong; roles=undefined; sidebarStatus=1; x-imp-host-key=186cbe54d80-add031b187bd0d375807dcffec1ca3a1b61a9f9c; _t_uid=1001483085; km_uid=joycesong; bk_uid=joycesong; bk_ticket=ev0VaBbY3cdAqGQlotwngpWmftLjnMyT-jt5BuZdeyw; paas_perm_csrftoken=zHVPoJoqC0vhAUE8C5eujS7UN9gWJTLrhEPclpiG9tSfOCoQx7SIYhzhbhdsBtqp; mm_web_login_user=joycesong; km_u=28041baea0dad8fe0321958b7c629807295663ca5d6904828769bac48580213731c83ad10c7a5570; pkgsvr_csrftoken=BQSDZUAeuhgDMs9wF6e5AwzFubqz0mkt; pkgsvr_sessionid=e3yyl7dokeh27dl44p7njbfzxvz9tts5; RIO_TCOA_TICKET=tof:TOF4TeyJ2IjoiNCIsInRpZCI6ImdZTTZ4Um0xWXB2Uk9UOW1TQ2NPVDVxMm5KY3hTbmpWIiwiaXNzIjoiMTAuOTkuMjA4LjU3IiwiaWF0IjoiMjAyMy0wMy0xNVQxNDozODozMi40ODg3ODA2MDErMDg6MDAiLCJhdWQiOiIxMC45LjE2Ni42NSIsImhhc2giOiI1RDlGQkVERDI2Rjc0RTcyMDhGRkUyRTRBM0MzNDI5QkQ3MzEyMDk3REUzQTI2QTJDOTE2QzUxRTBDQzlEMzcwIiwibmgiOiIyRThCQzNCQTRDRjVCQkVENEQ0NEMzMjY1Q0U4RDhBRDgyOERFN0JEOTU2M0U2MjI3MkVBODc1MjgyQzc4QzVEIn0; RIO_TCOA_TICKET_HTTPS=tof:TOF4TeyJ2IjoiNCIsInRpZCI6ImdZTTZ4Um0xWXB2Uk9UOW1TQ2NPVDVxMm5KY3hTbmpWIiwiaXNzIjoiMTAuOTkuMjA4LjU3IiwiaWF0IjoiMjAyMy0wMy0xNVQxNDozODozMi40ODg3ODA2MDErMDg6MDAiLCJhdWQiOiIxMC45LjE2Ni42NSIsImhhc2giOiI1RDlGQkVERDI2Rjc0RTcyMDhGRkUyRTRBM0MzNDI5QkQ3MzEyMDk3REUzQTI2QTJDOTE2QzUxRTBDQzlEMzcwIiwibmgiOiIyRThCQzNCQTRDRjVCQkVENEQ0NEMzMjY1Q0U4RDhBRDgyOERFN0JEOTU2M0U2MjI3MkVBODc1MjgyQzc4QzVEIn0; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%22joycesong%22%2C%22first_id%22%3A%2218682c1f1464e3-0b329161f9add4-1f525634-2007040-18682c1f1476fe%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E5%BC%95%E8%8D%90%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC%22%2C%22%24latest_referrer%22%3A%22https%3A%2F%2Fexmail.qq.com%2F%22%7D%2C%22%24device_id%22%3A%2218682c1f1464e3-0b329161f9add4-1f525634-2007040-18682c1f1476fe%22%7D; TCOA_TICKET=TOF4TeyJ2IjoiNCIsInRpZCI6ImdZTTZ4Um0xWXB2Uk9UOW1TQ2NPVDVxMm5KY3hTbmpWIiwiaXNzIjoiMTAuOTkuMjA4LjU3IiwiaWF0IjoiMjAyMy0wMy0xNVQxNDozODozMi40ODg3ODA2MDErMDg6MDAiLCJhdWQiOiIxMC45LjE2Ni42NSIsImhhc2giOiI1RDlGQkVERDI2Rjc0RTcyMDhGRkUyRTRBM0MzNDI5QkQ3MzEyMDk3REUzQTI2QTJDOTE2QzUxRTBDQzlEMzcwIiwibmgiOiIyRThCQzNCQTRDRjVCQkVENEQ0NEMzMjY1Q0U4RDhBRDgyOERFN0JEOTU2M0U2MjI3MkVBODc1MjgyQzc4QzVEIn0"
-  };
-  let resp = await got( {method: 'post', url: url, body: JSON.stringify(data), decompress: false, headers: header_dict, timeout: 15000});
-  if (resp.statusCode == 200){
-    let rawData = resp.body;
-    return JSON.parse(rawData)
-  }
-}
-export async function search(data) {
-  let url2 = "http://mmsearch.woa.com/newapi/comm_svrkit/mmsearchossopenapisvr/GetSearchResultLite"
-  let resp =  await mmSearch(url2, data);
-  console.log("yiyiyiiyayayayayayay");
-  console.log(resp.data.rsp);
-  return resp.data.rsp;
-}
-
 export async function teach(data) {
   const resp: SearchGuideResponse = { Json: "" }
   return resp
+}
+
+export async function getSearchData(data){
+  console.log("EIHEIEHEIEHHHHHHHHHHHHH来了")
+  let  header_dict = {
+    "Accept": "*!/!*",
+    "Content-Type": "application/json; charset=utf-8"
+  };
+  let url = "http://9.134.52.227:8080/cgi/GetS1SReport"
+  let resp = await got( {method: 'post', url: url, body: JSON.stringify(data), decompress: false, headers: header_dict, timeout: 15000});
+  if (resp.statusCode == 200){
+    let rawData = resp.body;
+    return JSON.parse(JSON.parse(rawData).Data).rsp
+  }
 }

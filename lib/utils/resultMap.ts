@@ -536,8 +536,6 @@ export function relatedGoods(id) {
   }
 }
 
-
-
 export const bizWeAppClass = {
   title: `#search_result > div:nth-child(3) > div > div:nth-child(2) > div.search-block__hd > div > div.search-block__title span`,
   more: `#search_result > div:nth-child(3) > div > div:nth-child(2) > div.search-block__hd > div > div:nth-child(2) > div.more__item.active__mask`,

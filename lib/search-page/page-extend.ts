@@ -2,7 +2,7 @@ import Puppeteer, {devices, HTTPRequest, Page, ResourceType} from "puppeteer";
 import { CaseCTx, PageJsapi, WebSearchResponse } from "./interfaces/web-search-page";
 import { Page as WebSearchPage, PageConfig} from '@tencent/web-search-puppeteer-page';
 import { PageAssetService } from "./service/page-asset.service";
-import {scrollDown, search, teach} from "../utils/helper";
+import { getSearchData, scrollDown, teach } from "../utils/helper";
 import {LoggerService} from "../logger/logger.service";
 import {Logger} from "log4js";
 import {Collector} from "@tencent/wesearch-report-analyze"
@@ -136,7 +136,7 @@ export class PageExtend {
       await webSearchPage.markImageCompleteCheckpoint();
     }
     await webSearchPage.markResourceCheckpoint();
-    await webSearchPage.markBridgeEventCheckpoint('onSearchDataReady');
+    await webSearchPage.markBridgeEventCheckpoint(PageJsapi[pageCtx.page]);
     const htmlContent = await this.assetService.fetchEntryHtmlContent(context);
     console.log(htmlContent);
     await webSearchPage.init(<string>htmlContent, pageConfig, {
@@ -164,7 +164,7 @@ export class PageExtend {
                 }
               ]
             }
-            return search(data);
+            return getSearchData(data);
           },
           getTeachSearchData: async (params) => {
             console.log(`GetTeachSearchData`);

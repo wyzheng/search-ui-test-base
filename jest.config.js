@@ -16,7 +16,6 @@ module.exports = {
   globals: {
     __TEMPLATE__: template,
   },
-
   reporters:[
     "default",
     [
