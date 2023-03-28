@@ -1,4 +1,5 @@
 import {
+  getHeightOfEle,
   getLeftOfEle,
   getLineNum,
   getOCRRes,
@@ -10,7 +11,7 @@ import { addAttach, addMsg } from "jest-html-reporters/helper";
 import { bizWeAppClass, bizWeAppsList } from "../../lib/utils/resultMap";
 
 
-let page: Puppeteer.Page ;
+let page: Puppeteer.Page;
 let browser:  Puppeteer.Browser;
 let pageExtend: PageExtend;
 let resArr = [];
@@ -20,11 +21,11 @@ let fail = 0;
 let err = 0;
 
 //@owner:joycesong
-//@description:公众号组件测试
-describe("testBizBox", () => {
+//@description:小程序账号box测试
+describe("testWeappBox", () => {
 
   beforeAll(async () => {
-    pageExtend = await setup("极摄会", 20, 3192443972, false);
+    pageExtend = await setup("美团外卖", 20, 3192443972, false);
     page = pageExtend.webSearchPage.instance;
     browser = pageExtend.browser;
   });
@@ -39,19 +40,19 @@ describe("testBizBox", () => {
     num = num + 1;
   })
 
-  //@description:query = 果壳，验证混排页召回果壳公众号
-  test("testBizRecall", async () => {
+  //@description:query = 美团外卖，验证混排页召回美团外卖小程序
+  test("testWeappRecall", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=果壳,发起搜索\n  2. 检查混排页是否召回公众号box`
+      message: ` 测试步骤：\n  1. 输入搜索query=美团外卖,发起搜索\n  2. 检查混排页是否召回小程序box`
     });
     let num = 3;
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_testBiz.png"
+          path: "./static/pic/test_testWeapp.png"
         })
-       // await addAttach({attach: image, description: "页面截图"});
+        await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).account);
         break;
       } catch (e) {
@@ -72,11 +73,11 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 果壳，验证混排页召回果壳公众号
-  test("testBIzBoxTitle", async () => {
+  //@description:美团外卖，小程序box标题为"query-小程序"
+  test("testWeappBoxTitle", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=果壳,发起搜索\n  2. 检查检查公众号box标题为title-公众号`
+      message: ` 测试步骤：\n  1. 输入搜索query=美团外卖,发起搜索\n  2. 检查检查小程序box标题为title-小程序`
     });
     let num = 3;
     while (num != 0) {
@@ -84,18 +85,18 @@ describe("testBizBox", () => {
         await page.waitForSelector(bizWeAppClass.title)
         let ele = await page.$(bizWeAppClass.title)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testBiztitle.png"
+          path: "./static/pic/test_testWeapptitle.png"
         })
-        //await addAttach({attach: image, description: "标题截图"});
+        await addAttach({attach: image, description: "标题截图"});
         let content = await page.evaluate(async (eleClass)  => {
           let item = document.querySelector(eleClass.title + " >em");
           let color = getComputedStyle(item).color;
           return item.innerHTML;
         }, bizWeAppClass);
-        await expect(content).toBe("果壳");
-        let ocrres = await getOCRRes("./static/pic/test_testBiztitle.png")
+        await expect(content).toBe("美团外卖");
+        let ocrres = await getOCRRes("./static/pic/test_testWeapptitle.png")
         console.log(ocrres);
-        await expect(ocrres.ocr_comm_res.items[0].text.replace(" ", "")).toBe("果壳-公众号");
+        await expect(ocrres.ocr_comm_res.items[0].text).toBe("美团外卖-小程序");
         break;
       } catch (e) {
         if (num == 1) {
@@ -115,11 +116,11 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 果壳，验证公众号标题不超过两行
-  test("testBizTitle", async () => {
+  //@description:query = 美团外卖，验证小程序标题不超过两行
+  test("testWeappTitle", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=果壳,发起搜索\n  2. 检查公众号账号标题不超过两行`
+      message: ` 测试步骤：\n  1. 输入搜索query=美团外卖,发起搜索\n  2. 检查小程序账号标题不超过两行`
     });
     let num = 3;
     while (num != 0) {
@@ -127,11 +128,11 @@ describe("testBizBox", () => {
         await page.waitForSelector(bizWeAppsList(1,0,0).accountTitle);
         let ele = await page.$(bizWeAppsList(1,0,0).accountTitle);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testbiztitlec.png"
+          path: "./static/pic/test_testWeapptitlec.png"
         })
-        await addAttach({attach: image, description: "公众号账号标题"});
+        await addAttach({attach: image, description: "小程序账号标题"});
 
-        let linNum = await getLineNum("./static/pic/test_testbiztitlec.png");
+        let linNum = await getLineNum("./static/pic/test_testWeapptitlec.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
@@ -152,11 +153,11 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 果壳，验证公众号描述不超过两行
-  test("testBizDesc", async () => {
+  //@description:query = 美团外卖，验证小程序描述不超过两行
+  test("testWeappDesc", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=果壳,发起搜索\n  2. 检查公众号描述不超过两行`
+      message: ` 测试步骤：\n  1. 输入搜索query=美团外卖,发起搜索\n  2. 检查小程序描述不超过两行`
     });
     let num = 3;
     while (num != 0) {
@@ -166,7 +167,7 @@ describe("testBizBox", () => {
         const image = await ele.screenshot({
           path: "./static/pic/test_testWeappdesc.png"
         })
-        await addAttach({attach: image, description: "公众号描述"});
+        await addAttach({attach: image, description: "小程序描述"});
 
         let linNum = await getLineNum("./static/pic/test_testWeappdesc.png");
         expect(linNum).toBeLessThanOrEqual(2);
@@ -190,11 +191,11 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 果壳，验证公众号描述、标题、来源是否左对齐
-  test("testBizInfoStyle", async () => {
+  //@description:query = 美团外卖，验证小程序描述、小程序标题、小程序来源是否左对齐
+  test("testWeappInfoStyle", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=果壳,发起搜索\n  2. 验证公众号描述、公众号标题、公众号来源是否左对齐`
+      message: ` 测试步骤：\n  1. 输入搜索query=美团外卖,发起搜索\n  2. 验证小程序描述、小程序标题、小程序来源是否左对齐`
     });
     let num = 3;
     while (num != 0) {
@@ -224,60 +225,11 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 果壳，验证公众号召回服务
-  test("testBizService", async () => {
+  //@description:query = 美团外卖，点击更多入口验证是否跳转到小程序垂搜页
+  test("testWeappBoxMore", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=果壳,发起搜索\n  2. 验证公众号描述、公众号标题、公众号来源是否左对齐`
-    });
-    let num = 3;
-    let content;
-    while (num != 0) {
-      try {
-        await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).bizService);
-        let ele = await page.waitForSelector(bizWeAppsList(1, 0, 0).bizService);
-        const image = await ele.screenshot({
-          path: "./static/pic/test_testbizservice.png"
-        });
-        let item = await page.$$(bizWeAppsList(1, 0, 0).bizService).then((arr) =>{
-          return arr.length;
-        })
-        console.log(item);
-        let wording = ["果壳市集", "生活健康指南", "科学漫画合集", "科技解读"]
-        for (let i = 0; i < item; i++) {
-          let content = await page.evaluate(async (eleClass) => {
-            let item = document.querySelector(eleClass + " p");
-            return item.innerHTML;
-          }, bizWeAppsList(1, 0, i + 1).bizServiceText);
-          content = content.replace(/[\r\n]/g, "").replace(/\ +/g, "");
-          await expect(wording.indexOf(content)).not.toBe(-1);
-          await page.click(bizWeAppsList(1, 0, i + 1).bizServiceLink);
-          expect(pageExtend.extendInfo).toBe("gh_d23b07c3d852@app");
-        }
-        break;
-      } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
-          throw e;
-        }
-        num--;
-      }
-    }
-  },50000);
-
-  //@description:query = 果壳，点击更多入口验证是否跳转到公众号垂搜页
-  test("testBizBoxMore", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=果壳,发起搜索\n  2. 点击更多入口，验证是否跳转到公众号垂搜页`
+      message: ` 测试步骤：\n  1. 输入搜索query=美团外卖,发起搜索\n  2. 点击更多入口，验证是否跳转到小程序垂搜页`
     });
     let num = 3;
     while (num != 0) {
@@ -286,7 +238,7 @@ describe("testBizBox", () => {
         await page.click(bizWeAppClass.more);
         await page.waitForTimeout(2000);
         const image = await page.screenshot({
-          path: "./static/pic/test_testbiztab.png"
+          path: "./static/pic/test_testWeapptab.png"
         })
         await addAttach({attach: image, description: "垂搜截图"});
         break;
@@ -308,18 +260,18 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 随申办，验证是否召回随申办公众号
-  test("testBizRecall2", async () => {
+  //@description:query = 饿了么外卖，验证是否召回饿了么小程序
+  test("testWeappRecall2", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=随申办,发起搜索\n  2. 验证混排结果是否召回随申办公众号`
+      message: ` 测试步骤：\n  1. 输入搜索query=饿了么外卖,发起搜索\n  2. 验证混排结果是否召回饿了么小程序`
     });
     let num = 3;
     while (num != 0) {
       try {
-        await pageExtend.change("随申办");
+        await pageExtend.change("饿了么外卖");
         const image = await page.screenshot({
-          path: "./static/pic/test_testBiz.png"
+          path: "./static/pic/test_testWeapp.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).account);
@@ -342,21 +294,25 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 随申办，验证公众号带事业单位标签
-  test("testBizTag", async () => {
+  //@description:query = 饿了么外卖，验证带服务小程序描述不超过1行
+  test("testWeappServiceDesc", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=随申办,发起搜索\n  2. 验证公众号带事业单位标签`
+      message: ` 测试步骤：\n  1. 输入搜索query=饿了么外卖,发起搜索\n  2. 检查带服务的小程序描述是否不超过1行`
     });
     let num = 3;
     while (num != 0) {
       try {
-        let content = await page.evaluate(async (eleClass) => {
-          let item = document.querySelector(eleClass);
-          return item.innerHTML;
-        }, bizWeAppsList(1, 1, 0).accountTagTitle);
-        content = content.replace(/[\r\n]/g, "").replace(/\ +/g, "");
-        await expect(content).toBe("事业单位");
+        await page.waitForSelector(bizWeAppsList(1,0,0).accountDesc);
+        let ele = await page.$(bizWeAppsList(1,0,0).accountDesc);
+        const image = await ele.screenshot({
+          path: "./static/pic/test_testWeappdesc.png"
+        })
+        await addAttach({attach: image, description: "小程序描述"});
+
+        let linNum = await getLineNum("./static/pic/test_testWeappdesc.png");
+        expect(linNum).toBeLessThanOrEqual(1);
+
         break;
       } catch (e) {
         if (num == 1) {
@@ -376,22 +332,28 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 上海发布，验证公众号带政府标签
-  test("testBizGovernmentTag", async () => {
+  //@description:query = 饿了么外卖，验证小程序召回服务，点击服务验证是否正确跳转到"饿了么"小程序
+  test("testWeappService", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=上海发布,发起搜索\n  2. 检查公众号带政府标签`
+      message: ` 测试步骤：\n  1. 输入搜索query=饿了么外卖,发起搜索\n  2. 检查小程序账号是否带服务\n 3. 检查小程序服务描述为"优惠订外卖"， 点击账号服务，跳转到饿了么小程序`
     });
     let num = 3;
     while (num != 0) {
       try {
-        //await pageExtend.change("上海发布");
-        let content = await page.evaluate(async (eleClass) => {
+        await expect(page).toHaveElement(bizWeAppsList(1,0, 1).weappService)
+        let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).weappService)
+        const image = await ele.screenshot({
+          path: "./static/pic/test_testWeappservice.png"
+        })
+
+        let content = await page.evaluate(async (eleClass)  => {
           let item = document.querySelector(eleClass);
           return item.innerHTML;
-        }, bizWeAppsList(1, 0, 0).accountTagTitle);
-        content = content.replace(/[\r\n]/g, "").replace(/\ +/g, "");
-        await expect(content).toBe("政府");
+        }, bizWeAppsList(1, 0, 1).weappServiceText);
+        await expect(content.replace(/[\r\n]/g, "").replace(/\ +/g, "")).toBe("优惠订外卖");
+        await page.click(bizWeAppsList(1, 0, 1).weappServiceLink);
+        expect(pageExtend.extendInfo).toBe("gh_6506303a12bb@app");
         break;
       } catch (e) {
         if (num == 1) {
@@ -411,87 +373,107 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 界面新闻，验证公众号带媒体标签
-  test("testBIzMediaTag", async () => {
+  //@description:query = 饿了么外卖，验证小程序来源icon和文案在同一行
+  test("testWeappSource", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=界面新闻,发起搜索\n  2. 公众号带媒体标签`
+      message: ` 测试步骤：\n  1. 输入搜索query=饿了么外卖,发起搜索\n  2. 验证小程序来源为"上海拉扎斯信息科技有限公司"，且icon和文案在同一行`
     });
     let num = 3;
     while (num != 0) {
       try {
-        let content = await page.evaluate(async (eleClass) => {
-          let item = document.querySelector(eleClass);
-          return item.innerHTML;
-        }, bizWeAppsList(1, 0, 0).accountTagTitle);
-        content = content.replace(/[\r\n]/g, "").replace(/\ +/g, "");
-        await expect(content).toBe("媒体");
-        break;
-      } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
-          throw e;
-        }
-        num--;
-      }
-    }
-  },50000);
-
-  //@description:query = 中国国画石，验证公众号带其他组织标签
-  test("testBizOtherTag", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=中国国画石,发起搜索\n  2. 公众号带其他组织标签`
-    });
-    let num = 3;
-    while (num != 0) {
-      try {
-        let content = await page.evaluate(async (eleClass) => {
-          let item = document.querySelector(eleClass);
-          return item.innerHTML;
-        }, bizWeAppsList(1, 0, 0).accountTagTitle);
-        content = content.replace(/[\r\n]/g, "").replace(/\ +/g, "");
-        await expect(content).toBe("其他组织");
-        break;
-      } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
-          throw e;
-        }
-        num--;
-      }
-    }
-  },50000);
-
-  //@description:query = 中医蔡锦芳，验证公众号来源为"个人"
-  test("testPersonalBiz", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=中医蔡锦芳,发起搜索\n  2. 验证公众号来源为\"个人\" `
-    });
-    let num = 3;
-    while (num != 0) {
-      try {
-        //await pageExtend.change("中医蔡锦芳");
+        await expect(page).toHaveElement(bizWeAppsList(1,0, 0).accountSourceText)
         let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).accountSourceText)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testbiztag.png"
+          path: "./static/pic/test_testWeapptag.png"
+        })
+
+        let content = await page.evaluate(async (eleClass)  => {
+          let item = document.querySelector(eleClass);
+          //let color = getComputedStyle(item).color;
+          return item.innerHTML;
+        }, bizWeAppsList(1, 0, 1).accountSourceText);
+        await expect(content).toBe("上海拉扎斯信息科技有限公司");
+
+        let lineNum = await getLineNum("./static/pic/test_testWeapptag.png")
+        expect(lineNum).toBe(1);
+
+        let h1 = await getHeightOfEle(page, bizWeAppsList(1, 0, 1).accountSourceText);
+        let h2 = await getHeightOfEle(page, bizWeAppsList(1, 0, 1).accountSourceIcon)
+        expect(h1).toBeCloseTo(h2, 2)
+
+        break;
+      } catch (e) {
+        if (num == 1) {
+          if (e.constructor.name == "JestAssertionError") {
+            fail++;
+          } else {
+            err++;
+            await addMsg({
+              context: undefined,
+              message: `测试任务出错...`
+            });
+          }
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
+
+  //@description:query = 饿了么外卖，验证小程序有xx人使用标签
+  test("testWeappUsedTag", async () => {
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=饿了么外卖,发起搜索\n  2. 小程序有有xx人使用标签`
+    });
+    let num = 3;
+    while (num != 0) {
+      try {
+        await expect(page).toHaveElement(bizWeAppsList(1,0, 0).accountSourceTag)
+        let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).accountSourceTag)
+        const image = await ele.screenshot({
+          path: "./static/pic/test_testWeapptag.png"
+        })
+
+        let content = await page.evaluate(async (eleClass)  => {
+          let item = document.querySelector(eleClass);
+          //let color = getComputedStyle(item).color;
+          return item.innerHTML;
+        }, bizWeAppsList(1, 0, 1).accountSourceTag);
+        await expect(content).toBe("10万+人最近使用");
+        break;
+      } catch (e) {
+        if (num == 1) {
+          if (e.constructor.name == "JestAssertionError") {
+            fail++;
+          } else {
+            err++;
+            await addMsg({
+              context: undefined,
+              message: `测试任务出错...`
+            });
+          }
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
+
+  //@description:query = 美妆娃娃，验证小程序来源为"个人"
+  test("testPersonalWeapp", async () => {
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=美妆娃娃,发起搜索\n  2. 验证小程序来源为\"个人\" `
+    });
+    let num = 3;
+    while (num != 0) {
+      try {
+        await pageExtend.change("美妆娃娃");
+        let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).accountSourceText)
+        const image = await ele.screenshot({
+          path: "./static/pic/test_testWeapptag.png"
         })
 
         let content = await page.evaluate(async (eleClass)  => {
@@ -518,20 +500,27 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 极摄会，验证公众号账号无认证
-  test("testBizNoAuth", async () => {
+  //@description:query = 腾讯视频，验证小程序有"使用过"标签
+  test("testWeappUsed", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=极摄会,发起搜索\n  2. 验证公众号账号无认证`
+      message: ` 测试步骤：\n  1. 输入搜索query= 腾讯视频,发起搜索\n  2. 验证小程序有\"使用过\"标签`
     });
     let num = 3;
     while (num != 0) {
       try {
-        //await pageExtend.change("极摄会");
-        const image = await page.screenshot({
-          path: "./static/pic/test_testbiztag.png"
+        await pageExtend.change("腾讯视频");
+        await expect(page).toHaveElement(bizWeAppsList(1,0, 0).accountSourceTag)
+        let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).accountSourceTag)
+        const image = await ele.screenshot({
+          path: "./static/pic/test_testWeapptag.png"
         })
-        await expect(page).not.toHaveElement(bizWeAppsList(1, 0, 0).accountSourceIcon);
+
+        let content = await page.evaluate(async (eleClass)  => {
+          let item = document.querySelector(eleClass);
+          return item.innerHTML;
+        }, bizWeAppsList(1, 0, 1).accountSourceTag);
+        await expect(content).toBe("使用过");
         break;
       } catch (e) {
         if (num == 1) {
@@ -551,20 +540,31 @@ describe("testBizBox", () => {
     }
   },50000);
 
-  //@description:query = 民权碧桂园，验证混排不召回公众号(封禁账号)
-  test("testNoBIzRecall", async () => {
+  //@description:query = 随申办，验证小程序有"事业单位"认证，跟标题一行展示
+  test("testWeappTag", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=民权碧桂园,发起搜索\n  2. 验证混排不召回公众号`
+      message: ` 测试步骤：\n  1. 输入搜索query=随申办,发起搜索\n  2. 验证小程序有\"事业单位\"认证，且跟标题一行展示`
     });
     let num = 3;
     while (num != 0) {
       try {
-        //await pageExtend.change("中医蔡锦芳");
-        const image = await page.screenshot({
-          path: "./static/pic/test_testbiztag.png"
+        await pageExtend.change("随申办");
+        await expect(page).toHaveElement(bizWeAppsList(1,1, 0).accountTag)
+        let ele = await page.waitForSelector(bizWeAppsList(1, 1, 0).accountTag)
+        const image = await ele.screenshot({
+          path: "./static/pic/test_testWeapptag1.png"
         })
-        await expect(page).not.toHaveElement(bizWeAppsList(0, 0, 0).account.split(":")[0]);
+
+        let content = await page.evaluate(async (eleClass)  => {
+          let item = document.querySelector(eleClass);
+          return item.innerHTML;
+        }, bizWeAppsList(1, 0, 1).accountTagTitle);
+        await expect(content).toBe("事业单位");
+
+        let h1 = await getHeightOfEle(page, bizWeAppsList(1,1, 0).accountTag);
+        let h2 = await getHeightOfEle(page, bizWeAppsList(1,1, 0).accountTitle);
+        expect(h1).toBeCloseTo(h2, 2)
         break;
       } catch (e) {
         if (num == 1) {
