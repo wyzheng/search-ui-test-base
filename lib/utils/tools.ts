@@ -1,0 +1,227 @@
+import { LoggerService } from "../logger/logger.service";
+import got from "got";
+import fs from "fs";
+import sha1 from "sha1"
+
+/**
+ * case 编写相关辅助方法
+ */
+
+const logger = new LoggerService().getLogger();
+
+export async function getHighlightContent(page, selector) {
+  let content = await page.evaluate((selector) => {
+    let items =  document.querySelectorAll(selector + ' ' + 'em[class="highlight"]');
+    let content = [];
+    for (let i = 0; i < items.length; i++) {
+      content.push(items[i].innerHTML);
+    }
+    return content;
+  },selector)
+  return content;
+}
+
+export async function getContentStyle(page, selector) {
+  let style : string;
+  style = await page.evaluate((selector) => {
+    let desc =  document.querySelector(selector);
+    return getComputedStyle(desc).textOverflow;
+  },selector)
+  return style;
+}
+
+export function includes(str, query) {
+  return str.every(val => query.includes(val));
+}
+
+// 获得元素在页面上的高度
+export async function getHeightOfEle(page, selector) {
+  return await page.evaluate((selector) => {
+
+    let icon = document.querySelector(selector);
+    let Box = icon.getBoundingClientRect(),
+      doc = icon.ownerDocument,
+      body = doc.body,
+      html = doc.documentElement,
+      clientTop = html.clientTop || body.clientTop || 0
+
+    return Box.top + (self.pageYOffset || html.scrollTop || body.scrollTop) - clientTop + (Box.height / 2.0);
+  }, selector);
+}
+
+
+// 获得元素在页面上的宽度
+export async function getLeftOfEle(page, selector) {
+  return await page.evaluate((selector) => {
+    let icon = document.querySelector(selector);
+    let Box = icon.getBoundingClientRect(),
+      doc = icon.ownerDocument,
+      body = doc.body,
+      html = doc.documentElement,
+      clientTop = html.clientTop || body.clientTop || 0
+
+    return Box.left;
+  }, selector);
+}
+
+
+
+export async function getOCRRes(imagePath){
+  let r = await got("https://stream.weixin.qq.com/weapp/getOcrAccessToken");
+
+  logger.log("here joyce log something*********");
+  logger.log(r.body);
+
+  let buffer = fs.readFileSync(imagePath);
+  let string = Buffer.from(buffer).toString('base64');
+  let url = "http://api.weixin.qq.com/wxa/servicemarket?access_token=" + r.body;
+  let data = {
+    "service": "wx79ac3de8be320b71",
+    "api": "OcrAllInOne",
+    "client_msg_id": "xxx",
+    "data": {
+      "img_data": string,
+      "data_type": 2,
+      "ocr_type": 8
+    }
+  };
+  let resp = await got( {method: 'post', url: url, body: JSON.stringify(data), decompress: false});
+  logger.log("here joyce log something*********");
+  logger.log(resp.body);
+
+  let respData = resp.body.replace('\"', '"');
+  let jsonRes = JSON.parse(respData);
+  let ocrRes = JSON.parse(jsonRes.data);
+
+  return ocrRes;
+}
+
+// 获取文字行数
+export async function getLineNum(path){
+  let num = 0;
+  num = (await getOCRRes(path)).ocr_comm_res.items.length;
+  return num;
+}
+
+/**
+ *
+ * @param max：最多不超过max行
+ * @param path
+ */
+export async function getLastItem( max, path){
+  let  ocrRes = await getOCRRes(path);
+  let num =  ocrRes.ocr_comm_res.items.length;
+  if(num >= max){
+    let text = ocrRes.ocr_comm_res.items["0"].text
+    return text.substr(text.length - 3, 3);
+  }
+  return '...'
+}
+
+/**
+ *
+ * @param functionName AddBizContact 关注公众号  DelBizContact 取消关注
+ * @param bizUin  公众号uin
+ */
+export async function bizOperation(functionName, bizUin, uin){
+  console.log("*************************")
+  let url = `http://wxunitest.oa.com/mmbizcasehelper/mmbasedatabroker`
+  let data = {
+    "biz_uin": bizUin,
+    "usr_uin": uin,
+  }
+  let req_data = {
+    "func_name": functionName,
+    "func_args": data
+  };
+  let resp = await got( {method: 'post', url: url, body: JSON.stringify(req_data), decompress: false});
+  console.log(resp.body);
+  /* logger.log("here addBizContact log something*********");
+   logger.log(resp.body);*/
+}
+
+/**
+ *
+ * @param finderName 被关注的人微信名
+ * @param optype  1 关注 / 2 取消关注
+ */
+export async function finderOperation(finderName, optype, userName){
+  let url = "http://mmtest.oa.com/mmcasehelperidc/mmfinder"
+  let req_data = {
+    'func_name': 'SetFinderFollow',
+    'func_args': {
+      "username": userName,
+      "finder_username": finderName,
+      "optype": optype
+    }
+  }
+  let resp = await got( {method: 'post', url: url, body: JSON.stringify(req_data), decompress: false});
+  /*logger.log("here addBizContact log something*********");
+  logger.log(resp.body);*/
+  console.log(resp.body)
+}
+
+export function errorCounting(e, err, fail){
+  if (e.constructor.name == "JestAssertionError"){
+    fail++;
+    throw e;
+  }else {
+    err++;
+  }
+  return [err, fail];
+}
+
+export function genToken(){
+  let secret = "dfZ2bnrTHfperANtWZGdnx0HRwE1W92n";
+  let client = "wx_ad_efficiency";
+  let timestamp = Math.floor(Date.now() / 1000);
+  let sign = sha1(client + secret + timestamp);
+  let buffer = new Buffer(client + "," + timestamp + "," + sign);
+  let token = buffer.toString('base64');
+  console.log(token);
+  return token;
+}
+
+export async function superView(aid, wxid){
+  let url = "https://jiqimao.woa.com/eib/power_preview/bind_audience";
+  let req_data = {
+    "aid": aid,
+    "uid": 17194315,
+    "period_seconds": 1800,
+    "bind_source_type": "BIND_SOURCE_TYPE_JIQIMAO",
+    "operator_id": "joycesong",
+    "wxid": wxid,
+    "wx_bind_type": "2",
+  }
+  let header_dict = {
+    "Content-Type": "application/json",
+    "token": genToken()
+  }
+
+  let resp = await got( {method: 'post', url: url, body: JSON.stringify(req_data), decompress: false, headers: header_dict, timeout: 20000});
+  if (resp.statusCode == 200){
+    if (JSON.parse(resp.body).code === 0){
+      return true;
+    }
+  }
+  return false;
+}
+
+// 数据上报相关
+export function getListByCondition(conditions, list){
+  let res = [];
+  for (let i = 0; i < list.length; i++) {
+    let flag = true;
+    for (let j = 0; j < Object.keys(conditions).length; j++) {
+      list[i].toString();
+      if (list[i][Object.keys(conditions)[j]] != Object.values(conditions)[j]){
+        flag = false;
+        break;
+      }
+    }
+    if (flag){
+      res.push(list[i]);
+    }
+  }
+  return res;
+}

@@ -2,7 +2,7 @@ import {
   getLeftOfEle,
   getLineNum,
   getOCRRes,
-} from "../../lib/utils/helper";
+} from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
@@ -24,7 +24,7 @@ let err = 0;
 describe("testBizBox", () => {
 
   beforeAll(async () => {
-    pageExtend = await setup("极摄会", 20, 3192443972, false);
+    pageExtend = await setup("果壳", 20, 3192443972, false);
     page = pageExtend.webSearchPage.instance;
     browser = pageExtend.browser;
   });
@@ -41,17 +41,17 @@ describe("testBizBox", () => {
 
   //@description:query = 果壳，验证混排页召回果壳公众号
   test("testBizRecall", async () => {
-    await addMsg({
+    /*await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=果壳,发起搜索\n  2. 检查混排页是否召回公众号box`
-    });
+    });*/
     let num = 3;
     while (num != 0) {
       try {
         const image = await page.screenshot({
           path: "./static/pic/test_testBiz.png"
         })
-       // await addAttach({attach: image, description: "页面截图"});
+        await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).account);
         break;
       } catch (e) {
@@ -86,7 +86,7 @@ describe("testBizBox", () => {
         const image = await ele.screenshot({
           path: "./static/pic/test_testBiztitle.png"
         })
-        //await addAttach({attach: image, description: "标题截图"});
+        await addAttach({attach: image, description: "标题截图"});
         let content = await page.evaluate(async (eleClass)  => {
           let item = document.querySelector(eleClass.title + " >em");
           let color = getComputedStyle(item).color;
