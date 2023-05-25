@@ -36,7 +36,7 @@ class MyCustomReporter {
         for (let k = index + 1; k < pref.length; k++) {
           caseId += pref[k]+ ".";
         }
-        let caseName = results.testResults[i].testResults[j].title.split("#")[0];
+        let caseName = results.testResults[i].testResults[j].title;
         caseId += caseName;
         results.testResults[i].testResults[j].caseId = caseId;
       }
