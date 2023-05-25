@@ -2,6 +2,7 @@
   "author": "joycesong",
   "version": "1.0.0",
   "dependencies": {
+    "@tencent/wesearch-report-analyze": "0.0.1-alpha.3",
     "element-ui": "^2.15.12",
     "fs-extra": "^10.1.0",
     "got": "^11.3.1",
@@ -25,7 +26,7 @@
   },
   "devDependencies": {
     "@nestjs/config": "^2.2.0",
-    "@tencent/wesearch-report-analyze": "",
+    "@tencent/wesearch-report-analyze": "0.0.1-alpha.1",
     "@tencent/web-search-puppeteer-page": "0.0.1-alpha.5",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "26.0.24",

@@ -536,9 +536,19 @@ export function relatedGoods(id) {
   }
 }
 
+export const articleClass = {
+  box: `div.basic-block-article-info`,
+  title: `div.basic-block-article-info div.search_item_inner div.article__title span.article__title-text`,
+  thumb: `div.basic-block-article-info div.search_item_inner div.article__thumb`,
+  desc: `div.basic-block-article-info div.search_item_inner div.article__desc`,
+  highlight: `div.basic-block-article-info div.search_item_inner em`,
+  source: 'div.basic-block-article-info div.search_item_inner div.source__title',
+  date: 'div.basic-block-article-info div.search_item_inner div.source__text date'
+}
+
 export const bizWeAppClass = {
-  title: `#search_result > div:nth-child(3) > div > div:nth-child(2) > div.search-block__hd > div > div.search-block__title span`,
-  more: `#search_result > div:nth-child(3) > div > div:nth-child(2) > div.search-block__hd > div > div:nth-child(2) > div.more__item.active__mask`,
+  title: `div.basic-block-unified-account div.search-block__hd > div > div.search-block__title span`,
+  more: `div.basic-block-unified-account div.search-block__hd > div > div:nth-child(2) > div.more__item.active__mask`,
 }
 
 // id：box位次，从1开始，tid：账号tag位次，sid： 账号服务id
