@@ -74,7 +74,7 @@ var MyCustomReporter = /** @class */ (function () {
                                 for (k = index + 1; k < pref.length; k++) {
                                     caseId += pref[k] + ".";
                                 }
-                                caseName = results.testResults[i].testResults[j].title.split("#")[0];
+                                caseName = results.testResults[i].testResults[j].title;
                                 caseId += caseName;
                                 results.testResults[i].testResults[j].caseId = caseId;
                             }
