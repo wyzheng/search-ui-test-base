@@ -8,7 +8,7 @@ import { setup } from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import { addAttach, addMsg } from "jest-html-reporters/helper";
-import { bizWeAppClass, bizWeAppsList } from "../../lib/utils/resultMap";
+import { bizWeAppClass, bizWeAppsList, tabClass, wxAdClass } from "../../lib/utils/resultMap";
 
 
 let page: Puppeteer.Page;
@@ -241,6 +241,16 @@ describe("testWeappBox", () => {
           path: "./static/pic/test_testWeapptab.png"
         })
         await addAttach({attach: image, description: "垂搜截图"});
+
+        let content = await page.evaluate(async (eleClass)  => {
+          let item = document.querySelector(eleClass);
+          return item.innerHTML;
+        }, tabClass.selected);
+        await expect(content).toBe("小程序");
+
+        await page.click(wxAdClass.select_all)
+        await page.waitForTimeout(1700);
+
         break;
       } catch (e) {
         if (num == 1) {

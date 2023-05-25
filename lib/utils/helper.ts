@@ -34,7 +34,7 @@ export async function getSearchData(data){
     "Accept": "*!/!*",
     "Content-Type": "application/json; charset=utf-8"
   };
-  let url = "http://9.134.52.227:8080/cgi/GetS1SReport"
+  let url = "http://9.134.52.227:8080/cgi/GetS1SResult"
   let resp = await got( {method: 'post', url: url, body: JSON.stringify(data), decompress: false, headers: header_dict, timeout: 15000});
   if (resp.statusCode == 200){
     let rawData = resp.body;

@@ -34,7 +34,7 @@ export function includes(str, query) {
   return str.every(val => query.includes(val));
 }
 
-// 获得元素在页面上的高度
+// getHeightOfEle 获得元素在页面上的高度（中心点的高度）
 export async function getHeightOfEle(page, selector) {
   return await page.evaluate((selector) => {
 
@@ -49,10 +49,10 @@ export async function getHeightOfEle(page, selector) {
   }, selector);
 }
 
-
-// 获得元素在页面上的宽度
-export async function getLeftOfEle(page, selector) {
+// getTopHeightOfEle 获得元素在页面上的高度（最上方的高度）
+export async function getTopHeightOfEle(page, selector) {
   return await page.evaluate((selector) => {
+
     let icon = document.querySelector(selector);
     let Box = icon.getBoundingClientRect(),
       doc = icon.ownerDocument,
@@ -60,6 +60,39 @@ export async function getLeftOfEle(page, selector) {
       html = doc.documentElement,
       clientTop = html.clientTop || body.clientTop || 0
 
+    return Box.top + (self.pageYOffset || html.scrollTop || body.scrollTop) - clientTop;
+  }, selector);
+}
+
+// getBottomHeightOfEle 获得元素在页面上的高度（最下方的高度）
+export async function getBottomHeightOfEle(page, selector) {
+  return await page.evaluate((selector) => {
+
+    let icon = document.querySelector(selector);
+    let Box = icon.getBoundingClientRect(),
+      doc = icon.ownerDocument,
+      body = doc.body,
+      html = doc.documentElement,
+      clientTop = html.clientTop || body.clientTop || 0
+
+    return Box.bottom + (self.pageYOffset || html.scrollTop || body.scrollTop) - clientTop;
+  }, selector);
+}
+
+// getSizeOfEle 获得元素在页面上的尺寸（返回宽度、高度）
+export async function getSizeOfEle(page, selector) {
+  return await page.evaluate((selector) => {
+    let icon = document.querySelector(selector);
+    let Box = icon.getBoundingClientRect();
+    return [Box.width, Box.height];
+  }, selector);
+}
+
+// 获得元素在页面上的宽度(距离左侧的位移)
+export async function getLeftOfEle(page, selector) {
+  return await page.evaluate((selector) => {
+    let icon = document.querySelector(selector);
+    let Box = icon.getBoundingClientRect();
     return Box.left;
   }, selector);
 }
