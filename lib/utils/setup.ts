@@ -36,7 +36,7 @@ export async function setup(query: string, scene: number, uin: number, isSuperVi
   defaultConfig.scene = scene;
   console.log(global.__TEMPLATE__);
   const stx: CaseCTx= {
-    businessType: 0, page: "result", scene: 20, query:query
+    businessType: 0, page: "result", scene: scene, query:query
   }
   return await pageExtend.allocPage({
     pageCtx: stx,
