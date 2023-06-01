@@ -2,7 +2,7 @@ import {setup} from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
 import { adAccountClass, adActivityClass, wxAdClass } from "../../lib/utils/resultMap";
-import { addAttach, addMsg } from "jest-html-reporters/helper";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import { bizOperation, getHeightOfEle, superView } from "../../lib/utils/tools";
 
 let page: Puppeteer.Page ;
@@ -51,18 +51,8 @@ describe("testAdVidWeapp", () => {
         await addAttach({attach: image, description: "页面截图"});
         expect(page).toHaveElement("div.ui-zone-ad");
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -88,17 +78,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -131,17 +112,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -193,17 +165,8 @@ describe("testAdVidWeapp", () => {
         }, wxAdClass)
         expect(display).toBe("none");
         break;
-      }catch (e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -232,17 +195,8 @@ describe("testAdVidWeapp", () => {
         expect(page).toHaveElement(wxAdClass.tagContent)
         expect(content[2]).toBe("官方");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -269,17 +223,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_1e80bb81a1d2");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -312,17 +257,8 @@ describe("testAdVidWeapp", () => {
         await addAttach({attach: screenshotBuffer, description: "跳转页面截图"});
         expect(await page2.title()).toBe("百度一下");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -349,17 +285,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.url).toBe("https://work.weixin.qq.com/kfid/kfc7f0d8acb45de1b0a");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -415,17 +342,8 @@ describe("testAdVidWeapp", () => {
           }
         }
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -453,17 +371,8 @@ describe("testAdVidWeapp", () => {
         const image =  await ele.at(1).screenshot({path: path});
         await addAttach({attach: image, description: "信息截图"});
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -499,17 +408,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_1e80bb81a1d2");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -545,17 +445,8 @@ describe("testAdVidWeapp", () => {
         await bizOperation("DelBizContact", 3094043316, 3194254118);
         expect(content).toBe("已关注");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -592,17 +483,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -632,17 +514,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("2579612839");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -672,17 +545,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("2579596950");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -714,17 +578,8 @@ describe("testAdVidWeapp", () => {
         await addAttach({attach: screenshotBuffer, description: "跳转页面截图"});
         expect(await page2.title()).toBe("百度一下");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -750,17 +605,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("2579628705");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -786,17 +632,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -822,17 +659,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("2579628714");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -864,17 +692,8 @@ describe("testAdVidWeapp", () => {
         await addAttach({attach: screenshotBuffer, description: "跳转页面截图"});
         expect(await page2.title()).toBe("百度一下");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -900,17 +719,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -936,17 +746,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("2579628713");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -977,17 +778,8 @@ describe("testAdVidWeapp", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("2579628713");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;

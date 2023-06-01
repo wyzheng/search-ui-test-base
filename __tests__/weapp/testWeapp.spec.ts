@@ -7,7 +7,7 @@ import {
 import { setup } from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
-import { addAttach, addMsg } from "jest-html-reporters/helper";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import { bizWeAppClass, bizWeAppsList, tabClass, wxAdClass } from "../../lib/utils/resultMap";
 
 
@@ -56,16 +56,7 @@ describe("testWeappBox", () => {
         await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).account);
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -99,16 +90,7 @@ describe("testWeappBox", () => {
         await expect(ocrres.ocr_comm_res.items[0].text).toBe("美团外卖-小程序");
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -136,16 +118,7 @@ describe("testWeappBox", () => {
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -174,16 +147,7 @@ describe("testWeappBox", () => {
 
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -208,16 +172,7 @@ describe("testWeappBox", () => {
         expect(left1).toBe(left3)
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -253,16 +208,7 @@ describe("testWeappBox", () => {
 
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -287,16 +233,7 @@ describe("testWeappBox", () => {
         await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).account);
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -325,16 +262,7 @@ describe("testWeappBox", () => {
 
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -366,16 +294,7 @@ describe("testWeappBox", () => {
         expect(pageExtend.extendInfo).toBe("gh_6506303a12bb@app");
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -414,16 +333,7 @@ describe("testWeappBox", () => {
 
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -454,16 +364,7 @@ describe("testWeappBox", () => {
         await expect(content).toBe("10万+人最近使用");
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -493,16 +394,7 @@ describe("testWeappBox", () => {
         await expect(content).toBe("个人");
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -533,16 +425,7 @@ describe("testWeappBox", () => {
         await expect(content).toBe("使用过");
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -577,16 +460,7 @@ describe("testWeappBox", () => {
         expect(h1).toBeCloseTo(h2, 2)
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+        if (num == 1){
           throw e;
         }
         num--;

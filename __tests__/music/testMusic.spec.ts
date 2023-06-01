@@ -2,7 +2,7 @@ import { getHeightOfEle, getLeftOfEle, getOCRRes, getSizeOfEle } from "../../lib
 import { setup } from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
-import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
+import {addAttach, addMsg} from "jest-html-reporters/helper";
 import { musicClass, tabClass } from "../../lib/utils/resultMap";
 
 
@@ -16,7 +16,7 @@ let num = 0;
 describe("testMusic", () => {
 
   beforeAll(async () => {
-    pageExtend = await setup("胡彦斌", 20, 3192443972, false);
+    pageExtend = await setup("胡彦斌", 3, 3192443972, false);
     page = pageExtend.webSearchPage.instance;
     browser = pageExtend.browser;
   });
@@ -33,10 +33,10 @@ describe("testMusic", () => {
 
   //@description:q=胡彦斌，验证音乐box是否召回
   test("testMusicRecall", async () => {
-     await addMsg({
+     /*await addMsg({
        context: undefined,
        message: ` 测试步骤：\n  1. 输入搜索query=胡彦斌,发起搜索\n  2. 检查混排页是否召回音乐box`
-     });
+     });*/
     let num = 3;
     while (num != 0) {
       try {
