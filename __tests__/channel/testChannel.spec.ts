@@ -1,9 +1,17 @@
 import {setup} from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
-import {getLeftOfEle, getLineNum, getOCRRes, getSizeOfEle, getTopHeightOfEle} from "../../lib/utils/tools";
-import { articleClass, bizWeAppsList } from "../../lib/utils/resultMap";
+import {
+  getLeftOfEle,
+  getLineNum,
+  getOCRRes,
+  getSizeOfEle,
+  compareImagesWithResemble,
+  channelOperation, getBottomHeightOfEle, getTopHeightOfEle
+} from "../../lib/utils/tools";
+import {articleClass, bizWeAppsList, channelClass} from "../../lib/utils/resultMap";
 import {addMsg} from "jest-html-reporters/helper";
+import exp from "constants";
 
 
 let page: Puppeteer.Page ;
@@ -16,11 +24,11 @@ let fail = 0;
 let err = 0;
 
 //@owner:joycesong
-//@description:公众号组件测试
-describe("testArticle", () => {
+//@description:视频号组件测试
+describe("testChannel", () => {
 
   beforeAll(async () => {
-    pageExtend = await setup("《漫长的季节》里，最“爹”的人", 20, 2549809343, false);
+    pageExtend = await setup("李子柒", 20, 3191396391, false);
     page = pageExtend.webSearchPage.instance;
     browser = pageExtend.browser;
   });
@@ -35,72 +43,51 @@ describe("testArticle", () => {
     num = num + 1;
   })
 
-
-  //@description:query = 爹味漫长的季节，验证各个入口页召回文章
-  test("testArticleRecall", async () => {
+  //@description:query = 李子柒，验证各个入口页召回视频号
+  test("testChannelRecall", async () => {
    /* await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,在各个入口发起搜索\n  2. 检查混排页是否召回文章box`
-    });*/
-    const scene = [3, 20, 8, 11, 16, 33, 34, 65, 77, 22, 14, 53, 73, 79, 80, 135, 136, 137]
-    for(const s of scene) {
-      pageExtend = await setup("《漫长的季节》里，最“爹”的人", s, 2549809343, false);
-      page = pageExtend.webSearchPage.instance;
-      browser = pageExtend.browser;
-      let num = 3;
-      while (num != 0) {
-        try {
-          const image = await page.screenshot({
-            path: "./static/pic/test_testArticle.png"
-          })
-          // await addAttach({attach: image, description: "页面截图"});
-          await expect(page).toHaveElement("div.basic-block-article-info");
-          break;
-        } catch (e) {
-          if (num == 1) {
-            if (e.constructor.name == "JestAssertionError") {
-              fail++;
-            } else {
-              err++;
-              await addMsg({
-                context: undefined,
-                message: `测试任务出错...`
-              });
-            }
-            throw e;
-          }
-          num--;
-        }
-      }
-    }
-  },5000000);
-
-  //@description:query = 爹味漫长的季节，验证混排页召回文章
-  test("testArticleRecall", async () => {
-   /* await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 检查混排页是否召回公众号box`
+      message: ` 测试步骤：\n  1. 输入搜索query=李子柒,在各个入口发起搜索\n  2. 检查混排页是否召回视频号动态box`
     });*/
     let num = 3;
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_testArticle.png"
+          path: "./static/pic/test_testChannelstyle.png"
         })
-       // await addAttach({attach: image, description: "页面截图"});
-        await expect(page).toHaveElement("div.basic-block-article-info");
+        // await addAttach({attach: image, description: "页面截图"});
+        await expect(page).toHaveElement(channelClass.channel);
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+          throw e;
+        }
+        num--;
+      }
+    }
+  },5000000);
+
+  //@description:query = 李子柒，验证样式正确
+  test("testChannelStyle", async () => {
+   /* await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查混排页的视频号动态样式和设计稿一致`
+    });*/
+    let num = 3;
+    while (num != 0) {
+      try {
+        let channelBoxEle = await page.$(channelClass.boxBound);
+        let imgPath = "./static/pic_diff/test_testChannelstyle.png"
+        const image = await channelBoxEle.screenshot({
+          path: imgPath
+        })
+       // await addAttach({attach: image, description: "页面截图"});
+        let diffPercent = await compareImagesWithResemble(imgPath, './static/pic/test_testChannelstyle.png')
+        console.log(diffPercent)
+        await expect(diffPercent).toBe(0)
+        break;
+      } catch (e) {
+        if (num == 1) {
           throw e;
         }
         num--;
@@ -108,23 +95,26 @@ describe("testArticle", () => {
     }
   },50000);
 
-  //@description:query = 爹味漫长的季节，验证高亮
-  test("testBIzBoxHighlight", async () => {
+  //@description:query = 李子柒，验证高亮
+  test("testChannelBoxHighlight", async () => {
     // await addMsg({
     //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 检查检查文章高亮`
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查检查文章高亮`
     // });
     let num = 3;
     while (num != 0) {
       try {
-        let articleEle = await page.$(articleClass.box);
-        let highlightEle = await page.$$(articleClass.highlight);
+        let channelEle = await page.$(channelClass.boxLeft);
+        let highlightEle = await page.$$(channelClass.highlight);
+        const image = await channelEle.screenshot({
+          path: "./static/pic/test_testChannelhighlight.png"
+        })
         const matchingElements = await Promise.all(
           highlightEle.map(async (el) => await el.evaluate((el) => el.outerHTML))
         );
-        const notMatchingElements = await articleEle.evaluate((el) =>
+        const notMatchingElements = await channelEle.evaluate((el) =>
           el.outerHTML.replace(/<em class="highlight">.*?<\/em>/g, ''));
-        const querySet = new Set("爹味漫长的季节".split(''));
+        const querySet = new Set("李子柒".split(''));
         const matchingEleSet = new Set(matchingElements);
         const notMatchingEleSet = new Set(notMatchingElements.split(''));
         const match = new Set([...querySet].filter(x => matchingEleSet.has(x)));
@@ -134,15 +124,40 @@ describe("testArticle", () => {
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
+          if (num == 1) {
+            throw e;
           }
+          num--;
+        }
+      }
+    }
+  },50000);
+
+  //@description:query = 李子柒，验证左右box上下高度对齐
+  test("testChannelDescWithoutAvatar", async () => {
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查视频号描述信息不超过3行`
+    // });
+    let num = 3;
+    while (num != 0) {
+      try {
+        await page.waitForSelector(channelClass.boxLeft);
+        let eleLeft = await page.$(channelClass.boxLeft);
+        await page.waitForSelector(channelClass.boxRight);
+        let eleRight = await page.$(channelClass.boxRight);
+        const image = await eleLeft.screenshot({
+          path: "./static/pic/test_testchanneldesc1.png"
+        })
+        let Height1 = await getTopHeightOfEle(page, eleLeft);
+        let Height2 = await getTopHeightOfEle(page, eleRight);
+        let Bottom1 = await getBottomHeightOfEle(page, eleLeft);
+        let Bottom2 = await getBottomHeightOfEle(page, eleRight);
+        expect(Height1).toBe(Height2);
+        expect(Bottom1).toBe(Bottom2);
+        break;
+      } catch (e) {
+         if (num == 1) {
           throw e;
         }
         num--;
@@ -150,35 +165,53 @@ describe("testArticle", () => {
     }
   },50000);
 
-  //@description:query = 爹味漫长的季节，验证文章标题不超过1行
-  test("testArticleTitle", async () => {
+  //@description:query = 李子柒，验证无点赞信息的情况下视频号描述不超过2行
+  test("testChannelDescWithoutAvatar", async () => {
     // await addMsg({
     //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 检查文章标题不超过一行`
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查视频号描述信息不超过3行`
     // });
     let num = 3;
     while (num != 0) {
       try {
-        await page.waitForSelector(articleClass.title);
-        let ele = await page.$(articleClass.title);
+        await page.waitForSelector(channelClass.descLeft);
+        let ele = await page.$(channelClass.descLeft);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testarticletitle.png"
+          path: "./static/pic/test_testchanneldesc1.png"
         })
+        let linNum = await getLineNum("./static/pic/test_testChanneldesc1.png");
+        expect(linNum).toBeLessThanOrEqual(2);
+        break;
+      } catch (e) {
+         if (num == 1) {
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
 
-        let linNum = await getLineNum("./static/pic/test_testarticletitle.png");
+  //@description:query = 李子柒，验证有点赞信息的情况下视频号描述不超过1行
+  test("testChannelDescWithAvatar", async () => {
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查视频号描述信息不超过4行`
+    // });
+    let num = 3;
+    while (num != 0) {
+      try {
+        //调用接口点赞该视频号动态
+        channelOperation('cutebot111', 1, 13852287066425727020)
+        await page.waitForSelector(channelClass.descRight);
+        let ele = await page.$(channelClass.descRight);
+        const image = await ele.screenshot({
+          path: "./static/pic/test_testChanneldesc2.png"
+        })
+        let linNum = await getLineNum("./static/pic/test_testChanneldesc2.png");
         expect(linNum).toBeLessThanOrEqual(1);
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+         if (num == 1) {
           throw e;
         }
         num--;
@@ -186,138 +219,54 @@ describe("testArticle", () => {
     }
   },50000);
 
-  //@description:query = 爹味漫长的季节，验证文章描述不超过两行
-  test("testArticleDesc", async () => {
+  //@description:query = 李子柒，检查外显的点赞人数与实际点赞人数一致
+  test("testChannelSocialInfo", async () => {
     // await addMsg({
     //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 检查文章描述不超过两行`
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查外显的点赞人数与实际点赞人数一致`
     // });
     let num = 3;
     while (num != 0) {
       try {
-        await page.waitForSelector(articleClass.desc);
-        let ele = await page.$(articleClass.desc);
+        //调用接口点赞该视频号动态
+        //channelOperation('cutebot111', 1, 13852287066425727020)
+        await page.waitForSelector(channelClass.socialInfo);
+        let ele = await page.$(channelClass.socialInfo);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testArticledesc.png"
+          path: "./static/pic/test_testChannelsocialinfo.png"
         })
+        let socialInfo = await getOCRRes("./static/pic/test_testChannelsocialinfo.png");
 
-        let linNum = await getLineNum("./static/pic/test_testArticledesc.png");
-        expect(linNum).toBeLessThanOrEqual(2);
-
+        let likeNum = parseInt(socialInfo["ocr_comm_res"]["items"][0]["text"].match(/\d+/g));
+        expect(likeNum).toBe(3);
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
+           throw e;
           }
-          throw e;
-        }
         num--;
       }
     }
   },50000);
 
-  //@description:query = 爹味漫长的季节，验证文章描述、标题、来源是否左对齐
-  test("testArticleInfoStyle", async () => {
+  //@description:query = 李子柒，验证视频号动态点击
+  test("testChannelClick", async () => {
     // await addMsg({
     //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 验证文章描述、文章标题、文章来源是否左对齐`
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 点击视频号动态，验证是否跳转到视频号动态落地页`
     // });
     let num = 3;
     while (num != 0) {
       try {
-        let left1 = await getLeftOfEle(page, articleClass.title);
-        let left2 = await getLeftOfEle(page, articleClass.thumb);
-        let left3 = await getLeftOfEle(page, articleClass.desc);
-        let left4 = await getLeftOfEle(page, articleClass.source);
-
-        expect(left1).toBe(left2)
-        expect(left3).toBe(left4)
-        break;
-      } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
-          throw e;
-        }
-        num--;
-      }
-    }
-  },50000);
-
-  //@description:query = 爹味漫长的季节，验证文章图片、描述是否有重合
-  test("testArticleInfoStyle2", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 验证page, articleClass.thumb`
-    // });
-    let num = 3;
-    while (num != 0) {
-      try {
-        let [width_thumb, height_thumb] = await getSizeOfEle(page, articleClass.thumb);
-        let right = await getLeftOfEle(page, articleClass.thumb) + width_thumb;
-        let left = await getLeftOfEle(page, articleClass.desc);
-        expect(left >= right)
-        break;
-      } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
-          throw e;
-        }
-        num--;
-      }
-    }
-  },50000);
-
-  //@description:query = 爹味漫长的季节，点击跳转到文章H5页
-  test("testArticleBoxClick", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 点击文章主体，验证是否跳转到文章H5页`
-    // });
-    let num = 3;
-    while (num != 0) {
-      try {
-        await page.waitForSelector(articleClass.box);
-        await page.click(articleClass.box);
-        await page.waitForTimeout(2000);
+        await page.waitForSelector(channelClass.boxLeft);
+        await page.click(channelClass.boxLeft);
         const image = await page.screenshot({
           path: "./static/pic/test_testArticleClick.png"
         })
         //await addAttach({attach: image, description: "垂搜截图"});
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
+         if (num == 1) {
           throw e;
         }
         num--;
@@ -325,6 +274,56 @@ describe("testArticle", () => {
     }
   },50000);
 
+  //@description:query = 李子柒，验证视频号动态点击中的播放按钮点击
+  test("testVideoPlayerClick", async () => {
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 点击视频号动态点击中的播放按钮点击，验证是否跳转到视频号feed页`
+    // });
+    let num = 3;
+    while (num != 0) {
+      try {
+        await page.waitForSelector(channelClass.videoPlayer);
+        await page.click(channelClass.videoPlayer);
+        const image = await page.screenshot({
+          path: "./static/pic/test_testchannelclick.png"
+        })
+        //await addAttach({attach: image, description: "垂搜截图"});
+        break;
+      } catch (e) {
+         if (num == 1) {
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
+
+
+  //@description:query = 李子柒，验证视频号动态落地页操作
+  test("testChannelClick", async () => {
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 点击视频号动态，验证是否跳转到视频号动态落地页`
+    // });
+    let num = 3;
+    while (num != 0) {
+      try {
+        await page.waitForSelector(channelClass.boxLeft);
+        await page.click(channelClass.boxLeft);
+        const image = await page.screenshot({
+          path: "./static/pic/test_testArticleClick.png"
+        })
+        await expect(pageExtend.extendInfo).toBe("")
+        break;
+      } catch (e) {
+         if (num == 1) {
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
   // //@description:query = 随申办，验证公众号带事业单位标签
   // test("testBizTag", async () => {
   //   await addMsg({

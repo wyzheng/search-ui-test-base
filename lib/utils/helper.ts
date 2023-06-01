@@ -1,6 +1,7 @@
 import got from "got";
 import {LoggerService} from "../logger/logger.service";
 import { SearchGuideResponse } from "@tencent/web-search-puppeteer-page/lib/proto";
+import {setup} from "./setup";
 
 /**
  * page 相关辅助方法

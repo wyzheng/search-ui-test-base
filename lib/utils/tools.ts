@@ -2,7 +2,7 @@ import { LoggerService } from "../logger/logger.service";
 import got from "got";
 import fs from "fs";
 import sha1 from "sha1"
-
+import resemble from 'node-resemble-js';
 /**
  * case 编写相关辅助方法
  */
@@ -97,6 +97,20 @@ export async function getLeftOfEle(page, selector) {
   }, selector);
 }
 
+// 两张图片像素级对比
+export async function compareImagesWithResemble(imagePath1: string, imagePath2: string) {
+  const image1Data = fs.readFileSync(imagePath1);
+  const image2Data = fs.readFileSync(imagePath2);
+  return await new Promise<number>((resolve, reject) => {
+    resemble(image1Data)
+      .compareTo(image2Data)
+      .ignoreColors() // 可选：忽略颜色进行比较。注释此行以考虑颜色。
+      .onComplete((data: resemble.ResembleComparisonResult) => {
+        const misMatchPercentage = parseFloat(data.misMatchPercentage);
+        resolve(misMatchPercentage);
+      });
+  });
+}
 
 export async function getOCRRes(imagePath){
   let r = await got("https://stream.weixin.qq.com/weapp/getOcrAccessToken");
@@ -172,6 +186,7 @@ export async function bizOperation(functionName, bizUin, uin){
    logger.log(resp.body);*/
 }
 
+
 /**
  *
  * @param finderName 被关注的人微信名
@@ -192,6 +207,35 @@ export async function finderOperation(finderName, optype, userName){
   logger.log(resp.body);*/
   console.log(resp.body)
 }
+
+
+/**
+ *
+ * @param user: 点赞者
+ * @param optype: 1. likeComment 2. unlikeComment 3. likeObject 4. unlikeObject
+ * @param objectid: feedid
+ * @param commentid: 评论id
+ */
+export async function channelOperation(user, optype, objectid, commentid=0){
+  console.log("*************************")
+  let url = `http://wxunitest.oa.com/mmcasehelperidc/mmfinder`
+  let finder_username = ""  // 点赞者的finder username, 可为空
+  let req_data = {
+      'func_name': 'SetFinderLike',
+      'func_args': {
+          "username": user,
+          "finder_username": finder_username,
+          "optype": optype,
+          "objectid": objectid,
+          "commentid": commentid
+      }
+  }
+  let resp = await got( {method: 'post', url: url, body: JSON.stringify(req_data), decompress: false});
+  console.log(resp.body);
+  /* logger.log("here addBizContact log something*********");
+   logger.log(resp.body);*/
+}
+
 
 export function errorCounting(e, err, fail){
   if (e.constructor.name == "JestAssertionError"){

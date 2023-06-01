@@ -5,9 +5,9 @@ import { PageAssetService } from "./service/page-asset.service";
 import { getSearchData, scrollDown, teach } from "../utils/helper";
 import {LoggerService} from "../logger/logger.service";
 import {Logger} from "log4js";
-import {Collector} from "@tencent/wesearch-report-analyze"
 import { join } from "path";
 import { readFile } from 'fs-extra';
+import {Collector} from "@tencent/wesearch-report-analyze/lib/collector";
 
 /**
  * created by joyce on 2023/03/10

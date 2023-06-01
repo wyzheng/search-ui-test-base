@@ -542,8 +542,27 @@ export const articleClass = {
   thumb: `div.basic-block-article-info div.search_item_inner div.article__thumb`,
   desc: `div.basic-block-article-info div.search_item_inner div.article__desc`,
   highlight: `div.basic-block-article-info div.search_item_inner em`,
-  source: 'div.basic-block-article-info div.search_item_inner div.source__title',
-  date: 'div.basic-block-article-info div.search_item_inner div.source__text date'
+  source: `div.basic-block-article-info div.search_item_inner div.source__title`,
+  date: `div.basic-block-article-info div.search_item_inner div.source__text date`,
+  avatar: `div.basic-block-article-info div.search_item_inner div.ui-image-image ui-image rich-media__social-info__avatar`,
+
+}
+
+export const channelClass = {
+  boxBound: `div.mixed-box__bd`,
+  channel: `div.rich-media-box`,
+  boxLeft: `div.mixed-box__bd > div:nth-child(1)`,
+  boxRight: `div.mixed-box__bd > div:nth-child(2)`,
+  highlight: `div.mixed-box__bd em`,
+  videoPlayer: `div.mixed-box__bd div.mixed-box__item div.video-player__insert-layer`,
+  svgIcon: `div.mixed-box__bd div.mixed-box__item div.svg-icon`,
+  descLeft: `div.mixed-box__bd > div:nth-child(1) div.rich-media__info div.rich-media__title`,
+  descRight: `div.mixed-box__bd > div:nth-child(2) div.rich-media__info div.rich-media__title`,
+  socialInfo: `div.mixed-box__bd > div:nth-child(2) div.rich-media__info div.rich-media__social-info__title`,
+  thumb: `div.mixed-box__bd div.mixed-box__item div.ui-image-image ui-image rich-media__source__thumb`,
+  title: `div.mixed-box__bd div.mixed-box__item div.rich-media__source__title`,
+  badge: `div.mixed-box__bd div.mixed-box__item div.rich-media__source__badges`,
+  date: `div.mixed-box__bd div.mixed-box__item div.rich-media__source__dateTime`
 }
 
 export const bizWeAppClass = {
