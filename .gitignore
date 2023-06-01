@@ -65,3 +65,5 @@ typings/
 .DS_Store
 
 
+/static/pic/
+/asset/fts_template-alpha-05221933-v80010365/

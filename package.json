@@ -2,7 +2,7 @@
   "author": "joycesong",
   "version": "1.0.0",
   "dependencies": {
-    "@tencent/wesearch-report-analyze": "0.0.1-alpha.3",
+    "@tencent/jest-report-search": "^0.0.1",
     "element-ui": "^2.15.12",
     "fs-extra": "^10.1.0",
     "got": "^11.3.1",
@@ -15,8 +15,7 @@
     "log4js": "^6.6.1",
     "minimist": "^1.2.6",
     "node-fetch": "^3.2.10",
-    "node-resemble-js": "^0.2.0",
-    "puppeteer": "^18.2.1",
+    "puppeteer": "^18.1.0",
     "request": "^2.88.2",
     "sha1": "^1.1.1",
     "strip-js": "^1.2.0",
@@ -27,8 +26,9 @@
   },
   "devDependencies": {
     "@nestjs/config": "^2.2.0",
-    "@tencent/wesearch-report-analyze": "0.0.1-alpha.1",
     "@tencent/web-search-puppeteer-page": "0.0.1-alpha.5",
+    "@tencent/wesearch-report-analyze": "",
+    "@tencent/jest-report-search": "0.0.3",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "26.0.24",
     "@types/node": "^17.0.31",
@@ -55,7 +55,7 @@
   "scripts": {
     "lint": "npx tslint -c tslint.json './__tests__/*.ts'",
     "pretty": "npx prettier --no-config './__tests__/*.{js,ts}' --write",
-    "test": "npx jest",
+    "test": "npx jest --env=jsdom",
     "test:exportJson": "npx jest --json --outputFile=./static/res/reporter.json"
   }
 }

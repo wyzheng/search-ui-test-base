@@ -1,4 +1,5 @@
-import Puppeteer, {devices, HTTPRequest, Page, ResourceType} from "puppeteer";
+import  {devices, HTTPRequest, Page, Browser} from "puppeteer";
+import puppeteer from 'puppeteer'
 import { CaseCTx, PageJsapi, WebSearchResponse } from "./interfaces/web-search-page";
 import { Page as WebSearchPage, PageConfig} from '@tencent/web-search-puppeteer-page';
 import { PageAssetService } from "./service/page-asset.service";
@@ -18,14 +19,14 @@ import {Collector} from "@tencent/wesearch-report-analyze/lib/collector";
 const proxy_svr = "shenzhen-mmhttpproxy.woa.com:11113";
 
 export class PageExtend {
-  public browser: Puppeteer.Browser;
+  public browser: Browser;
   //public browser: WebSearchBrowser;
   private assetService = new PageAssetService();
   public url: string;
   public searchRes: WebSearchResponse;
   public webSearchPage: WebSearchPage;
   private loggerService = new LoggerService();
-  public extendInfo: string;
+  public extendInfo: object;
   public weappPath: string;
   public uin: number;
   public logid: number;
@@ -37,7 +38,8 @@ export class PageExtend {
   }
 
   public async allowBrowser(){
-    this.browser = await Puppeteer.launch({
+    this.browser = await puppeteer.launch({
+      //executablePath: `/Users/joycesong/.cache/puppeteer/chrome/mac-1108766`,
       args: [
         //'--no-sandbox',
         '--ignore-certificate-errors',
@@ -138,7 +140,7 @@ export class PageExtend {
     await webSearchPage.markResourceCheckpoint();
     await webSearchPage.markBridgeEventCheckpoint(PageJsapi[pageCtx.page]);
     const htmlContent = await this.assetService.fetchEntryHtmlContent(context);
-    console.log(htmlContent);
+
     await webSearchPage.init(<string>htmlContent, pageConfig, {
       requestInterceptor: this.requestInterceptor.bind(this),
       logger: this.loggerService.getLogger('puppeteer'),
@@ -146,25 +148,27 @@ export class PageExtend {
       context: {
         dataTransfer: {
           getSearchData: async (params) => {
-            await new Promise<void>((resolve) => {
-              setTimeout(() => {
-                resolve();
-              }, 2000);
-            });
-            let data = {
-              "src": 25,
-              "uin": this.uin,
-              "query": params['query'],
-              "scene": params['scene'],
-              "business_type": params['type'],
-              "ExtReqParams": [
-                {
-                  "key": "ossSource",
-                  "uint_value": 10003
-                }
-              ]
+            if(params["searchId"] == ""){
+              await new Promise<void>((resolve) => {
+                setTimeout(() => {
+                  resolve();
+                }, 2000);
+              });
+              let data = {
+                "src": 25,
+                "uin": this.uin,
+                "query": params['query'],
+                "scene": params['scene'],
+                "business_type": params['type'],
+                "ExtReqParams": [
+                  {
+                    "key": "ossSource",
+                    "uint_value": 10003
+                  }
+                ]
+              }
+              return getSearchData(data);
             }
-            return getSearchData(data);
           },
           getTeachSearchData: async (params) => {
             console.log(`GetTeachSearchData`);
@@ -285,11 +289,8 @@ export class PageExtend {
   private async eventHandler(func: string, params: Record<string, any>, ctx: WebSearchPage) {
     this.collectorForData.catchEvent(func, params, Number(""))
     if (func === 'querySearchWeb'){
-      console.log("***");
-      console.log(params)
     }
-
-    if (func === 'reportSearchStatistics'){
+    /*if (func === 'reportSearchStatistics'){
       if (params["logId"] == "26805"){
         console.log("report of ad");
         //console.log(params);
@@ -307,10 +308,10 @@ export class PageExtend {
       }
       this.logid = 0;
     }
-
+*/
     if (func === "reportSearchRealTimeStatistics"){
-      console.log("hi, here comes a log");
-      console.log(params["logString"]);
+      /*console.log("hi, here comes a log");
+      console.log(params["logString"]);*/
     }
 
     if (func === 'startSearchItemDetailPage') {
@@ -329,27 +330,59 @@ export class PageExtend {
       console.log(this.url);
     }
     if ( func === 'openFinderProfile' || func === 'profile'){
-      this.extendInfo = "";
+      this.extendInfo = {};
       this.extendInfo = params['userName'];
     }
     if(func === 'openWeAppPage'){
-      this.extendInfo = "";
+      this.extendInfo = {};
       this.weappPath = "";
       this.extendInfo = params['userName'];
       this.weappPath = params['relativeURL'];
     }
     if (func === "openADCanvas"){
-      this.extendInfo = "";
+      this.extendInfo = {};
       this.extendInfo = params['canvasId'];
     }
     if (func === "makePhoneCall"){
-      this.extendInfo = "";
+      this.extendInfo = {};
       this.extendInfo = params['phoneNumber'];
-      console.log(this.extendInfo);
     }
     if(func === "openFinderView"){
-      this.extendInfo = "";
+      this.extendInfo = {};
       this.extendInfo = params['feedId'];
+    }
+    // 视频号profile页面
+    if (func == "openFinderProfile"){
+      this.extendInfo = {};
+      this.extendInfo = params['userName'];
+    }
+    if(func === "openEmotionPage"){
+      //console.log("############");
+      this.extendInfo = {};
+      if(params['type'] == 1){
+        //专辑
+        this.extendInfo = params['productURL'];
+      }else {
+        this.extendInfo = params['encryptUrl'];
+      }
+    }
+    // 音乐相关
+    if (func == "playMusic"){
+      this.extendInfo = {};
+      this.extendInfo = params;
+    }
+    // 音乐相关
+    if (func == "openMusicPage"){
+      this.extendInfo = {};
+      this.extendInfo = params;
+    }
+    // 问一问相关
+    if (func == "openLiteApp"){
+      this.extendInfo = {};
+      this.extendInfo = {
+        appId: params['appId'],
+        query: params['query']
+      }
     }
   }
 

@@ -2,7 +2,7 @@ import {setup} from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
 import { relatedGoods, wxAdClass, wxGoodAd } from "../../lib/utils/resultMap";
-import { addAttach, addMsg } from "jest-html-reporters/helper";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import { getHeightOfEle, superView } from "../../lib/utils/tools";
 
 let page: Puppeteer.Page ;
@@ -49,18 +49,8 @@ describe("testShopBtWeapp", () => {
         await addAttach({attach: image, description: "页面截图"});
         expect(page).toHaveElement("div.ui-zone-ad");
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -88,18 +78,8 @@ describe("testShopBtWeapp", () => {
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         expect(pageExtend.weappPath).toBeStartWith("pages/special/special.html?url=https%3A%2F%2Fmst.vip.com%2Fcmstopic%2Findex%2Fs%2FIpamof&tra_from=adp%3Aej1kk8ct%3A%3A%3A%3A")
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -151,17 +131,8 @@ describe("testShopBtWeapp", () => {
         }, wxGoodAd)
         expect(display).toBe("none");
         break;
-      }catch (e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -200,17 +171,8 @@ describe("testShopBtWeapp", () => {
         let tag_Height = await getHeightOfEle(page, wxGoodAd.tag);
         expect(title_Height).toBeCloseTo(tag_Height, 2);
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -238,17 +200,8 @@ describe("testShopBtWeapp", () => {
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         expect(pageExtend.weappPath).toBeStartWith("pages/special/special.html?url=https%3A%2F%2Fmst.vip.com%2Fcmstopic%2Findex%2Fs%2FIpamof&tra_from=adp%3Aej1kk8ct%3A%3A%3A%3A")
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -283,17 +236,8 @@ describe("testShopBtWeapp", () => {
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         expect(pageExtend.weappPath).toBeStartWith("pages/special/special.html?url=https%3A%2F%2Fmst.vip.com%2Fcmstopic%2Findex%2Fs%2FIpamof&tra_from=adp%3Aej1kk8ct%3A%3A%3A%3A")
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -328,17 +272,8 @@ describe("testShopBtWeapp", () => {
         }
 
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -365,17 +300,8 @@ describe("testShopBtWeapp", () => {
         }, wxGoodAd);
         expect(content).toBe("¥11.1万");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -403,17 +329,8 @@ describe("testShopBtWeapp", () => {
         await page.waitForTimeout(1000);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -442,17 +359,8 @@ describe("testShopBtWeapp", () => {
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         expect(pageExtend.weappPath).toBeStartWith("pages/special/special.html?url=https%3A%2F%2Fmst.vip.com%2Fcmstopic%2Findex%2Fs%2FIpamof&tra_from=adp%3Aej1kk8ct%3A%3A%3A%3A")
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -498,17 +406,8 @@ describe("testShopBtWeapp", () => {
           expect(pageExtend.weappPath).toBeStartWith(goodPaths[i])
         }
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
