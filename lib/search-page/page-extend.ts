@@ -351,6 +351,12 @@ export class PageExtend {
       this.extendInfo = {};
       this.extendInfo = params['feedId'];
     }
+    // 视频号profile页面
+    if (func == "openFinderProfile"){
+      this.extendInfo = {};
+      this.extendInfo = params['userName'];
+    }
+
     if(func === "openEmotionPage"){
       //console.log("############");
       this.extendInfo = {};
@@ -379,6 +385,7 @@ export class PageExtend {
         query: params['query']
       }
     }
+
   }
 
   public async click(type: string) {
