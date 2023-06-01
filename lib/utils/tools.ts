@@ -61,42 +61,6 @@ export async function getTopHeightOfEle(page, selector) {
       clientTop = html.clientTop || body.clientTop || 0
 
     return Box.top + (self.pageYOffset || html.scrollTop || body.scrollTop) - clientTop;
-<<<<<<< HEAD
-=======
-  }, selector);
-}
-
-// getBottomHeightOfEle 获得元素在页面上的高度（最下方的高度）
-export async function getBottomHeightOfEle(page, selector) {
-  return await page.evaluate((selector) => {
-
-    let icon = document.querySelector(selector);
-    let Box = icon.getBoundingClientRect(),
-      doc = icon.ownerDocument,
-      body = doc.body,
-      html = doc.documentElement,
-      clientTop = html.clientTop || body.clientTop || 0
-
-    return Box.bottom + (self.pageYOffset || html.scrollTop || body.scrollTop) - clientTop;
-  }, selector);
-}
-
-// getSizeOfEle 获得元素在页面上的尺寸（返回宽度、高度）
-export async function getSizeOfEle(page, selector) {
-  return await page.evaluate((selector) => {
-    let icon = document.querySelector(selector);
-    let Box = icon.getBoundingClientRect();
-    return [Box.width, Box.height];
-  }, selector);
-}
-
-// 获得元素在页面上的宽度(距离左侧的位移)
-export async function getLeftOfEle(page, selector) {
-  return await page.evaluate((selector) => {
-    let icon = document.querySelector(selector);
-    let Box = icon.getBoundingClientRect();
-    return Box.left;
->>>>>>> 64d04144f3184cd153a971e651a063ad23d318de
   }, selector);
 }
 

@@ -634,7 +634,6 @@ export function musicCardClass(id){
   }
 }
 
-<<<<<<< HEAD
 export const wxIndexClass = {
   box: `div.widget-webview`,
   title: `div.widget-webview div.bd p.title span`,
@@ -642,12 +641,5 @@ export const wxIndexClass = {
   foot: `div.widget-webview div.ft div.line.widget-source`,
   icon: `div.widget-webview div.ft div.line.widget-source img`,
   source: `div.widget-webview div.ft div.line.widget-source div.widget-source__wording`
-=======
-export const article = {
-  box: `div.basic-block-article-info`,
-  title: `div.basic-block-article-info div.search_item_inner div.article__title span.article__title-text`,
-  thumb: `div.basic-block-article-info div.search_item_inner div.article__thumb`,
-  desc: `div.basic-block-article-info div.search_item_inner div.article__desc`
->>>>>>> 64d04144f3184cd153a971e651a063ad23d318de
 }
 

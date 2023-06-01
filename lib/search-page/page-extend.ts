@@ -351,15 +351,11 @@ export class PageExtend {
       this.extendInfo = {};
       this.extendInfo = params['feedId'];
     }
-<<<<<<< HEAD
     // 视频号profile页面
     if (func == "openFinderProfile"){
       this.extendInfo = {};
       this.extendInfo = params['userName'];
     }
-
-=======
->>>>>>> 64d04144f3184cd153a971e651a063ad23d318de
     if(func === "openEmotionPage"){
       //console.log("############");
       this.extendInfo = {};
@@ -388,10 +384,6 @@ export class PageExtend {
         query: params['query']
       }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 64d04144f3184cd153a971e651a063ad23d318de
   }
 
   public async click(type: string) {
