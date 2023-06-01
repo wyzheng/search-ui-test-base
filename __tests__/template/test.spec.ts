@@ -52,12 +52,7 @@ describe("todo", () => {
         //todo 编写校验详情
 
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -65,11 +60,5 @@ describe("todo", () => {
     }
   },50000);
 
-  test("> 测试结果汇总", async () => {
-    num = num - 1;
-    pass = num - fail - err;
-    resArr = [num, pass, fail, err];
-    await addMsg({context: undefined, message: `当前测试集合共有${num}条用例，其中测试通过${pass}条，测试失败${fail}条，测试任务失败${err}条`});
-  }, 5000);
 
 })

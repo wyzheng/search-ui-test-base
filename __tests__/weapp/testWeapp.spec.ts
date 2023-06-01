@@ -7,11 +7,7 @@ import {
 import { setup } from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
-<<<<<<< HEAD
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
-=======
-import { addAttach, addMsg } from "jest-html-reporters/helper";
->>>>>>> 64d04144f3184cd153a971e651a063ad23d318de
 import { bizWeAppClass, bizWeAppsList, tabClass, wxAdClass } from "../../lib/utils/resultMap";
 
 
