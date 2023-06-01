@@ -2,7 +2,7 @@ import {setup} from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
 import {feedbackDialogClass, wxAdClass, wxCpAdClass } from "../../lib/utils/resultMap";
-import {addAttach, addMsg} from "jest-html-reporters/helper";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import { getLineNum, superView } from "../../lib/utils/tools";
 
 let page: Puppeteer.Page;
@@ -50,18 +50,8 @@ describe("testJingjia", () => {
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement("div.h-animate");
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -91,18 +81,8 @@ describe("testJingjia", () => {
         }, wxCpAdClass.title);
         expect(content).toBe("销售线索");
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -135,18 +115,8 @@ describe("testJingjia", () => {
         content = content.replace("</em>","");
         expect(content).toBe("图片跳原生推广页小程序版altaltaltaltaltalt");
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -176,18 +146,8 @@ describe("testJingjia", () => {
         content = content.replace("</em>","");
         expect(content).toBe("阿丽塔");
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -213,18 +173,8 @@ describe("testJingjia", () => {
 
         expect(pageExtend.extendInfo).toBe("gh_8a95102ee56b@app");
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -258,18 +208,8 @@ describe("testJingjia", () => {
         }, feedbackDialogClass(0).dialog)
         expect(display).toBe("none");
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -310,18 +250,8 @@ describe("testJingjia", () => {
         await addAttach({attach: screenshotBuffer, description: "广告反馈页面截图"});
         await page2.close();
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -362,7 +292,7 @@ describe("testJingjia", () => {
 
         //验证上报
         await page.waitForTimeout(700);
-        let logStr = pageExtend.extendInfo.split(",")[6];
+        let logStr = pageExtend.extendInfo.toString().split(",")[6];
         logStr = decodeURIComponent(logStr);
         let parse = decodeURIComponent(JSON.parse(logStr).reportid);
         let torf = parse.startsWith("还不错:feedback")
@@ -370,18 +300,8 @@ describe("testJingjia", () => {
 
         await addAttach({attach: image, description: "广告反馈页面截图"});
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -458,18 +378,8 @@ describe("testJingjia", () => {
         await page.waitForTimeout(700);
         await addAttach({attach: image, description: "广告反馈页面截图"});
         break;
-      }
-      catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;

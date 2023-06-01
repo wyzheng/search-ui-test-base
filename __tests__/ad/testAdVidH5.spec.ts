@@ -2,7 +2,7 @@ import {setup} from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
 import {wxAdClass } from "../../lib/utils/resultMap";
-import { addAttach, addMsg } from "jest-html-reporters/helper";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import { getHeightOfEle, superView } from "../../lib/utils/tools";
 
 let page: Puppeteer.Page ;
@@ -36,8 +36,8 @@ describe("testAdVidH5", () => {
     num = num + 1;
   })
 
-  //@description:
-  test("testAdRecall#q=wxadtestVidH5，验证混排结果页品专广告是否召回", async () => {
+  //@description:q=wxadtestVidH5，验证混排结果页品专广告是否召回
+  test("testAdRecall", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidH5,发起搜索\n  2. 检查混排页是否召回品专广告`
@@ -51,17 +51,8 @@ describe("testAdVidH5", () => {
         })
         await addAttach({attach: image, description: "页面截图"});
         break;
-      } catch(e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -69,8 +60,8 @@ describe("testAdVidH5", () => {
     }
   },50000);
 
-  //@description:
-  test("testAdHead#点击广告头部，验证是否正确跳转到百度首页", async () => {
+  //@description:点击广告头部，验证是否正确跳转到百度首页
+  test("testAdHead", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidH5,发起搜索\n  2. 点击品专广告头部区域，检查跳转目标为H5页面（百度首页）`
@@ -93,17 +84,8 @@ describe("testAdVidH5", () => {
         await addAttach({attach: screenshotBuffer, description: "落地页截图"});
         expect(await page2.title()).toBe("百度一下");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -111,8 +93,8 @@ describe("testAdVidH5", () => {
     }
   },50000);
 
-  //@description:
-  test("testAdLink#验证\"了解更多 \"外链文案是否正确；点击外链，验证是否正确跳转到百度首页", async () => {
+  //@description:验证"了解更多 "外链文案是否正确；点击外链，验证是否正确跳转到百度首页
+  test("testAdLink", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidH5,发起搜索\n  2. 检查广告头部展示"了解更多"外链\n  3. 点击"了解更多"，检查跳转目标为H5页面（百度首页）`
@@ -142,17 +124,8 @@ describe("testAdVidH5", () => {
         expect(pageExtend.url).toContain("http://www.baidu.com");
         expect(await page2.title()).toBe("百度一下");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -160,8 +133,8 @@ describe("testAdVidH5", () => {
     }
   },50000);
 
-  //@description:
-  test("testAdFeedback#验证广告反馈图标、弹窗展示正常，点击广告图标，验证是否正确跳转到广告投诉落地页", async () => {
+  //@description:验证广告反馈图标、弹窗展示正常，点击广告图标，验证是否正确跳转到广告投诉落地页
+  test("testAdFeedback", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidH5,发起搜索\n  2. 检查广告头部展示"广告"反馈图标\n  3. 点击"广告"图标，展示"投诉广告"弹窗 \n  4. 点击"投诉广告"，跳转到广告投诉落地页\n  5. 再次点击"广告"反馈图标，收起"投诉广告"弹窗`
@@ -204,17 +177,8 @@ describe("testAdVidH5", () => {
         }, wxAdClass)
         expect(display).toBe("none");
         break;
-      }catch (e){
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -222,8 +186,8 @@ describe("testAdVidH5", () => {
     }
   },50000);
 
-  //@description:
-  test("testAdName验证广告名称为\"快乐测试123\"，验证\"官方\"标签是否正常显示 ", async () => {
+  //@description:验证广告名称为"快乐测试123"，验证"官方"标签是否正常显示
+  test("testAdName", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidH5,发起搜索\n  2. 查看广告名称为"快乐测试123"\n  3. 广告名称后展示"官方"标签，两者一行展示`
@@ -253,17 +217,8 @@ describe("testAdVidH5", () => {
         let tag_Height = await getHeightOfEle(page, wxAdClass.headSpan + ':nth-of-type(3)');
         expect(title_Height).toBeCloseTo(tag_Height, 2);
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -271,8 +226,8 @@ describe("testAdVidH5", () => {
     }
   },50000);
 
-  //@description:
-  test("testAdNameClick#点击广告名称，验证是否正确跳转到\"唯品会特卖\"小程序", async () => {
+  //@description:点击广告名称，验证是否正确跳转到"唯品会特卖"小程序
+  test("testAdNameClick", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidH5,发起搜索\n  2. 点击广告名称区域，检查跳转目标为"唯品会特卖"小程序`
@@ -290,17 +245,8 @@ describe("testAdVidH5", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -308,8 +254,8 @@ describe("testAdVidH5", () => {
     }
   },50000);
 
-  //@description:
-  test("testAdWeappAccount#验证广告小程序账号信息展示正确；点击小程序账号，验证是否正确跳转到\"唯品会特卖\"小程序", async () => {
+  //@description:验证广告小程序账号信息展示正确；点击小程序账号，验证是否正确跳转到"唯品会特卖"小程序
+  test("testAdWeappAccount", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidH5,发起搜索\n  2. 查看小程序账号信息，标题为"唯品会特卖"，底部显示"小程序"\n  3. 点击小程序账号主体，检查跳转目标为唯品会特卖小程序`
@@ -336,17 +282,8 @@ describe("testAdVidH5", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -354,8 +291,8 @@ describe("testAdVidH5", () => {
     }
   },50000);
 
-  //@description:
-  test("testAdLocation#点击门店地址按钮，验证是否正确跳转到\"唯品会特卖\"小程序", async () => {
+  //@description:点击门店地址按钮，验证是否正确跳转到"唯品会特卖"小程序
+  test("testAdLocation", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidH5,发起搜索\n  2. 点击测试门店地址按钮，检查跳转目标为"唯品会特卖"小程序`
@@ -391,8 +328,8 @@ describe("testAdVidH5", () => {
     }
   },50000);
 
-  //@description:
-  test("testAdService#点击在线客服按钮，验证跳转链接配置是否正确", async () => {
+  //@description:点击在线客服按钮，验证跳转链接配置是否正确
+  test("testAdService", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidH5,发起搜索\n  2. 点击在线客服按钮，检查跳转url正确`
@@ -410,17 +347,8 @@ describe("testAdVidH5", () => {
         await page.waitForTimeout(700);
         expect(pageExtend.url).toBe("https://work.weixin.qq.com/kfid/kfc7f0d8acb45de1b0a");
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -428,8 +356,8 @@ describe("testAdVidH5", () => {
     }
   },50000);
 
-  //@description:
-  test("testAdPhone#点击联系电话按钮，验证是否正确展示弹窗及对应联系电话", async () => {
+  //@description:点击联系电话按钮，验证是否正确展示弹窗及对应联系电话
+  test("testAdPhone", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidH5,发起搜索\n  2. 点击联系电话按钮，显示联系电话弹窗\n  3. 检查联系电话为："17000001688、17000001689、0755-10016"\n  4. 点击联系电话呼叫按钮，检查当前呼叫电话正确`
@@ -476,17 +404,8 @@ describe("testAdVidH5", () => {
           }
         }
         break;
-      }catch (e) {
+      } catch (e) {
         if (num == 1){
-          if (e.constructor.name == "JestAssertionError"){
-            fail++;
-          }else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
