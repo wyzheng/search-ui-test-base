@@ -281,7 +281,7 @@ export async function getSimilarity(srcPath, desPath) {
 }
 
 // 获取两图片的差异图 base64 字符串
-export async function getDiff(srcPath, desPath, outputFilePath) {
+export async function getDiff(srcPath, desPath) {
   if (!fs.existsSync(srcPath) || !fs.existsSync(desPath)) {
     return "file not existed";
   }
