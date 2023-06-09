@@ -97,6 +97,15 @@ export async function getLeftOfEle(page, selector) {
   }, selector);
 }
 
+// 获得元素在页面上的宽度(距离右侧的位移)
+export async function getRightOfEle(page, selector) {
+  return await page.evaluate((selector) => {
+    let icon = document.querySelector(selector);
+    let Box = icon.getBoundingClientRect();
+    return Box.right;
+  }, selector);
+}
+
 // 两张图片像素级对比
 export async function compareImagesWithResemble(imagePath1: string, imagePath2: string) {
   const image1Data = fs.readFileSync(imagePath1);
@@ -112,6 +121,19 @@ export async function compareImagesWithResemble(imagePath1: string, imagePath2: 
   });
 }
 
+export async function SetFinderLike(username: string, optype: number, objectid: number, commentid=0) {
+  let url = 'http://wxunitest.oa.com/mmcasehelperidc/mmfinder';
+  let data = {
+    "func_name": "SetFinderLike",
+    "func_args": {
+      "username": username,
+      "finder_username": "",
+      "optype": optype,
+      "objectid": objectid,
+      "commentid": commentid
+    }
+  }
+}
 export async function getOCRRes(imagePath){
   let r = await got("https://stream.weixin.qq.com/weapp/getOcrAccessToken");
 
@@ -138,7 +160,7 @@ export async function getOCRRes(imagePath){
   let respData = resp.body.replace('\"', '"');
   let jsonRes = JSON.parse(respData);
   let ocrRes = JSON.parse(jsonRes.data);
-
+  console.log(ocrRes.ocr_comm_res.items.length)
   return ocrRes;
 }
 

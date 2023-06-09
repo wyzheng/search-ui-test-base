@@ -7,7 +7,7 @@ import {
   getOCRRes,
   getSizeOfEle,
   compareImagesWithResemble,
-  channelOperation, getBottomHeightOfEle, getTopHeightOfEle
+  channelOperation, getBottomHeightOfEle, getTopHeightOfEle, getRightOfEle, SetFinderLike
 } from "../../lib/utils/tools";
 import {articleClass, bizWeAppsList, channelClass} from "../../lib/utils/resultMap";
 import {addMsg} from "jest-html-reporters/helper";
@@ -95,7 +95,7 @@ describe("testChannel", () => {
     }
   },50000);
 
-  //@description:query = 李子柒，验证高亮
+  //@description:query = 李子柒，验证视频号动态高亮
   test("testChannelBoxHighlight", async () => {
     // await addMsg({
     //   context: undefined,
@@ -133,11 +133,11 @@ describe("testChannel", () => {
     }
   },50000);
 
-  //@description:query = 李子柒，验证左右box上下高度对齐
+  //@description:query = 李子柒，验证左右box上下左右高度对齐
   test("testChannelDescWithoutAvatar", async () => {
     // await addMsg({
     //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查视频号描述信息不超过3行`
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 验证左右box上下左右高度对齐`
     // });
     let num = 3;
     while (num != 0) {
@@ -146,15 +146,23 @@ describe("testChannel", () => {
         let eleLeft = await page.$(channelClass.boxLeft);
         await page.waitForSelector(channelClass.boxRight);
         let eleRight = await page.$(channelClass.boxRight);
-        const image = await eleLeft.screenshot({
-          path: "./static/pic/test_testchanneldesc1.png"
+        const image1 = await eleLeft.screenshot({
+          path: "./static/pic/test_testchannelbox1.png"
+        })
+        const image2 = await eleRight.screenshot({
+          path: "./static/pic/test_testchannelbox2.png"
         })
         let Height1 = await getTopHeightOfEle(page, eleLeft);
         let Height2 = await getTopHeightOfEle(page, eleRight);
         let Bottom1 = await getBottomHeightOfEle(page, eleLeft);
         let Bottom2 = await getBottomHeightOfEle(page, eleRight);
+        let left1 = await getLeftOfEle(page, 'div.search_result')
+        let right1 = await getRightOfEle(page, 'div.search_result')
+        let left2 = await getLeftOfEle(page, channelClass.boxLeft)
+        let right2 = await getRightOfEle(page, channelClass.boxRight)
         expect(Height1).toBe(Height2);
         expect(Bottom1).toBe(Bottom2);
+        expect(left2 - left1).toBe(right1 - right2)
         break;
       } catch (e) {
          if (num == 1) {
@@ -201,13 +209,15 @@ describe("testChannel", () => {
     while (num != 0) {
       try {
         //调用接口点赞该视频号动态
-        channelOperation('cutebot111', 1, 13852287066425727020)
+        SetFinderLike("cutebot111", 3, 13852287066425727020);
         await page.waitForSelector(channelClass.descRight);
         let ele = await page.$(channelClass.descRight);
         const image = await ele.screenshot({
           path: "./static/pic/test_testChanneldesc2.png"
         })
         let linNum = await getLineNum("./static/pic/test_testChanneldesc2.png");
+        //调用接口取消点赞该视频号动态
+        SetFinderLike("cutebot111", 4, 13852287066425727020);
         expect(linNum).toBeLessThanOrEqual(1);
         break;
       } catch (e) {
@@ -229,14 +239,16 @@ describe("testChannel", () => {
     while (num != 0) {
       try {
         //调用接口点赞该视频号动态
-        //channelOperation('cutebot111', 1, 13852287066425727020)
+        //channelOperation('cutebot111', 3, 13852287066425727020)
+        SetFinderLike("cutebot111", 3, 13852287066425727020);
+        SetFinderLike("miyawyzzzz", 3, 13852287066425727020);
+        SetFinderLike("cutebot333", 3, 13852287066425727020);
         await page.waitForSelector(channelClass.socialInfo);
         let ele = await page.$(channelClass.socialInfo);
         const image = await ele.screenshot({
           path: "./static/pic/test_testChannelsocialinfo.png"
         })
         let socialInfo = await getOCRRes("./static/pic/test_testChannelsocialinfo.png");
-
         let likeNum = parseInt(socialInfo["ocr_comm_res"]["items"][0]["text"].match(/\d+/g));
         expect(likeNum).toBe(3);
         break;
@@ -261,9 +273,8 @@ describe("testChannel", () => {
         await page.waitForSelector(channelClass.boxLeft);
         await page.click(channelClass.boxLeft);
         const image = await page.screenshot({
-          path: "./static/pic/test_testArticleClick.png"
+          path: "./static/pic/test_testchannellick.png"
         })
-        //await addAttach({attach: image, description: "垂搜截图"});
         break;
       } catch (e) {
          if (num == 1) {
@@ -283,12 +294,11 @@ describe("testChannel", () => {
     let num = 3;
     while (num != 0) {
       try {
-        await page.waitForSelector(channelClass.videoPlayer);
-        await page.click(channelClass.videoPlayer);
+        await page.waitForSelector(channelClass.playerIcon);
+        await page.click(channelClass.playerIcon);
         const image = await page.screenshot({
-          path: "./static/pic/test_testchannelclick.png"
+          path: "./static/pic/test_testchannelplayerclick.png"
         })
-        //await addAttach({attach: image, description: "垂搜截图"});
         break;
       } catch (e) {
          if (num == 1) {
@@ -299,12 +309,42 @@ describe("testChannel", () => {
     }
   },50000);
 
-
-  //@description:query = 李子柒，验证视频号动态落地页操作
-  test("testChannelClick", async () => {
+  //@description:query = 李子柒，验证视频号动态点击中的静音按钮点击
+  test("testVideoMuteClick", async () => {
     // await addMsg({
     //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 点击视频号动态，验证是否跳转到视频号动态落地页`
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 点击视频号动态点击中的静音按钮点击，验证是否跳转到视频号feed页`
+    // });
+    let num = 3;
+    while (num != 0) {
+      try {
+        await page.waitForSelector(channelClass.muteIcon);
+        await page.click(channelClass.muteIcon);
+        const image1 = await page.screenshot({
+          path: "./static/pic/test_testchannelmuteclick.png"
+        })
+        await expect(page).toHaveElement(channelClass.unmuteIcon);
+        await page.waitForSelector(channelClass.unmuteIcon);
+        await page.click(channelClass.unmuteIcon);
+        const image2 = await page.screenshot({
+          path: "./static/pic/test_testchannelunmuteclick.png"
+        })
+        await expect(page).toHaveElement(channelClass.muteIcon);
+        break;
+      } catch (e) {
+         if (num == 1) {
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
+
+  //@description:query = 李子柒，点击视频号动态，验证跳转落地页的docid与点击的一致
+  test("testChannelId", async () => {
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 点击视频号动态，验证视频号动态落地页feedid`
     // });
     let num = 3;
     while (num != 0) {
@@ -314,7 +354,7 @@ describe("testChannel", () => {
         const image = await page.screenshot({
           path: "./static/pic/test_testArticleClick.png"
         })
-        await expect(pageExtend.extendInfo).toBe("")
+        await expect(pageExtend.extendInfo).toBe("14078879530265676091")
         break;
       } catch (e) {
          if (num == 1) {
@@ -324,248 +364,34 @@ describe("testChannel", () => {
       }
     }
   },50000);
-  // //@description:query = 随申办，验证公众号带事业单位标签
-  // test("testBizTag", async () => {
-  //   await addMsg({
-  //     context: undefined,
-  //     message: ` 测试步骤：\n  1. 输入搜索query=随申办,发起搜索\n  2. 验证公众号带事业单位标签`
-  //   });
-  //   let num = 3;
-  //   while (num != 0) {
-  //     try {
-  //       let content = await page.evaluate(async (eleClass) => {
-  //         let item = document.querySelector(eleClass);
-  //         return item.innerHTML;
-  //       }, bizWeAppsList(1, 1, 0).accountTagTitle);
-  //       content = content.replace(/[\r\n]/g, "").replace(/\ +/g, "");
-  //       await expect(content).toBe("事业单位");
-  //       break;
-  //     } catch (e) {
-  //       if (num == 1) {
-  //         if (e.constructor.name == "JestAssertionError") {
-  //           fail++;
-  //         } else {
-  //           err++;
-  //           await addMsg({
-  //             context: undefined,
-  //             message: `测试任务出错...`
-  //           });
-  //         }
-  //         throw e;
-  //       }
-  //       num--;
-  //     }
-  //   }
-  // },50000);
 
-  // //@description:query = 上海发布，验证公众号带政府标签
-  // test("testBizGovernmentTag", async () => {
-  //   await addMsg({
-  //     context: undefined,
-  //     message: ` 测试步骤：\n  1. 输入搜索query=上海发布,发起搜索\n  2. 检查公众号带政府标签`
-  //   });
-  //   let num = 3;
-  //   while (num != 0) {
-  //     try {
-  //       //await pageExtend.change("上海发布");
-  //       let content = await page.evaluate(async (eleClass) => {
-  //         let item = document.querySelector(eleClass);
-  //         return item.innerHTML;
-  //       }, bizWeAppsList(1, 0, 0).accountTagTitle);
-  //       content = content.replace(/[\r\n]/g, "").replace(/\ +/g, "");
-  //       await expect(content).toBe("政府");
-  //       break;
-  //     } catch (e) {
-  //       if (num == 1) {
-  //         if (e.constructor.name == "JestAssertionError") {
-  //           fail++;
-  //         } else {
-  //           err++;
-  //           await addMsg({
-  //             context: undefined,
-  //             message: `测试任务出错...`
-  //           });
-  //         }
-  //         throw e;
-  //       }
-  //       num--;
-  //     }
-  //   }
-  // },50000);
-  //
-  // //@description:query = 界面新闻，验证公众号带媒体标签
-  // test("testBIzMediaTag", async () => {
-  //   await addMsg({
-  //     context: undefined,
-  //     message: ` 测试步骤：\n  1. 输入搜索query=界面新闻,发起搜索\n  2. 公众号带媒体标签`
-  //   });
-  //   let num = 3;
-  //   while (num != 0) {
-  //     try {
-  //       let content = await page.evaluate(async (eleClass) => {
-  //         let item = document.querySelector(eleClass);
-  //         return item.innerHTML;
-  //       }, bizWeAppsList(1, 0, 0).accountTagTitle);
-  //       content = content.replace(/[\r\n]/g, "").replace(/\ +/g, "");
-  //       await expect(content).toBe("媒体");
-  //       break;
-  //     } catch (e) {
-  //       if (num == 1) {
-  //         if (e.constructor.name == "JestAssertionError") {
-  //           fail++;
-  //         } else {
-  //           err++;
-  //           await addMsg({
-  //             context: undefined,
-  //             message: `测试任务出错...`
-  //           });
-  //         }
-  //         throw e;
-  //       }
-  //       num--;
-  //     }
-  //   }
-  // },50000);
-  //
-  // //@description:query = 中国国画石，验证公众号带其他组织标签
-  // test("testBizOtherTag", async () => {
-  //   await addMsg({
-  //     context: undefined,
-  //     message: ` 测试步骤：\n  1. 输入搜索query=中国国画石,发起搜索\n  2. 公众号带其他组织标签`
-  //   });
-  //   let num = 3;
-  //   while (num != 0) {
-  //     try {
-  //       let content = await page.evaluate(async (eleClass) => {
-  //         let item = document.querySelector(eleClass);
-  //         return item.innerHTML;
-  //       }, bizWeAppsList(1, 0, 0).accountTagTitle);
-  //       content = content.replace(/[\r\n]/g, "").replace(/\ +/g, "");
-  //       await expect(content).toBe("其他组织");
-  //       break;
-  //     } catch (e) {
-  //       if (num == 1) {
-  //         if (e.constructor.name == "JestAssertionError") {
-  //           fail++;
-  //         } else {
-  //           err++;
-  //           await addMsg({
-  //             context: undefined,
-  //             message: `测试任务出错...`
-  //           });
-  //         }
-  //         throw e;
-  //       }
-  //       num--;
-  //     }
-  //   }
-  // },50000);
-  //
-  // //@description:query = 中医蔡锦芳，验证公众号来源为"个人"
-  // test("testPersonalBiz", async () => {
-  //   await addMsg({
-  //     context: undefined,
-  //     message: ` 测试步骤：\n  1. 输入搜索query=中医蔡锦芳,发起搜索\n  2. 验证公众号来源为\"个人\" `
-  //   });
-  //   let num = 3;
-  //   while (num != 0) {
-  //     try {
-  //       //await pageExtend.change("中医蔡锦芳");
-  //       let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).accountSourceText)
-  //       const image = await ele.screenshot({
-  //         path: "./static/pic/test_testbiztag.png"
-  //       })
-  //
-  //       let content = await page.evaluate(async (eleClass)  => {
-  //         let item = document.querySelector(eleClass);
-  //         return item.innerHTML;
-  //       }, bizWeAppsList(1, 0, 1).accountSourceText);
-  //       await expect(content).toBe("个人");
-  //       break;
-  //     } catch (e) {
-  //       if (num == 1) {
-  //         if (e.constructor.name == "JestAssertionError") {
-  //           fail++;
-  //         } else {
-  //           err++;
-  //           await addMsg({
-  //             context: undefined,
-  //             message: `测试任务出错...`
-  //           });
-  //         }
-  //         throw e;
-  //       }
-  //       num--;
-  //     }
-  //   }
-  // },50000);
-  //
-  // //@description:query = 极摄会，验证公众号账号无认证
-  // test("testBizNoAuth", async () => {
-  //   await addMsg({
-  //     context: undefined,
-  //     message: ` 测试步骤：\n  1. 输入搜索query=极摄会,发起搜索\n  2. 验证公众号账号无认证`
-  //   });
-  //   let num = 3;
-  //   while (num != 0) {
-  //     try {
-  //       //await pageExtend.change("极摄会");
-  //       const image = await page.screenshot({
-  //         path: "./static/pic/test_testbiztag.png"
-  //       })
-  //       await expect(page).not.toHaveElement(bizWeAppsList(1, 0, 0).accountSourceIcon);
-  //       break;
-  //     } catch (e) {
-  //       if (num == 1) {
-  //         if (e.constructor.name == "JestAssertionError") {
-  //           fail++;
-  //         } else {
-  //           err++;
-  //           await addMsg({
-  //             context: undefined,
-  //             message: `测试任务出错...`
-  //           });
-  //         }
-  //         throw e;
-  //       }
-  //       num--;
-  //     }
-  //   }
-  // },50000);
-  //
-  // //@description:query = 民权碧桂园，验证混排不召回公众号(封禁账号)
-  // test("testNoBIzRecall", async () => {
-  //   await addMsg({
-  //     context: undefined,
-  //     message: ` 测试步骤：\n  1. 输入搜索query=民权碧桂园,发起搜索\n  2. 验证混排不召回公众号`
-  //   });
-  //   let num = 3;
-  //   while (num != 0) {
-  //     try {
-  //       //await pageExtend.change("中医蔡锦芳");
-  //       const image = await page.screenshot({
-  //         path: "./static/pic/test_testbiztag.png"
-  //       })
-  //       await expect(page).not.toHaveElement(bizWeAppsList(0, 0, 0).account.split(":")[0]);
-  //       break;
-  //     } catch (e) {
-  //       if (num == 1) {
-  //         if (e.constructor.name == "JestAssertionError") {
-  //           fail++;
-  //         } else {
-  //           err++;
-  //           await addMsg({
-  //             context: undefined,
-  //             message: `测试任务出错...`
-  //           });
-  //         }
-  //         throw e;
-  //       }
-  //       num--;
-  //     }
-  //   }
-  // },50000);
-  //
+  //@description:query = 李子柒，点击视频号动态，在跳转落地页点赞，点赞信息会出现在搜索页
+  test("testChannelLike", async () => {
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 点击视频号动态，在落地页点赞，验证点赞信息会出现在搜索页`
+    // });
+    let num = 3;
+    while (num != 0) {
+      try {
+        await page.waitForSelector(channelClass.boxLeft);
+        await page.click(channelClass.boxLeft);
+        // 调用接口点赞左边视频号: feedid=14078879530265676091
+        SetFinderLike("cutebot111", 3, 14078879530265676091);
+        await pageExtend.change("李子柒");
+        expect(page).toHaveElement(`div.mixed-box__bd > div:nth-child(1) div.rich-media__info div.rich-media__social-info__title`);
+        // 调用接口取消点赞
+        //SetFinderLike("cutebot111", 4, 14078879530265676091);
+        break;
+      } catch (e) {
+        if (num == 1) {
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
+
   test("> 测试结果汇总", async () => {
     num = num - 1;
     pass = num - fail - err;

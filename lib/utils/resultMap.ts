@@ -554,8 +554,9 @@ export const channelClass = {
   boxLeft: `div.mixed-box__bd > div:nth-child(1)`,
   boxRight: `div.mixed-box__bd > div:nth-child(2)`,
   highlight: `div.mixed-box__bd em`,
-  videoPlayer: `div.mixed-box__bd div.mixed-box__item div.video-player__insert-layer`,
-  svgIcon: `div.mixed-box__bd div.mixed-box__item div.svg-icon`,
+  playerIcon: `div.mixed-box__bd div.mixed-box__item div.svg-icon-video_play_circle`,
+  muteIcon: `div.mixed-box__bd > div:nth-child(1) div.svg-icon-mute`,
+  unmuteIcon: `div.mixed-box__bd > div:nth-child(1) div.svg-icon-unmute`,
   descLeft: `div.mixed-box__bd > div:nth-child(1) div.rich-media__info div.rich-media__title`,
   descRight: `div.mixed-box__bd > div:nth-child(2) div.rich-media__info div.rich-media__title`,
   socialInfo: `div.mixed-box__bd > div:nth-child(2) div.rich-media__info div.rich-media__social-info__title`,
@@ -563,6 +564,41 @@ export const channelClass = {
   title: `div.mixed-box__bd div.mixed-box__item div.rich-media__source__title`,
   badge: `div.mixed-box__bd div.mixed-box__item div.rich-media__source__badges`,
   date: `div.mixed-box__bd div.mixed-box__item div.rich-media__source__dateTime`
+}
+
+export const channelAccountClass = {
+  box: `div.search_result div.basic-block-video-account`,
+  title: `div.search_result div.basic-block-video-account div.search-block__title span`,
+  accountInfo: `div.search_result div.basic-block-video-account div.video-account__info`,
+  accountTitle: `div.search_result div.basic-block-video-account div.block-list-video-account div.video-account__name`,
+  accountDesc: `div.search_result div.basic-block-video-account div.block-list-video-account div.video-account__des`,
+  accountSource: `div.search_result div.basic-block-video-account div.block-list-video-account div.video-account__cert`,
+  tag: `div.search_result div.basic-block-video-account div.video-account__cert-wrap div.ui-tag`,
+  more: `div.search_result div.basic-block-video-account div.more__item`,
+}
+
+export const channelCardClass = {
+  box: `div.search_result div.service-search-block-container`,
+  title: `div.search_result div.service-search-block-container div.search-block__hd div.search-block__title`,
+  more: `div.search_result div.service-search-block-container div.search-block__hd div.more__item`,
+  moreHandler: `div.search_result div.service-search-block-container div.more__handler`,
+  accountContainer: `div.search_result div.service-search-block-container div.video-account__container`,
+  accountInfo: `div.search_result div.service-search-block-container div.video-account__info`,
+  accountName: `div.search_result div.service-search-block-container div.video-account__info div.video-account__name`,
+  accountCert: `div.search_result div.service-search-block-container div.video-account__info div.video-account__cert`,
+  accountDesc: `div.search_result div.service-search-block-container div.video-account__info div.video-account__des`,
+  accountAvatar: `div.search_result div.service-search-block-container div.video-account__avatar`,
+  accountLabel: `div.search_result div.service-search-block-container div.video-account__avatar-label`,
+  tag: `div.search_result div.service-search-block-container div.ui-tag`,
+  channelBlock: `div.search_result div.service-search-block-container div.slide-inner`,
+  channelLeft: `div.search_result div.service-search-block-container div.slide-inner > div:nth-child(1)`,
+  channelRight: `div.search_result div.service-search-block-container div.slide-inner > div:nth-child(2)`,
+  channelInfo: `div.search_result div.service-search-block-container div.slide-inner > div:nth-child(1) div.info`,
+  soundMute: `div.search_result div.service-search-block-container div.slide-inner > div:nth-child(1) div.control_mute`,
+  soundUnmute: `div.search_result div.service-search-block-container div.slide-inner > div:nth-child(1) div.control_unmute`,
+  controlPlayer: 'div.search_result div.service-search-block-container div.slide-inner > div:nth-child(2) div.control_play',
+  date: `div.search_result div.service-search-block-container div.slide-inner > div:nth-child(2) div.datetime`,
+  like: `div.search_result div.service-search-block-container div.slide-inner > div:nth-child(2) span.play-mask__text`
 }
 
 export const bizWeAppClass = {
