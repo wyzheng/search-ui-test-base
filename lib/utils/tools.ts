@@ -1,8 +1,8 @@
 import { LoggerService } from "../logger/logger.service";
 import got from "got";
 import fs from "fs";
-import sha1 from "sha1"
-import resemble from 'node-resemble-js';
+import sha1 from "sha1";
+
 /**
  * case 编写相关辅助方法
  */
@@ -106,21 +106,7 @@ export async function getRightOfEle(page, selector) {
   }, selector);
 }
 
-// 两张图片像素级对比
-export async function compareImagesWithResemble(imagePath1: string, imagePath2: string) {
-  const image1Data = fs.readFileSync(imagePath1);
-  const image2Data = fs.readFileSync(imagePath2);
-  return await new Promise<number>((resolve, reject) => {
-    resemble(image1Data)
-      .compareTo(image2Data)
-      .ignoreColors() // 可选：忽略颜色进行比较。注释此行以考虑颜色。
-      .onComplete((data: resemble.ResembleComparisonResult) => {
-        const misMatchPercentage = parseFloat(data.misMatchPercentage);
-        resolve(misMatchPercentage);
-      });
-  });
-}
-
+// 调用接口点赞、去掉点赞视频号动态
 export async function SetFinderLike(username: string, optype: number, objectid: number, commentid=0) {
   let url = 'http://wxunitest.oa.com/mmcasehelperidc/mmfinder';
   let data = {
@@ -134,6 +120,7 @@ export async function SetFinderLike(username: string, optype: number, objectid: 
     }
   }
 }
+
 export async function getOCRRes(imagePath){
   let r = await got("https://stream.weixin.qq.com/weapp/getOcrAccessToken");
 
@@ -160,7 +147,7 @@ export async function getOCRRes(imagePath){
   let respData = resp.body.replace('\"', '"');
   let jsonRes = JSON.parse(respData);
   let ocrRes = JSON.parse(jsonRes.data);
-  console.log(ocrRes.ocr_comm_res.items.length)
+
   return ocrRes;
 }
 
@@ -207,7 +194,6 @@ export async function bizOperation(functionName, bizUin, uin){
   /* logger.log("here addBizContact log something*********");
    logger.log(resp.body);*/
 }
-
 
 /**
  *
@@ -322,4 +308,42 @@ export function getListByCondition(conditions, list){
     }
   }
   return res;
+}
+
+// 读取img文件到base64
+function readImageFileToBase64(filePath) {
+  const imageBuffer = fs.readFileSync(filePath);
+  return imageBuffer.toString('base64');
+}
+
+//获取两图片文件的相似度
+export async function getSimilarity(srcPath, desPath) {
+  if (!fs.existsSync(srcPath) || !fs.existsSync(desPath)){
+    return "file not existed";
+  }
+  let url = "http://mt.woa.com/epcvat/similarity/compare_base64?alg=hist";
+  let req_data = {
+    "image1": readImageFileToBase64(srcPath),
+    "image2": readImageFileToBase64(desPath),
+  }
+  let resp = await got({ method: 'post', url: url, body: JSON.stringify(req_data), decompress: false, timeout: 20000 });
+  if (JSON.parse(resp.body).rtn == 0){
+    return JSON.parse(resp.body).value;
+  }
+}
+
+// 获取两图片的差异图 base64 字符串
+export async function getDiff(srcPath, desPath) {
+  if (!fs.existsSync(srcPath) || !fs.existsSync(desPath)) {
+    return "file not existed";
+  }
+  let url = "http://mt.woa.com/epcvat/similarity/image_diff_base64";
+  let req_data = {
+    "image1": readImageFileToBase64(srcPath),
+    "image2": readImageFileToBase64(desPath),
+  }
+  let resp = await got({ method: 'post', url: url, body: JSON.stringify(req_data), decompress: false, timeout: 30000 });
+  if (JSON.parse(resp.body).rtn == 0) {
+    return JSON.parse(resp.body).value;
+  }
 }
