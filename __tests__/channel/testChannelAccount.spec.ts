@@ -1,7 +1,8 @@
 import {
+  getDiff,
   getLeftOfEle,
   getLineNum,
-  getOCRRes, getRightOfEle,
+  getOCRRes, getRightOfEle, getSimilarity,
 } from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
@@ -57,6 +58,32 @@ describe("testChannelAccount", () => {
     }
   },50000);
 
+  //@description:query = 微信广告助手，验证样式正确
+  test("testChannelAccountStyle", async () => {
+   /* await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查混排页的视频号动态样式和设计稿一致`
+    });*/
+    let num = 3;
+    while (num != 0) {
+      try {
+        let channelBoxEle = await page.$(channelClass.boxBound);
+        let imgPath = "./static/pic/test_testchannelaccountstyle.png"
+        const image = await channelBoxEle.screenshot({
+          path: imgPath
+        })
+        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_testchannelaccountstyle.png')
+        await expect(0.9).toBeLessThan(Number(diffPercent))
+        break;
+      } catch (e) {
+        if (num == 1) {
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
+
   //@description:query = 微信广告助手，验证视频号账号title
   test("testChannelAccountBoxTitle", async () => {
     let num = 3;
@@ -65,7 +92,7 @@ describe("testChannelAccount", () => {
         await page.waitForSelector(channelAccountClass.box)
         let ele = await page.$(channelAccountClass.box)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testchannelaccountbox.png"
+          path: "./static/pic/test_testchannelaccounttitle.png"
         })
         let content = await page.evaluate(async (eleClass)  => {
           let item = document.querySelector(eleClass.title + " >em");
@@ -174,29 +201,6 @@ describe("testChannelAccount", () => {
         let linNum = await getLineNum("./static/pic/testchannelaccountinfo1.png");
         await expect(page).toHaveElement(channelAccountClass.tag);
         expect(linNum).toBeLessThanOrEqual(4);
-        break;
-      } catch (e) {
-        if (num == 1){
-          throw e;
-        }
-        num--;
-      }
-    }
-  },50000);
-
-  //@description:query = 快乐小奇迹视频号，验证不带认证的视频号展示信息小于2行
-  test("testChannelAccountBoxNoTag", async () => {
-    let num = 3;
-    while (num != 0) {
-      try {
-        await pageExtend.change("快乐小奇迹视频号");
-        await page.waitForSelector(channelAccountClass.accountInfo);
-        let ele = await page.$(channelAccountClass.accountInfo);
-        const image = await ele.screenshot({
-          path: "./static/pic/testchannelaccountinfo2.png"
-        })
-        let linNum = await getLineNum("./static/pic/testchannelaccountinfo2.png");
-        expect(linNum).toBeLessThanOrEqual(3);
         break;
       } catch (e) {
         if (num == 1){

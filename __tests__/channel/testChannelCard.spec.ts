@@ -1,7 +1,8 @@
 import {
+  getDiff,
   getLeftOfEle,
   getLineNum,
-  getOCRRes, getRightOfEle,
+  getOCRRes, getRightOfEle, getSimilarity,
 } from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
@@ -95,6 +96,33 @@ describe("testChannelCard", () => {
     }
   },50000);
 
+    //@description:query = 湖北发布，验证样式正确
+  test("testChannelCardStyle", async () => {
+   /* await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=湖北发布,发起搜索\n  2. 检查混排页的视频号动态样式和设计稿一致`
+    });*/
+    let num = 3;
+    while (num != 0) {
+      try {
+        let channelBoxEle = await page.$(channelCardClass.box);
+        let imgPath = "./static/pic/test_testchannelcardstyle.png"
+        const image = await channelBoxEle.screenshot({
+          path: imgPath
+        })
+       // await addAttach({attach: image, description: "页面截图"});
+        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_testchannelcardstyle.png')
+        await expect(0.9).toBeLessThan(Number(diffPercent))
+        break;
+      } catch (e) {
+        if (num == 1) {
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
+
   //@description:query = 湖北发布，验证视频号大卡title为：湖北发布-视频号
   test("testChannelCardTitle", async () => {
     let num = 3;
@@ -166,12 +194,12 @@ describe("testChannelCard", () => {
     }
   },50000);
 
-  //@description:query = 龙帅食堂，验证视频号描述信息不超过2行
+  //@description:query = 加加kiana，验证视频号描述信息不超过2行
   test("testchannelCardDesc", async () => {
     let num = 3;
     while (num != 0) {
       try {
-        await pageExtend.change("龙帅食堂");
+        await pageExtend.change("加加kiana");
         await page.waitForSelector(channelCardClass.accountDesc);
         let ele = await page.$(channelCardClass.accountDesc);
         const image = await ele.screenshot({

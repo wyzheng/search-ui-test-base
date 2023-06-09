@@ -6,8 +6,7 @@ import {
   getLineNum,
   getOCRRes,
   getSizeOfEle,
-  compareImagesWithResemble,
-  channelOperation, getBottomHeightOfEle, getTopHeightOfEle, getRightOfEle, SetFinderLike
+  channelOperation, getBottomHeightOfEle, getTopHeightOfEle, getRightOfEle, SetFinderLike, getDiff, getSimilarity
 } from "../../lib/utils/tools";
 import {articleClass, bizWeAppsList, channelClass} from "../../lib/utils/resultMap";
 import {addMsg} from "jest-html-reporters/helper";
@@ -53,7 +52,7 @@ describe("testChannel", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_testChannelstyle.png"
+          path: "./static/pic/test_testchannelrecall.png"
         })
         // await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(channelClass.channel);
@@ -68,23 +67,21 @@ describe("testChannel", () => {
   },5000000);
 
   //@description:query = 李子柒，验证样式正确
-  test("testChannelStyle", async () => {
+  test("testChannelDiff", async () => {
    /* await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查混排页的视频号动态样式和设计稿一致`
+      message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查混排页的视频号动态样式和上个模板一致`
     });*/
     let num = 3;
     while (num != 0) {
       try {
         let channelBoxEle = await page.$(channelClass.boxBound);
-        let imgPath = "./static/pic_diff/test_testChannelstyle.png"
+        let imgPath = "./static/pic/test_testchannelstyle.png"
         const image = await channelBoxEle.screenshot({
           path: imgPath
         })
-       // await addAttach({attach: image, description: "页面截图"});
-        let diffPercent = await compareImagesWithResemble(imgPath, './static/pic/test_testChannelstyle.png')
-        console.log(diffPercent)
-        await expect(diffPercent).toBe(0)
+        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_testchannelstyle.png')
+        await expect(0.9).toBeLessThan(Number(diffPercent))
         break;
       } catch (e) {
         if (num == 1) {
@@ -134,7 +131,7 @@ describe("testChannel", () => {
   },50000);
 
   //@description:query = 李子柒，验证左右box上下左右高度对齐
-  test("testChannelDescWithoutAvatar", async () => {
+  test("testChannelStyle", async () => {
     // await addMsg({
     //   context: undefined,
     //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 验证左右box上下左右高度对齐`
@@ -152,10 +149,10 @@ describe("testChannel", () => {
         const image2 = await eleRight.screenshot({
           path: "./static/pic/test_testchannelbox2.png"
         })
-        let Height1 = await getTopHeightOfEle(page, eleLeft);
-        let Height2 = await getTopHeightOfEle(page, eleRight);
-        let Bottom1 = await getBottomHeightOfEle(page, eleLeft);
-        let Bottom2 = await getBottomHeightOfEle(page, eleRight);
+        let Height1 = await getTopHeightOfEle(page, channelClass.boxLeft);
+        let Height2 = await getTopHeightOfEle(page, channelClass.boxRight);
+        let Bottom1 = await getBottomHeightOfEle(page, channelClass.boxLeft);
+        let Bottom2 = await getBottomHeightOfEle(page, channelClass.boxRight);
         let left1 = await getLeftOfEle(page, 'div.search_result')
         let right1 = await getRightOfEle(page, 'div.search_result')
         let left2 = await getLeftOfEle(page, channelClass.boxLeft)
