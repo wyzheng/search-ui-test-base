@@ -8,6 +8,7 @@ import { setup } from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import {bizWeAppClass, bizWeAppsList, channelAccountClass, channelClass} from "../../lib/utils/resultMap";
+import fs from "fs";
 
 
 let page: Puppeteer.Page ;
@@ -59,7 +60,7 @@ describe("testChannelAccount", () => {
   },50000);
 
   //@description:query = 微信广告助手，验证样式正确
-  test("testChannelAccountStyle", async () => {
+  test("testChannelAccountDiff", async () => {
    /* await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查混排页的视频号动态样式和设计稿一致`
@@ -82,6 +83,7 @@ describe("testChannelAccount", () => {
         num--;
       }
     }
+    fs.copyFileSync(`./static/pic/test_testchannelaccountstyle.png`, `./static/pic_diff/test_testchannelaccountstyle.png`);
   },50000);
 
   //@description:query = 微信广告助手，验证视频号账号title

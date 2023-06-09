@@ -11,6 +11,7 @@ import {
 import {articleClass, bizWeAppsList, channelClass} from "../../lib/utils/resultMap";
 import {addMsg} from "jest-html-reporters/helper";
 import exp from "constants";
+import fs from "fs";
 
 
 let page: Puppeteer.Page ;
@@ -90,6 +91,7 @@ describe("testChannel", () => {
         num--;
       }
     }
+    fs.copyFileSync(`./static/pic/test_testchannelstyle.png`, `./static/pic_diff/test_testchannelstyle.png`);
   },50000);
 
   //@description:query = 李子柒，验证视频号动态高亮

@@ -8,7 +8,7 @@ import { setup } from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import {bizWeAppClass, bizWeAppsList, channelCardClass, channelClass} from "../../lib/utils/resultMap";
-
+import * as fs from "fs";
 
 let page: Puppeteer.Page ;
 let browser:  Puppeteer.Browser;
@@ -97,7 +97,7 @@ describe("testChannelCard", () => {
   },50000);
 
     //@description:query = 湖北发布，验证样式正确
-  test("testChannelCardStyle", async () => {
+  test("testChannelCardDiff", async () => {
    /* await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=湖北发布,发起搜索\n  2. 检查混排页的视频号动态样式和设计稿一致`
@@ -109,10 +109,10 @@ describe("testChannelCard", () => {
         let imgPath = "./static/pic/test_testchannelcardstyle.png"
         const image = await channelBoxEle.screenshot({
           path: imgPath
-        })
+        });
        // await addAttach({attach: image, description: "页面截图"});
-        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_testchannelcardstyle.png')
-        await expect(0.9).toBeLessThan(Number(diffPercent))
+        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_testchannelcardstyle.png');
+        await expect(0.9).toBeLessThan(Number(diffPercent));
         break;
       } catch (e) {
         if (num == 1) {
@@ -121,6 +121,7 @@ describe("testChannelCard", () => {
         num--;
       }
     }
+    fs.copyFileSync(`./static/pic/test_testchannelcardstyle.png`, `./static/pic_diff/test_testchannelcardstyle.png`);
   },50000);
 
   //@description:query = 湖北发布，验证视频号大卡title为：湖北发布-视频号
