@@ -31,7 +31,7 @@ const defaultConfig: PageConfig = {
   isOverseaApp: 0,
 };
 
-export async function setup(query: string, scene = 20, uin: number, isSuperView = false, businessType = 0, page = "result") {
+export async function setup(query: string, scene = 20, uin: number, isSuperView = false, renderImg = false, businessType = 0, page = "result") {
   let pageExtend = new PageExtend();
   defaultConfig.scene = scene;
   console.log(global.__TEMPLATE__);
@@ -40,7 +40,7 @@ export async function setup(query: string, scene = 20, uin: number, isSuperView 
   }
   return await pageExtend.allocPage({
     pageCtx: stx,
-    renderRemoteImage: true,
+    renderRemoteImage: renderImg,
     device: 'iPhone 11 Pro Max',
     config: defaultConfig,
     context: "./asset/" + global.__TEMPLATE__,
