@@ -8,7 +8,7 @@ const defaultConfig: PageConfig = {
   lang: 'zh_CN',
   fontRatio: 1,
   scene: 20,
-  version: 80009077,
+  version: 80010312,
   qqFaceFolderPath: '',
   platform: 'iOS',
   netType: 'wifi',

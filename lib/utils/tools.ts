@@ -97,6 +97,29 @@ export async function getLeftOfEle(page, selector) {
   }, selector);
 }
 
+// 获得元素在页面上的宽度(距离右侧的位移)
+export async function getRightOfEle(page, selector) {
+  return await page.evaluate((selector) => {
+    let icon = document.querySelector(selector);
+    let Box = icon.getBoundingClientRect();
+    return Box.right;
+  }, selector);
+}
+
+// 调用接口点赞、去掉点赞视频号动态
+export async function SetFinderLike(username: string, optype: number, objectid: number, commentid=0) {
+  let url = 'http://wxunitest.oa.com/mmcasehelperidc/mmfinder';
+  let data = {
+    "func_name": "SetFinderLike",
+    "func_args": {
+      "username": username,
+      "finder_username": "",
+      "optype": optype,
+      "objectid": objectid,
+      "commentid": commentid
+    }
+  }
+}
 
 export async function getOCRRes(imagePath){
   let r = await got("https://stream.weixin.qq.com/weapp/getOcrAccessToken");
@@ -192,6 +215,35 @@ export async function finderOperation(finderName, optype, userName){
   logger.log(resp.body);*/
   console.log(resp.body)
 }
+
+
+/**
+ *
+ * @param user: 点赞者
+ * @param optype: 1. likeComment 2. unlikeComment 3. likeObject 4. unlikeObject
+ * @param objectid: feedid
+ * @param commentid: 评论id
+ */
+export async function channelOperation(user, optype, objectid, commentid=0){
+  console.log("*************************")
+  let url = `http://wxunitest.oa.com/mmcasehelperidc/mmfinder`
+  let finder_username = ""  // 点赞者的finder username, 可为空
+  let req_data = {
+      'func_name': 'SetFinderLike',
+      'func_args': {
+          "username": user,
+          "finder_username": finder_username,
+          "optype": optype,
+          "objectid": objectid,
+          "commentid": commentid
+      }
+  }
+  let resp = await got( {method: 'post', url: url, body: JSON.stringify(req_data), decompress: false});
+  console.log(resp.body);
+  /* logger.log("here addBizContact log something*********");
+   logger.log(resp.body);*/
+}
+
 
 export function errorCounting(e, err, fail){
   if (e.constructor.name == "JestAssertionError"){

@@ -99,10 +99,10 @@ describe("testBizBox", () => {
 
   //@description:query = 果壳，验证公众号标题不超过两行
   test("testBizTitle", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=果壳,发起搜索\n  2. 检查公众号账号标题不超过两行`
-    });
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=果壳,发起搜索\n  2. 检查公众号账号标题不超过两行`
+    // });
     let num = 3;
     while (num != 0) {
       try {
@@ -111,8 +111,7 @@ describe("testBizBox", () => {
         const image = await ele.screenshot({
           path: "./static/pic/test_testbiztitlec.png"
         })
-        await addAttach({attach: image, description: "公众号账号标题"});
-
+        // await addAttach({attach: image, description: "公众号账号标题"});
         let linNum = await getLineNum("./static/pic/test_testbiztitlec.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
