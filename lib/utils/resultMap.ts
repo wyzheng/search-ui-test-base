@@ -573,7 +573,7 @@ export const channelAccountClass = {
   accountTitle: `div.search_result div.basic-block-video-account div.block-list-video-account div.video-account__name`,
   accountDesc: `div.search_result div.basic-block-video-account div.block-list-video-account div.video-account__des`,
   accountSource: `div.search_result div.basic-block-video-account div.block-list-video-account div.video-account__cert`,
-  tag: `div.search_result div.basic-block-video-account div.video-account__cert-wrap div.ui-tag`,
+  tag: `div.search_result div.basic-block-video-account div.video-account__info div.ui-tag`,
   more: `div.search_result div.basic-block-video-account div.more__item`,
 }
 

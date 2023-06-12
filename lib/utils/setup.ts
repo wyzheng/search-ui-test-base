@@ -40,7 +40,7 @@ export async function setup(query: string, scene = 20, uin: number, isSuperView 
   }
   return await pageExtend.allocPage({
     pageCtx: stx,
-    renderRemoteImage: false,
+    renderRemoteImage: true,
     device: 'iPhone 11 Pro Max',
     config: defaultConfig,
     context: "./asset/" + global.__TEMPLATE__,

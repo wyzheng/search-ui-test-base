@@ -112,7 +112,6 @@ describe("testBizBox", () => {
           path: "./static/pic/test_testbiztitlec.png"
         })
         // await addAttach({attach: image, description: "公众号账号标题"});
-
         let linNum = await getLineNum("./static/pic/test_testbiztitlec.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
