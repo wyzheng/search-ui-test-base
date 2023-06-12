@@ -325,6 +325,55 @@ describe("testChannelAccount", () => {
     }
   },50000);
 
+  //@description:query = 磐石圣经，验证混排不出视频号账号（禁搜逻辑）
+  test("testNoChannelAccountRecall", async () => {
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=磐石圣经，\n  2. 验证混排页不召回视频号账号`
+    // });
+    let num = 3;
+    while (num != 0) {
+      try {
+        await pageExtend.change("磐石圣经");
+        const image = await page.screenshot({
+          path: "./static/pic/test_nochannelaccount.png"
+        })
+        //await addAttach({attach: image, description: "页面截图"});
+        await expect(page).not.toHaveElement(channelAccountClass.box);
+        break;
+      } catch (e) {
+        if (num == 1){
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
+
+    //@description:query = 磐石圣经，验证混排不出视频号账号（禁搜逻辑）
+  test("testChannelAccountTag", async () => {
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=磐石圣经，\n  2. 验证混排页不召回视频号账号`
+    });
+    let num = 3;
+    while (num != 0) {
+      try {
+        const image = await page.screenshot({
+          path: "./static/pic/test_nochannelaccount.png"
+        })
+        await addAttach({attach: image, description: "页面截图"});
+        await expect(page).not.toHaveElement(channelAccountClass.box);
+        break;
+      } catch (e) {
+        if (num == 1){
+          throw e;
+        }
+        num--;
+      }
+    }
+  },50000);
+
   test("> 测试结果汇总", async () => {
     num = num - 1;
     pass = num - fail - err;
