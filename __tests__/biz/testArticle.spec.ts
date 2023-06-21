@@ -16,7 +16,7 @@ let fail = 0;
 let err = 0;
 
 //@owner:joycesong
-//@description:公众号组件测试
+//@description:文章组件测试
 describe("testArticle", () => {
 
   beforeAll(async () => {
@@ -35,19 +35,19 @@ describe("testArticle", () => {
     num = num + 1;
   })
 
-  //@description:query = 爹味漫长的季节，验证混排页召回文章
+  //@description:query = 《漫长的季节》里，最“爹”的人，验证混排页召回文章
   test("testArticleRecall", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 检查混排页是否召回公众号box`
-    });
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查混排页是否召回公众号box`
+    // });
     let num = 3;
     while (num != 0) {
       try {
         const image = await page.screenshot({
           path: "./static/pic/test_articlerecall.png"
         })
-        await addAttach({attach: image, description: "页面截图"});
+        // await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement("div.basic-block-article-info");
         break;
       } catch (e) {
@@ -68,11 +68,11 @@ describe("testArticle", () => {
     }
   },50000);
 
-  //@description:query = 爹味漫长的季节，验证高亮
+  //@description:query = 《漫长的季节》里，最“爹”的人，验证高亮
   test("testBIzBoxHighlight", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 检查检查文章高亮`
+      message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查检查文章高亮`
     });
     let num = 3;
     while (num != 0) {
@@ -110,11 +110,11 @@ describe("testArticle", () => {
     }
   },50000);
 
-  //@description:query = 爹味漫长的季节，验证文章标题不超过1行
+  //@description:query = 《漫长的季节》里，最“爹”的人，验证文章标题不超过1行
   test("testArticleTitle", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 检查文章标题不超过一行`
+      message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查文章标题不超过一行`
     });
     let num = 3;
     while (num != 0) {
@@ -122,7 +122,7 @@ describe("testArticle", () => {
         await page.waitForSelector(articleClass.title);
         let ele = await page.$(articleClass.title);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testarticletitle.png"
+          path: "./static/pic/test_articletitle.png"
         })
         await addAttach({attach: image, description: "标题截图"});
         let linNum = await getLineNum("./static/pic/test_articletitle.png");
@@ -146,24 +146,23 @@ describe("testArticle", () => {
     }
   },50000);
 
-  //@description:query = 爹味漫长的季节，验证文章描述不超过两行
+  //@description:query = 《漫长的季节》里，最“爹”的人，验证文章描述不超过两行
   test("testArticleDesc", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 检查文章描述不超过两行`
-    });
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查文章描述不超过两行`
+    // });
     let num = 3;
     while (num != 0) {
       try {
         await page.waitForSelector(articleClass.desc);
         let ele = await page.$(articleClass.desc);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testArticledesc.png"
+          path: "./static/pic/test_articledesc.png"
         })
-        await addAttach({attach: image, description: "描述截图"});
+        //await addAttach({attach: image, description: "描述截图"});
         let linNum = await getLineNum("./static/pic/test_articledesc.png");
         expect(linNum).toBeLessThanOrEqual(2);
-
         break;
       } catch (e) {
         if (num == 1) {
@@ -183,11 +182,11 @@ describe("testArticle", () => {
     }
   },50000);
 
-  //@description:query = 爹味漫长的季节，验证文章描述、标题、来源是否左对齐
+  //@description:query = 《漫长的季节》里，最“爹”的人，验证文章描述、标题、来源是否左对齐
   test("testArticleInfoStyle", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 验证文章描述、文章标题、文章来源是否左对齐`
+      message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 验证文章描述、文章标题、文章来源是否左对齐`
     });
     let num = 3;
     while (num != 0) {
@@ -218,11 +217,11 @@ describe("testArticle", () => {
     }
   },50000);
 
-  //@description:query = 爹味漫长的季节，验证文章图片、描述是否有重合
+  //@description:query = 《漫长的季节》里，最“爹”的人，验证文章图片、描述是否有重合
   test("testArticleInfoStyle2", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 验证page, articleClass.thumb`
+      message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 验证page, articleClass.thumb`
     });
     let num = 3;
     while (num != 0) {
@@ -250,11 +249,11 @@ describe("testArticle", () => {
     }
   },50000);
 
-  //@description:query = 爹味漫长的季节，点击跳转到文章H5页
+  //@description:query = 《漫长的季节》里，最“爹”的人，点击跳转到文章H5页
   test("testArticleBoxClick", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=爹味漫长的季节,发起搜索\n  2. 点击文章主体，验证是否跳转到文章H5页`
+      message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 点击文章主体，验证是否跳转到文章H5页`
     });
     let num = 3;
     while (num != 0) {

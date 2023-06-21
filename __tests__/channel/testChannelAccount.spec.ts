@@ -67,19 +67,19 @@ describe("testChannelAccount", () => {
 
   //@description:query = 微信广告助手，验证样式正确
   test("testChannelAccountDiff", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=微信广告助手,发起搜索\n  2. 检查混排页的视频号动态样式和设计稿一致`
-    });
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=微信广告助手,发起搜索\n  2. 检查混排页的视频号动态样式和设计稿一致`
+    // });
     let num = 3;
     while (num != 0) {
       try {
-        let channelBoxEle = await page.$(channelClass.boxBound);
+        let ele = await page.$(channelAccountClass.box);
         let imgPath = "./static/pic/test_channelaccountstyle.png"
-        const image = await channelBoxEle.screenshot({
+        const image = await ele.screenshot({
           path: imgPath
         })
-        await addAttach({attach: image, description: "box截图"});
+        //await addAttach({attach: image, description: "box截图"});
         let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_channelaccountstyle.png')
         await expect(0.9).toBeLessThan(Number(diffPercent))
         break;
@@ -140,7 +140,7 @@ describe("testChannelAccount", () => {
         const image = await ele.screenshot({
           path: "./static/pic/test_channelaccounttitlec.png"
         })
-        await addAttach({attach: image, description: "公众号账号名称"});
+        await addAttach({attach: image, description: "视频号账号名称"});
         let linNum = await getLineNum("./static/pic/test_channelaccounttitlec.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
@@ -309,12 +309,12 @@ describe("testChannelAccount", () => {
           path: "./static/pic/test_channelaccounttag.png"
         })
         await addAttach({attach: image, description: "企业标截图"});
-        let color = await page.evaluate(async (eleClass)  => {
+        let tag = await page.evaluate(async (eleClass)  => {
           let item = document.querySelector(eleClass.tag);
-          let color = getComputedStyle(item).color;
-          return color;
+          let tag = getComputedStyle(item, "style").backgroundImage;
+          return tag;
         }, channelAccountClass);
-        expect(color).toBe("rgba(0, 0, 0, 0.9)")
+        expect(tag).toBe("url(\"https://dldir1v6.qq.com/weixin/checkresupdate/icons_filled_channels_authentication_enterprise_a2658032368245639e666fb11533a600.png\")")
         break;
       } catch (e) {
         if (num == 1){
@@ -351,7 +351,7 @@ describe("testChannelAccount", () => {
   },50000);
 
     //@description:query = 磐石圣经，验证混排不出视频号账号（禁搜逻辑）
-  test("testChannelAccountTag", async () => {
+  test("testNotChannelAccount", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=磐石圣经，\n  2. 验证混排页不召回视频号账号`
