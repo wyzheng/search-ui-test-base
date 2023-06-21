@@ -106,21 +106,6 @@ export async function getRightOfEle(page, selector) {
   }, selector);
 }
 
-// 调用接口点赞、去掉点赞视频号动态
-export async function SetFinderLike(username: string, optype: number, objectid: number, commentid=0) {
-  let url = 'http://wxunitest.oa.com/mmcasehelperidc/mmfinder';
-  let data = {
-    "func_name": "SetFinderLike",
-    "func_args": {
-      "username": username,
-      "finder_username": "",
-      "optype": optype,
-      "objectid": objectid,
-      "commentid": commentid
-    }
-  }
-}
-
 export async function getOCRRes(imagePath){
   let r = await got("https://stream.weixin.qq.com/weapp/getOcrAccessToken");
 
@@ -321,10 +306,10 @@ export async function getSimilarity(srcPath, desPath) {
   if (!fs.existsSync(srcPath) || !fs.existsSync(desPath)){
     return "file not existed";
   }
-  let url = "http://mt.woa.com/epcvat/similarity/compare_base64?alg=hist";
+  let url = "http://mt.woa.com/epcvat/similarity/compare?type=base64&alg=hist";
   let req_data = {
-    "image1": readImageFileToBase64(srcPath),
-    "image2": readImageFileToBase64(desPath),
+    "base_image": readImageFileToBase64(srcPath),
+    "test_image": readImageFileToBase64(desPath),
   }
   let resp = await got({ method: 'post', url: url, body: JSON.stringify(req_data), decompress: false, timeout: 20000 });
   if (JSON.parse(resp.body).rtn == 0){

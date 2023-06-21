@@ -573,7 +573,7 @@ export const channelAccountClass = {
   accountTitle: `div.search_result div.basic-block-video-account div.block-list-video-account div.video-account__name`,
   accountDesc: `div.search_result div.basic-block-video-account div.block-list-video-account div.video-account__des`,
   accountSource: `div.search_result div.basic-block-video-account div.block-list-video-account div.video-account__cert`,
-  tag: `div.search_result div.basic-block-video-account div.video-account__info div.ui-tag`,
+  tag: `div.search_result div.basic-block-video-account div.video-account__info div.ui-tag-image`,
   more: `div.search_result div.basic-block-video-account div.more__item`,
 }
 
@@ -599,6 +599,11 @@ export const channelCardClass = {
   controlPlayer: 'div.search_result div.service-search-block-container div.slide-inner > div:nth-child(2) div.control_play',
   date: `div.search_result div.service-search-block-container div.slide-inner > div:nth-child(2) div.datetime`,
   like: `div.search_result div.service-search-block-container div.slide-inner > div:nth-child(2) span.play-mask__text`
+}
+
+export const gaokaoCardClass = {
+  box: `div.search_result div.service-search-container`,
+  poi: `div.search_result div.service-search-container div.default-sub-header div.poi span.poi-title`,
 }
 
 export const bizWeAppClass = {
@@ -627,6 +632,7 @@ export function bizWeAppsList(id, tid, sid) {
     weappServiceText:  parentClass + `div.account-header div.header-text div.sevice-search.service-list div div.heavy-links div.heavy-link:nth-of-type(${sid}) div div`,
   }
 }
+
 //tab 栏
 export const tabClass = {
   select_tab: "#search_result > div.unit__outer > div > div > div.unit__item:nth-of-type(2)",

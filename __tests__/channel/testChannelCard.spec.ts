@@ -7,7 +7,14 @@ import {
 import { setup } from "../../lib/utils/setup";
 import Puppeteer from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
-import {bizWeAppClass, bizWeAppsList, channelCardClass, channelClass} from "../../lib/utils/resultMap";
+import {
+  bizWeAppClass,
+  bizWeAppsList,
+  channelAccountClass,
+  channelCardClass,
+  channelClass,
+  tabClass
+} from "../../lib/utils/resultMap";
 import * as fs from "fs";
 import {addAttach, addMsg} from "jest-html-reporters/helper";
 
@@ -20,7 +27,7 @@ let pass = 0;
 let fail = 0;
 let err = 0;
 
-//@owner:joycesong
+//@owner:miyawei
 //@description:视频号大卡组件测试
 describe("testChannelCard", () => {
 
@@ -50,7 +57,7 @@ describe("testChannelCard", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_testchannelcard.png"
+          path: "./static/pic/test_channelcard.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(channelCardClass.box);
@@ -76,7 +83,7 @@ describe("testChannelCard", () => {
         let channelEle = await page.$(channelCardClass.box);
         let highlightEle = await page.$$(channelCardClass.box);
         const image = await channelEle.screenshot({
-          path: "./static/pic/test_testChannelhighlight.png"
+          path: "./static/pic/test_Channelhighlight.png"
         })
         const matchingElements = await Promise.all(
           highlightEle.map(async (el) => await el.evaluate((el) => el.outerHTML))
@@ -112,12 +119,12 @@ describe("testChannelCard", () => {
     while (num != 0) {
       try {
         let channelBoxEle = await page.$(channelCardClass.box);
-        let imgPath = "./static/pic/test_testchannelcardstyle.png"
+        let imgPath = "./static/pic/test_channelcardstyle.png"
         const image = await channelBoxEle.screenshot({
           path: imgPath
         });
         await addAttach({attach: image, description: "box截图"});
-        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_testchannelcardstyle.png');
+        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_channelcardstyle.png');
         await expect(0.9).toBeLessThan(Number(diffPercent));
         break;
       } catch (e) {
@@ -127,7 +134,7 @@ describe("testChannelCard", () => {
         num--;
       }
     }
-    fs.copyFileSync(`./static/pic/test_testchannelcardstyle.png`, `./static/pic_diff/test_testchannelcardstyle.png`);
+    fs.copyFileSync(`./static/pic/test_channelcardstyle.png`, `./static/pic_diff/test_channelcardstyle.png`);
   },50000);
 
   //@description:query = 湖北发布，验证视频号大卡title为：湖北发布-视频号
@@ -142,10 +149,10 @@ describe("testChannelCard", () => {
         await page.waitForSelector(channelCardClass.title)
         let ele = await page.$(channelCardClass.title)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testchannelcardtitle.png"
+          path: "./static/pic/test_channelcardtitle.png"
         })
         await addAttach({attach: image, description: "标题截图"});
-        let ocrres = await getOCRRes("./static/pic/test_testchannelcardtitle.png")
+        let ocrres = await getOCRRes("./static/pic/test_channelcardtitle.png")
         console.log(ocrres);
         await expect(ocrres.ocr_comm_res.items[0].text.replace(" ", "")).toBe("湖北发布-视频号");
         break;
@@ -170,10 +177,10 @@ describe("testChannelCard", () => {
         await page.waitForSelector(channelCardClass.accountName);
         let ele = await page.$(channelCardClass.accountName);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testchannelcardname.png"
+          path: "./static/pic/test_channelcardname.png"
         })
         await addAttach({attach: image, description: "名称截图"});
-        let linNum = await getLineNum("./static/pic/test_testchannelcardname.png");
+        let linNum = await getLineNum("./static/pic/test_channelcardname.png");
         expect(linNum).toBeLessThanOrEqual(1);
         break;
       } catch (e) {
@@ -216,7 +223,7 @@ describe("testChannelCard", () => {
   test("testchannelCardDesc", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=湖北发布,发起搜索\n  2. 验证视频号描述信息不超过2行`
+      message: ` 测试步骤：\n  1. 输入搜索query=加加kiana,发起搜索\n  2. 验证视频号描述信息不超过2行`
     });
     let num = 3;
     while (num != 0) {
@@ -249,6 +256,7 @@ describe("testChannelCard", () => {
     let num = 3;
     while (num != 0) {
       try {
+        await pageExtend.change("湖北发布");
         let left1 = await getLeftOfEle(page, channelCardClass.accountAvatar);
         let left2 = await getLeftOfEle(page, channelCardClass.channelBlock);
         let left3 = await getLeftOfEle(page, channelCardClass.accountInfo);
@@ -294,7 +302,7 @@ describe("testChannelCard", () => {
     }
   },50000);
 
-  //@description:query = query = 湖北发布，验证视频号大卡内的视频号动态有点赞信息
+  //@description:query = 湖北发布，验证视频号大卡内的视频号动态有点赞信息
   test("testChannelCardLike", async () => {
     await addMsg({
       context: undefined,
@@ -316,22 +324,23 @@ describe("testChannelCard", () => {
 
   //@description:query = 人民日报，验证视频号大卡头部标题点击跳垂搜
   test("testChannelCardMore", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=人民日报,发起搜索\n  2. 验证视频号大卡头部标题点击条垂搜`
-    });
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=人民日报,发起搜索\n  2. 验证视频号大卡头部标题点击条垂搜`
+    // });
     let num = 3;
     while (num != 0) {
       try {
         await pageExtend.change("人民日报");
         await page.waitForSelector(channelCardClass.moreHandler);
         await page.click(channelCardClass.moreHandler);
-        const image = await page.screenshot({
+        await page.waitForTimeout(3000);
+        let ele = await page.$(tabClass.select_tab);
+        const image = await ele.screenshot({
           path: "./static/pic/test_channelcardmore.png"
         })
-        await addAttach({attach: image, description: "垂搜截图"});
-        let ele = await page.$('div.search_result div.unit__outer div.selected');
-        let content = await getOCRRes(`./static/pic/test_channelcardmore1.png`)
+        //await addAttach({attach: image, description: "tab截图"});
+        let content = await getOCRRes(`./static/pic/test_channelcardmore.png`)
         expect(content.ocr_comm_res.items[0].text).toBe('视频号')
         break;
       } catch (e) {
@@ -341,25 +350,27 @@ describe("testChannelCard", () => {
         num--;
       }
     }
+    await page.click(tabClass.select_all);
   },50000);
 
   //@description:query = 人民日报，验证视频号大卡更多按钮点击切到视频号tab
   test("testChannelCardSwitchTab", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=人民日报,发起搜索\n  2. 验证视频号大卡更多按钮点击切到视频号tab`
-    });
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=人民日报,发起搜索\n  2. 验证视频号大卡更多按钮点击切到视频号tab`
+    // });
     let num = 3;
     while (num != 0) {
       try {
         await pageExtend.change("人民日报");
         await page.waitForSelector(channelCardClass.more);
         await page.click(channelCardClass.more);
-        let ele = await page.$('div.search_result div.unit__outer div.selected');
+        await page.waitForTimeout(3000);
+        let ele = await page.$(tabClass.select_tab);
         const image = await ele.screenshot({
           path: "./static/pic/test_channelcardswitchtab.png"
         })
-        await addAttach({attach: image, description: "切tab截图"});
+        //await addAttach({attach: image, description: "切tab截图"});
         let content = await getOCRRes(`./static/pic/test_channelcardswitchtab.png`)
         expect(content.ocr_comm_res.items[0].text).toBe('视频号')
         break;
@@ -370,19 +381,22 @@ describe("testChannelCard", () => {
         num--;
       }
     }
+    await page.click(tabClass.select_all);
   },50000);
 
   //@description:query = 湖北发布，点击视频号box，验证视频号落地页信息与搜索页一致
   test("testchannelCardClickInfo", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=人民日报,发起搜索\n  2. 验证视频号落地页信息与搜索页一致`
+      message: ` 测试步骤：\n  1. 输入搜索query=湖北发布,发起搜索\n  2. 验证视频号落地页信息与搜索页一致`
     });
     let num = 3;
     while (num != 0) {
       try {
+        await pageExtend.change("湖北发布");
         await page.waitForSelector(channelCardClass.accountContainer);
         await page.click(channelCardClass.accountContainer);
+        await page.waitForTimeout(3000);
         const image = await page.screenshot({
           path: "./static/pic/test_channelcardclick.png"
         })
@@ -396,6 +410,7 @@ describe("testChannelCard", () => {
         num--;
       }
     }
+    await page.click(tabClass.select_all);
   },50000);
 
   test("> 测试结果汇总", async () => {
