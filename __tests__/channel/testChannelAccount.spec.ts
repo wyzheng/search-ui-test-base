@@ -21,7 +21,7 @@ let pass = 0;
 let fail = 0;
 let err = 0;
 
-//@owner:joycesong
+//@owner:miyawei
 //@description:视频号账号组件测试
 describe("testChannelAccount", () => {
 

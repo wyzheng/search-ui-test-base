@@ -15,7 +15,7 @@ let pass = 0;
 let fail = 0;
 let err = 0;
 
-//@owner:joycesong
+//@owner:miyawei
 //@description:文章组件测试
 describe("testArticle", () => {
 
