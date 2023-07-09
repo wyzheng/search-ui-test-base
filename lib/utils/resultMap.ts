@@ -604,6 +604,34 @@ export const channelCardClass = {
 export const gaokaoCardClass = {
   box: `div.search_result div.service-search-container`,
   poi: `div.search_result div.service-search-container div.default-sub-header div.poi span.poi-title`,
+  window: `div.weui-half-screen-dialog`,
+  part1: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(1)`,
+
+  part2: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2)`,
+  part2_sub1: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.service-search-block-container div.slide-inner > div:nth-child(1) div.info`,
+  part3: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3)`,
+}
+
+export const shebaoCardClass = {
+  box: `div.search_result div.service-search-container`,
+  titile: `div.search_result div.service-search-container div.title-with-poi`,
+  poi: `div.search_result div.service-search-container div.poi span.poi-title`,
+  poi_dialog: `div.app div.weui-half-screen-dialog`,
+  desc: `div.search_result div.service-search-container div.safe-spacer`,
+  desc_link: `div.search_result div.service-search-container div.safe-spacer span.desc-action`,
+  service_button: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(1)`,
+  service_button_item1: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(1) div.ui-menu a:nth-child(1)`,
+  service_button_item2: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(1) div.ui-menu a:nth-child(2)`,
+  service_button_item3: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(1) div.ui-menu a:nth-child(3)`,
+  account: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2)`,
+  account_item1: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-column div:nth-child(1)`,
+  account_item2: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-column div:nth-child(2)`,
+  account_item3: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-column div:nth-child(3)`,
+  other_service: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3)`,
+  other_service_item1: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(1)`,
+  other_service_item2: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(2)`,
+  other_service_item3: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(3)`,
+  other_service_item4: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(4)`
 }
 
 export const bizWeAppClass = {
@@ -638,6 +666,11 @@ export const tabClass = {
   select_tab: "#search_result > div.unit__outer > div > div > div.unit__item:nth-of-type(2)",
   select_all: "#search_result > div.unit__outer > div > div > div.unit__item:nth-of-type(1)",
   selected: `#search_result > div.unit__outer > div > div > div.unit__item.selected span.unit__item-title`
+}
+
+//混排结果
+export const searchRes = {
+  first_box: `div.search_data > div > div:nth-child(1)`
 }
 
 // 表情
