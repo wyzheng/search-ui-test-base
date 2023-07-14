@@ -1,5 +1,5 @@
 import {setup} from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser} from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
 import {
   getLeftOfEle,
@@ -9,13 +9,13 @@ import {
   channelOperation, getBottomHeightOfEle, getTopHeightOfEle, getRightOfEle, getDiff, getSimilarity
 } from "../../lib/utils/tools";
 import {articleClass, bizWeAppsList, channelClass} from "../../lib/utils/resultMap";
-import {addAttach, addMsg} from "jest-html-reporters/helper";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import exp from "constants";
 import fs from "fs";
 
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page ;
+let browser:  Browser;
 let pageExtend: PageExtend;
 let resArr = [];
 let num = 0;

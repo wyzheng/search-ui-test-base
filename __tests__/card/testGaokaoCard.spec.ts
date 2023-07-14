@@ -1,19 +1,19 @@
 import {getHeightOfEle, getLeftOfEle, getOCRRes, getSimilarity, getSizeOfEle} from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser} from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
-import {addAttach, addMsg} from "jest-html-reporters/helper";
-import {channelCardClass, gaokaoCardClass, searchRes, wxIndexClass} from "../../lib/utils/resultMap";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
+import {gaokaoCardClass, searchRes} from "../../lib/utils/resultMap";
 
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page ;
+let browser:  Browser;
 let pageExtend: PageExtend;
 let num = 0;
 
 //@owner:miyawei
 //@description:高考大卡测试
-describe("testWxIndex", () => {
+describe("testGaokaoCard", () => {
 
   beforeAll(async () => {
     pageExtend = await setup("高考",20, 3192443972, false);
@@ -223,30 +223,4 @@ describe("testWxIndex", () => {
       }
     }
   }, 50000);
-
-  //写一个和上面一样的用例，验证高考Part3召回
-
-
-
-  //@description:q=薛之谦，点击验证跳转小程序正确
-  test("test12345", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=薛之谦,发起搜索\n  2. 点击微信指数，验证微信指数跳转目标正确`
-    // });
-    let num = 3;
-    while (num != 0) {
-      try {
-        await page.click(wxIndexClass.panel);
-        await expect(pageExtend.extendInfo).toBe("gh_935b85261f35@app");
-        break;
-      } catch (e) {
-        if (num == 1) {
-          throw e;
-        }
-        num--;
-      }
-    }
-  }, 50000);
-
 })
