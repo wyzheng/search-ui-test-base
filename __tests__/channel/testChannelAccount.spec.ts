@@ -5,15 +5,15 @@ import {
   getOCRRes, getRightOfEle, getSimilarity,
 } from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser} from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import {bizWeAppClass, bizWeAppsList, channelAccountClass, channelClass} from "../../lib/utils/resultMap";
 import fs from "fs";
-import {addAttach, addMsg} from "jest-html-reporters/helper";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page ;
+let browser:  Browser;
 let pageExtend: PageExtend;
 let resArr = [];
 let num = 0;

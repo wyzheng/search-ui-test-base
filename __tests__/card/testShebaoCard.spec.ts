@@ -1,12 +1,12 @@
 import {getHeightOfEle, getLeftOfEle, getOCRRes, getSimilarity, getSizeOfEle} from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
-import {addAttach, addMsg} from "jest-html-reporters/helper";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import {shebaoCardClass} from "../../lib/utils/resultMap";
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page;
+let browser:  Browser;
 let pageExtend: PageExtend;
 let num = 0;
 
