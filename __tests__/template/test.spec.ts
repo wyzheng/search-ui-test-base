@@ -5,14 +5,14 @@ import {
   getOCRRes,
 } from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import { addAttach, addMsg } from "jest-html-reporters/helper";
 import { bizWeAppClass, bizWeAppsList } from "../../lib/utils/resultMap";
 
 
-let page: Puppeteer.Page;
-let browser:  Puppeteer.Browser;
+let page: Page;
+let browser:  Browser;
 let pageExtend: PageExtend;
 let resArr = [];
 let num = 0;

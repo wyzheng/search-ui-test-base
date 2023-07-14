@@ -1,12 +1,12 @@
 import {setup} from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser } from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
 import { adActivityClass, wxAdClass } from "../../lib/utils/resultMap";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import { bizOperation, getHeightOfEle, superView } from "../../lib/utils/tools";
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page ;
+let browser:  Browser;
 let pageExtend: PageExtend;
 
 let resArr = [];
@@ -369,8 +369,8 @@ describe("testAdVidCanvas", () => {
         }, wxAdClass);
 
         let ele =  await page.$(wxAdClass.account);
-        image =  await ele.screenshot({path: './static/pic/ad_gzh1.png'});
-        await addAttach({attach: image, description: "公众号账号已关注截图"});
+        let image1 =  await ele.screenshot({path: './static/pic/ad_gzh1.png'});
+        await addAttach({attach: image1, description: "公众号账号已关注截图"});
         await bizOperation("DelBizContact", 3094043316, 3191187942);
         expect(content).toBe("已关注");
         break;

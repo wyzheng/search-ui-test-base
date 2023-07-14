@@ -1,13 +1,13 @@
 import { getHeightOfEle, getLeftOfEle, getOCRRes, getSizeOfEle } from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import { musicClass, tabClass } from "../../lib/utils/resultMap";
 
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page ;
+let browser:  Browser;
 let pageExtend: PageExtend;
 let num = 0;
 
@@ -33,10 +33,10 @@ describe("testMusic", () => {
 
   //@description:q=胡彦斌，验证音乐box是否召回
   test("testMusicRecall", async () => {
-     await addMsg({
+     /*await addMsg({
        context: undefined,
        message: ` 测试步骤：\n  1. 输入搜索query=胡彦斌,发起搜索\n  2. 检查混排页是否召回音乐box`
-     });
+     });*/
     let num = 3;
     while (num != 0) {
       try {
