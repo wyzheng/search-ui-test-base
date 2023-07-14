@@ -1,5 +1,4 @@
 import {
-  getDiff,
   getLeftOfEle,
   getLineNum,
   getOCRRes, getRightOfEle, getSimilarity,
@@ -8,11 +7,7 @@ import { setup } from "../../lib/utils/setup";
 import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import {
-  bizWeAppClass,
-  bizWeAppsList,
-  channelAccountClass,
   channelCardClass,
-  channelClass,
   tabClass
 } from "../../lib/utils/resultMap";
 import * as fs from "fs";
@@ -324,10 +319,10 @@ describe("testChannelCard", () => {
 
   //@description:query = 人民日报，验证视频号大卡头部标题点击跳垂搜
   test("testChannelCardMore", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=人民日报,发起搜索\n  2. 验证视频号大卡头部标题点击条垂搜`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=人民日报,发起搜索\n  2. 验证视频号大卡头部标题点击条垂搜`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -339,7 +334,7 @@ describe("testChannelCard", () => {
         const image = await ele.screenshot({
           path: "./static/pic/test_channelcardmore.png"
         })
-        //await addAttach({attach: image, description: "tab截图"});
+        await addAttach({attach: image, description: "tab截图"});
         let content = await getOCRRes(`./static/pic/test_channelcardmore.png`)
         expect(content.ocr_comm_res.items[0].text).toBe('视频号')
         break;
@@ -355,10 +350,10 @@ describe("testChannelCard", () => {
 
   //@description:query = 人民日报，验证视频号大卡更多按钮点击切到视频号tab
   test("testChannelCardSwitchTab", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=人民日报,发起搜索\n  2. 验证视频号大卡更多按钮点击切到视频号tab`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=人民日报,发起搜索\n  2. 验证视频号大卡更多按钮点击切到视频号tab`
+    });
     let num = 3;
     while (num != 0) {
       try {

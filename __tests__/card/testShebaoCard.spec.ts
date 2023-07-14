@@ -1,4 +1,4 @@
-import {getHeightOfEle, getLeftOfEle, getOCRRes, getSimilarity, getSizeOfEle} from "../../lib/utils/tools";
+import { getSimilarity } from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
 import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";

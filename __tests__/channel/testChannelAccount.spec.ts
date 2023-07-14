@@ -1,5 +1,4 @@
 import {
-  getDiff,
   getLeftOfEle,
   getLineNum,
   getOCRRes, getRightOfEle, getSimilarity,
@@ -7,7 +6,7 @@ import {
 import { setup } from "../../lib/utils/setup";
 import { Page, Browser} from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
-import {bizWeAppClass, bizWeAppsList, channelAccountClass, channelClass} from "../../lib/utils/resultMap";
+import { channelAccountClass} from "../../lib/utils/resultMap";
 import fs from "fs";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 
@@ -67,10 +66,10 @@ describe("testChannelAccount", () => {
 
   //@description:query = 微信广告助手，验证样式正确
   test("testChannelAccountDiff", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=微信广告助手,发起搜索\n  2. 检查混排页的视频号动态样式和设计稿一致`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=微信广告助手,发起搜索\n  2. 检查混排页的视频号动态样式和设计稿一致`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -79,7 +78,7 @@ describe("testChannelAccount", () => {
         const image = await ele.screenshot({
           path: imgPath
         })
-        //await addAttach({attach: image, description: "box截图"});
+        await addAttach({attach: image, description: "box截图"});
         let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_channelaccountstyle.png')
         await expect(0.9).toBeLessThan(Number(diffPercent))
         break;
@@ -327,10 +326,10 @@ describe("testChannelAccount", () => {
 
   //@description:query = 磐石圣经，验证混排不出视频号账号（禁搜逻辑）
   test("testNoChannelAccountRecall", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=磐石圣经，\n  2. 验证混排页不召回视频号账号`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=磐石圣经，\n  2. 验证混排页不召回视频号账号`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -338,7 +337,7 @@ describe("testChannelAccount", () => {
         const image = await page.screenshot({
           path: "./static/pic/test_nochannelaccount.png"
         })
-        //await addAttach({attach: image, description: "页面截图"});
+        await addAttach({attach: image, description: "页面截图"});
         await expect(page).not.toHaveElement(channelAccountClass.box);
         break;
       } catch (e) {

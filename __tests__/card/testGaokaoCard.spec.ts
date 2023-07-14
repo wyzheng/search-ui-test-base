@@ -144,10 +144,10 @@ describe("testGaokaoCard", () => {
 
   //@description:q=高考时间，验证poi点击拉起弹窗
   test("testGaokaoPoiWindow", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=高考时间,发起搜索\n  2. 验证poi点击拉起弹窗`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=高考时间,发起搜索\n  2. 验证poi点击拉起弹窗`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -172,10 +172,10 @@ describe("testGaokaoCard", () => {
 
   //@description:q=高考，验证高考part1召回
   test("testGaokaoPart1Recall", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=高考,发起搜索\n  2. 验证高考part1召回`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=高考,发起搜索\n  2. 验证高考part1召回`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -185,7 +185,7 @@ describe("testGaokaoCard", () => {
         })
         await page.click(gaokaoCardClass.part1);
         await page.waitForTimeout(3000);
-        //await addAttach({ attach: image, description: "part1截图" });
+        await addAttach({ attach: image, description: "part1截图" });
         await expect(page).toHaveElement(gaokaoCardClass.part1);
         break;
       } catch (e) {
@@ -199,10 +199,10 @@ describe("testGaokaoCard", () => {
 
   //@description:q=高考，验证高考part2召回
   test("testGaokaoPart2Recall", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=高考,发起搜索\n  2. 验证高考part2召回`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=高考,发起搜索\n  2. 验证高考part2召回`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -212,7 +212,7 @@ describe("testGaokaoCard", () => {
         })
         await page.click(gaokaoCardClass.part2);
         await page.waitForTimeout(3000);
-        //await addAttach({ attach: image, description: "part2截图" });
+        await addAttach({ attach: image, description: "part2截图" });
         await expect(page).toHaveElement(gaokaoCardClass.part2);
         break;
       } catch (e) {

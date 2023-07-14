@@ -4,6 +4,7 @@ import { Page, Browser} from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import {holidayCardClass} from "../../lib/utils/resultMap";
+import fs from "fs";
 
 
 let page: Page ;

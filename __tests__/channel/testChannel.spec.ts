@@ -5,12 +5,10 @@ import {
   getLeftOfEle,
   getLineNum,
   getOCRRes,
-  getSizeOfEle,
-  channelOperation, getBottomHeightOfEle, getTopHeightOfEle, getRightOfEle, getDiff, getSimilarity
+  channelOperation, getBottomHeightOfEle, getTopHeightOfEle, getRightOfEle, getSimilarity
 } from "../../lib/utils/tools";
-import {articleClass, bizWeAppsList, channelClass} from "../../lib/utils/resultMap";
+import { channelClass} from "../../lib/utils/resultMap";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
-import exp from "constants";
 import fs from "fs";
 
 
@@ -210,7 +208,7 @@ describe("testChannel", () => {
         await addAttach({attach: image, description: "有点赞描述截图"});
         let linNum = await getLineNum("./static/pic/test_channeldesc2.png");
         //调用接口取消点赞该视频号动态
-        channelOperation("cutebot111", 4, 13852287066425727020);
+        await channelOperation("cutebot111", 4, 13852287066425727020);
         expect(linNum).toBeLessThanOrEqual(1);
         break;
       } catch (e) {
@@ -232,9 +230,9 @@ describe("testChannel", () => {
     while (num != 0) {
       try {
         //调用接口点赞该视频号动态
-        channelOperation("cutebot111", 3, 13852287066425727020);
-        channelOperation("miyawyzzzz", 3, 13852287066425727020);
-        channelOperation("cutebot333", 3, 13852287066425727020);
+        await channelOperation("cutebot111", 3, 13852287066425727020);
+        await channelOperation("miyawyzzzz", 3, 13852287066425727020);
+        await channelOperation("cutebot333", 3, 13852287066425727020);
         await page.waitForSelector(channelClass.socialInfo);
         let ele = await page.$(channelClass.socialInfo);
         const image = await ele.screenshot({
@@ -305,31 +303,6 @@ describe("testChannel", () => {
     }
   },50000);
 
-  // //@description:query = 李子柒，验证视频号动态点击中的静音按钮点击
-  // test("testVideoMuteClick", async () => {
-  //   // await addMsg({
-  //   //   context: undefined,
-  //   //   message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 点击视频号动态点击中的静音按钮点击，验证是否跳转到视频号feed页`
-  //   // });
-  //   let num = 3;
-  //   while (num != 0) {
-  //     try {
-  //       await page.waitForSelector(channelClass.muteIcon);
-  //       await page.click(channelClass.muteIcon);
-  //       await expect(page).toHaveElement(channelClass.unmuteIcon);
-  //       await page.waitForSelector(channelClass.unmuteIcon);
-  //       await page.click(channelClass.unmuteIcon);
-  //       await expect(page).toHaveElement(channelClass.muteIcon);
-  //       break;
-  //     } catch (e) {
-  //        if (num == 1) {
-  //         throw e;
-  //       }
-  //       num--;
-  //     }
-  //   }
-  // },50000);
-
   //@description:query = 李子柒，点击视频号动态，验证跳转落地页的docid与点击的一致
   test("testChannelId", async () => {
     await addMsg({
@@ -368,7 +341,7 @@ describe("testChannel", () => {
         await page.waitForSelector(channelClass.boxLeft);
         await page.click(channelClass.boxLeft);
         // 调用接口点赞左边视频号: feedid=14078879530265676091
-        channelOperation("cutebot111", 3, 14078879530265676091);
+        await channelOperation("cutebot111", 3, 14078879530265676091);
         await pageExtend.change("李子柒");
         expect(page).toHaveElement(`div.mixed-box__bd > div:nth-child(1) div.rich-media__info div.rich-media__social-info__title`);
         break;
@@ -380,7 +353,7 @@ describe("testChannel", () => {
       }
     }
     //调用接口取消点赞
-    channelOperation("cutebot111", 4, 14078879530265676091);
+    await channelOperation("cutebot111", 4, 14078879530265676091);
   },50000);
 
   test("> 测试结果汇总", async () => {
