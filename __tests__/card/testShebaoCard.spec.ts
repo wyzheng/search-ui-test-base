@@ -32,10 +32,10 @@ describe("testShebaoCard", () => {
 
   //@description:q=社保，验证社保大卡是否召回且在首位
   test("testShebaoCardRecall", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 检查垂搜页是否召回社保大卡`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 检查垂搜页是否召回社保大卡`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -45,7 +45,7 @@ describe("testShebaoCard", () => {
         let image = await page.screenshot({
           path: "./static/pic/test_shebaobox.png"
         })
-        //await addAttach({ attach: image, description: "页面截图" });
+        await addAttach({ attach: image, description: "页面截图" });
         await expect(firstbox).toStrictEqual(shebaoCard);
         break;
       } catch (e) {
@@ -59,10 +59,10 @@ describe("testShebaoCard", () => {
 
   //@description: q=社保，验证社保大卡地址POI为广东广州
   test("testPoiOrigin", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 检查社保box内POI为当前定位城市`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 检查社保box内POI为当前定位城市`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -70,7 +70,7 @@ describe("testShebaoCard", () => {
         let image = await ele.screenshot({
           path: "./static/pic/test_shebaopoi.png"
         })
-        //await addAttach({ attach: image, description: "poi截图" });
+        await addAttach({ attach: image, description: "poi截图" });
         const spanValue = await page.$eval(shebaoCardClass.poi, (ele) =>
           ele.textContent);
         await expect(spanValue.match(/[\u4e00-\u9fa5_a-zA-Z0-9]/g).join("")).toBe("广东广州");
@@ -86,10 +86,10 @@ describe("testShebaoCard", () => {
 
   //@description: q=深圳社保，验证社保大卡地址POI为广东深圳
   test("testPoi", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=深圳社保,发起搜索\n  2. 检查社保box内POI为深圳`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=深圳社保,发起搜索\n  2. 检查社保box内POI为深圳`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -98,7 +98,7 @@ describe("testShebaoCard", () => {
         let image = await ele.screenshot({
           path: "./static/pic/test_shenzhenshebaopoi.png"
         })
-        //await addAttach({ attach: image, description: "poi截图" });
+        await addAttach({ attach: image, description: "poi截图" });
         const spanValue = await page.$eval(shebaoCardClass.poi, (ele) =>
           ele.textContent);
         await expect(spanValue.match(/[\u4e00-\u9fa5_a-zA-Z0-9]/g).join("")).toBe("广东深圳")
@@ -114,10 +114,10 @@ describe("testShebaoCard", () => {
 
   //@description: q=社保，验证社保大卡地址切换刷新
   test("testPoiSwitch", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=社保,切换poi\n  2. 检查地址变换`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=社保,切换poi\n  2. 检查地址变换`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -136,10 +136,10 @@ describe("testShebaoCard", () => {
 
   //@description:q=社保，验证验证社保大卡样式与上个版本diff率不低于0.9
   test("testshebaoCardDiff", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 验证社保大卡样式与上个版本diff率`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 验证社保大卡样式与上个版本diff率`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -149,7 +149,7 @@ describe("testShebaoCard", () => {
         const image = await ele.screenshot({
           path: imgPath
         });
-        //await addAttach({attach: image, description: "社保大卡截图"});
+        await addAttach({attach: image, description: "社保大卡截图"});
         let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_shebaocardstyle.png');
         await expect(0.9).toBeLessThan(Number(diffPercent));
         break;
@@ -164,10 +164,10 @@ describe("testShebaoCard", () => {
 
   //@description:q=社保，验证社保常见服务点击
   test("testshebaoServiceClick", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 验证社保常见服务点击`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 验证社保常见服务点击`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -187,10 +187,10 @@ describe("testShebaoCard", () => {
 
   //@description:q=社保，验证我的社保按钮点击
   test("testshebaoButton1Click", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=社保时间,发起搜索\n  2. 验证我的社保按钮点击`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=社保时间,发起搜索\n  2. 验证我的社保按钮点击`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -201,7 +201,7 @@ describe("testShebaoCard", () => {
         const image = await ele.screenshot({
           path: imgPath
         });
-        //await addAttach({ attach: image, description: "社保按钮截图" });
+        await addAttach({ attach: image, description: "社保按钮截图" });
         await expect(pageExtend.extendInfo).toBe("gh_c02ba94d95e2@app");
         break;
       } catch (e) {
@@ -215,10 +215,10 @@ describe("testShebaoCard", () => {
 
   //@description:q=社保，验证社保余额查询按钮点击
   test("testshebaoButton2Click", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=社保时间,发起搜索\n  2. 验证社保余额查询按钮点击`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=社保时间,发起搜索\n  2. 验证社保余额查询按钮点击`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -229,7 +229,7 @@ describe("testShebaoCard", () => {
         const image = await ele.screenshot({
           path: imgPath
         });
-        //await addAttach({ attach: image, description: "社保余额截图" });
+        await addAttach({ attach: image, description: "社保余额截图" });
         await expect(pageExtend.extendInfo).toBe("https://card.wecity.qq.com/v2/social-insurance/gzmiquery/base-info?cityid=440100&channel=AAHgITcHBYVBBBoLWndgziDe");
         break;
       } catch (e) {
@@ -243,10 +243,10 @@ describe("testShebaoCard", () => {
 
   //@description:q=社保，验证社保缴费按钮点击
   test("testshebaoButton3Click", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=社保时间,发起搜索\n  2. 验证社保缴费按钮点击`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=社保时间,发起搜索\n  2. 验证社保缴费按钮点击`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -257,7 +257,7 @@ describe("testShebaoCard", () => {
         const image = await ele.screenshot({
           path: imgPath
         });
-        //await addAttach({ attach: image, description: "社保缴纳截图" });
+        await addAttach({ attach: image, description: "社保缴纳截图" });
         await expect(pageExtend.extendInfo).toBe("gh_1ac06b5a8f4e@app");
         break;
       } catch (e) {
@@ -271,10 +271,10 @@ describe("testShebaoCard", () => {
 
   //@description:q=社保，验证相关账号点击
   test("testshebaoAccountClick", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 验证相关账号点击`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 验证相关账号点击`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -285,7 +285,7 @@ describe("testShebaoCard", () => {
         const image = await ele.screenshot({
           path: imgPath
         });
-        //await addAttach({ attach: image, description: "相关账号截图" });
+        await addAttach({ attach: image, description: "相关账号截图" });
         await expect(pageExtend.extendInfo).toBe("gh_6c517d0d63f0");
         break;
       } catch (e) {
@@ -299,10 +299,10 @@ describe("testShebaoCard", () => {
 
     //@description:q=社保，验证其他服务点击
   test("testshebaoPart1Recall", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 验证其他服务点击`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 验证其他服务点击`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -313,7 +313,7 @@ describe("testShebaoCard", () => {
         const image = await ele.screenshot({
           path: imgPath
         });
-        //await addAttach({ attach: image, description: "其他服务截图" });
+        await addAttach({ attach: image, description: "其他服务截图" });
         await expect(pageExtend.extendInfo).toBe("gh_1ac06b5a8f4e@app");
         break;
       } catch (e) {

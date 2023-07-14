@@ -13,7 +13,7 @@ let num = 0;
 
 //@owner:miyawei
 //@description:高考大卡测试
-describe("testWxIndex", () => {
+describe("testGaokaoCard", () => {
 
   beforeAll(async () => {
     pageExtend = await setup("高考",20, 3192443972, false);
