@@ -1,12 +1,12 @@
 import {setup} from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser } from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
 import { adAccountClass, adActivityClass, wxAdClass } from "../../lib/utils/resultMap";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import {finderOperation, getHeightOfEle, superView } from "../../lib/utils/tools";
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page ;
+let browser:  Browser;
 let pageExtend: PageExtend;
 
 let resArr = [];
@@ -307,10 +307,10 @@ describe("testAdVidFeeds", () => {
 
   //@description:点击联系电话按钮，验证是否正确展示弹窗及对应联系电话
   test("testAdPhone", async () => {
-    await addMsg({
+    /*await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=wxadtestVidFeeds,发起搜索\n  2. 点击联系电话按钮，显示联系电话弹窗\n  3. 检查联系电话为："17000001688", "17000001689"\n  4. 点击联系电话呼叫按钮，检查当前呼叫电话正确`
-    });
+    });*/
     let num = 3;
     while(num != 0){
       try  {
@@ -454,8 +454,8 @@ describe("testAdVidFeeds", () => {
           return item.innerHTML;
         }, wxAdClass);
         let ele =  await page.$(wxAdClass.account);
-        image =  await ele.screenshot({path: './static/pic/ad_gzh1.png'});
-        //await addAttach({attach: image, description: "视频号号账号已关注截图"});
+        let image1 =  await ele.screenshot({path: './static/pic/ad_gzh1.png'});
+        //await addAttach({attach: image1, description: "视频号号账号已关注截图"});
         expect(content).toBe("已关注");
         await finderOperation("v2_060000231003b20faec8c7e28d1ecad2c900ea34b077192ae8bad1b4f00e998bfc98c5f05d66@finder", 2, "wxid_3v5oigo9a2c212");
         //expect(content).toBe("已关注");

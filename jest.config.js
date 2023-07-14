@@ -1,7 +1,7 @@
 var args = require('minimist')(process.argv.slice(2));
 console.log("ahahahahah")
 console.log(args)
-const template = "fts_template-alpha-05221933-v80010365"
+const template = "fts_template-alpha-03291857-v80010188"
 const resPath = "test"
 
 module.exports = {
@@ -21,20 +21,11 @@ module.exports = {
   reporters:[
     "default",
     [
-      "./reporter/report.js",
+      "@tencent/jest-report-search/lib/report.js",
       {
-        "publicPath":`./static/res/${resPath}`
+        publicPath: `./static/res/${resPath}`
       }
-    ],
-    [
-      "jest-html-reporters",
-      {
-        "pageTitle":"Jest Report",
-        "publicPath":`./static/res/${resPath}`,
-        "expand":true,
-        "inlineSource":true
-      }
-    ],
+    ]
   ],
 };
 

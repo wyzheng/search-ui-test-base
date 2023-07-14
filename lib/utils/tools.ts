@@ -315,6 +315,7 @@ export async function getSimilarity(srcPath, desPath) {
   if (JSON.parse(resp.body).rtn == 0){
     return JSON.parse(resp.body).value;
   }
+  return "0"
 }
 
 // 获取两图片的差异图 base64 字符串

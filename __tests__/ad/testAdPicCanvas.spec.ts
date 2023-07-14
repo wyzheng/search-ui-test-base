@@ -1,13 +1,13 @@
 import {setup} from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser } from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
 import { adAccountClass, wxAdClass } from "../../lib/utils/resultMap";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import { bizOperation, getHeightOfEle, superView } from "../../lib/utils/tools";
 import fs from "fs";
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page ;
+let browser:  Browser;
 let pageExtend: PageExtend;
 let resArr = [];
 let num = 0;

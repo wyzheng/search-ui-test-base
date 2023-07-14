@@ -4,7 +4,7 @@ import {
   getOCRRes,
 } from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
-import Puppeteer, {Page, Browser} from "puppeteer";
+import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import { addAttach, addMsg } from "jest-html-reporters/helper";
 import { stickersClass, tabClass, wxAdClass, wxGoodAd } from "../../lib/utils/resultMap";
@@ -12,8 +12,8 @@ import { randomInt } from "crypto";
 
 
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page ;
+let browser: Browser;
 let pageExtend: PageExtend;
 let resArr = [];
 let num = 0;
@@ -43,10 +43,10 @@ describe("testSticker", () => {
 
   //@description:q=小蓝人，验证表情box是否召回
   test("testStickerRecall", async () => {
-    await addMsg({
+   /* await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入q=小蓝人\n  2. 验证混排页是否召回表情box\n `
-    });
+    });*/
     let num = 3;
     while (num != 0) {
       try {
@@ -106,10 +106,10 @@ describe("testSticker", () => {
 
   //@description:q=吃饭表情，验证表情box标题为"query-表情"
   test("testStickerBoxTitle", async () => {
-    await addMsg({
+    /*await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入q=吃饭表情\n  2. 验证表情box标题为"query-表情"\n `
-    });
+    });*/
     let num = 3;
     while (num != 0) {
       try {

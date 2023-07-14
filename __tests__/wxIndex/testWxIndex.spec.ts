@@ -1,13 +1,13 @@
 import { getHeightOfEle, getLeftOfEle, getOCRRes, getSizeOfEle } from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import {addAttach, addMsg} from "jest-html-reporters/helper";
 import { wxIndexClass } from "../../lib/utils/resultMap";
 
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page ;
+let browser:  Browser;
 let pageExtend: PageExtend;
 let num = 0;
 
@@ -16,7 +16,7 @@ let num = 0;
 describe("testWxIndex", () => {
 
   beforeAll(async () => {
-    pageExtend = await setup("薛之谦",20, 3192443972, false, 8192);
+    pageExtend = await setup("薛之谦",20, 3192443972, false );
     page = pageExtend.webSearchPage.instance;
     browser = pageExtend.browser;
   });

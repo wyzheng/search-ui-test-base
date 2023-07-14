@@ -1,12 +1,12 @@
 import {setup} from "../../lib/utils/setup";
-import Puppeteer from "puppeteer";
+import { Page, Browser } from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
 import { adActivityClass, wxAdClass } from "../../lib/utils/resultMap";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import {finderOperation, getHeightOfEle, superView } from "../../lib/utils/tools";
 
-let page: Puppeteer.Page ;
-let browser:  Puppeteer.Browser;
+let page: Page ;
+let browser:  Browser;
 let pageExtend: PageExtend;
 
 let resArr = [];
@@ -459,8 +459,8 @@ describe("testAdPicH5", () => {
           return item.innerHTML;
         }, wxAdClass);
         let ele =  await page.$(wxAdClass.account);
-        image =  await ele.screenshot({path: './static/pic/ad_gzh1.png'});
-        await addAttach({attach: image, description: "视频号号账号已关注截图"});
+        let image1 =  await ele.screenshot({path: './static/pic/ad_gzh1.png'});
+        await addAttach({attach: image1, description: "视频号号账号已关注截图"});
         await finderOperation("v2_060000231003b20faec8c7e28d1ecad2c900ea34b077192ae8bad1b4f00e998bfc98c5f05d66@finder", 2, "wxid_dl6z2p8aq2vt12");
         expect(content).toBe("已关注");
         break;
