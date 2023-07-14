@@ -634,6 +634,20 @@ export const shebaoCardClass = {
   other_service_item4: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(4)`
 }
 
+export const holidayCardClass = {
+  box: `div.search_result div.service-search-container`,
+  title: `div.search_result div.service-search-container div.title`,
+  subtitle: `div.search_result div.service-search-container div.subTitle`,
+  month_picker: `div.search_result div.service-search-container div.calendar-picker div.curr`,
+  month_picker_left: `div.search_result div.service-search-container div.calendar-picker div.prev`,
+  month_picker_right: `div.search_result div.service-search-container div.calendar-picker div.next`,
+  calendar: `div.search_result div.service-search-container div.scroll-view`,
+  date_picked: `div.search_result div.service-search-container div.scroll-view table div.active`,
+  day_picker1: `div.search_result div.service-search-container div.scroll-view div.scroll-content div:nth-child(2) table tbody tr:nth-child(2) td:nth-child(1)`,
+  day_picker2: `div.search_result div.service-search-container div.scroll-view div.scroll-content div:nth-child(2) table tbody tr:nth-child(4) td:nth-child(4)`,
+  day_picker3: `div.search_result div.service-search-container div.scroll-view div.scroll-content div:nth-child(2) table tbody tr:nth-child(7) td:nth-child(7)`,
+}
+
 export const bizWeAppClass = {
   title: `div.basic-block-unified-account div.search-block__hd > div > div.search-block__title span`,
   more: `div.basic-block-unified-account div.search-block__hd > div > div:nth-child(2) > div.more__item.active__mask`,
