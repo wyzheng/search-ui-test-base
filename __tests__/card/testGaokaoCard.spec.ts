@@ -10,6 +10,7 @@ let page: Page ;
 let browser:  Browser;
 let pageExtend: PageExtend;
 let num = 0;
+let basedir = __dirname.split("__tests__")[0];
 
 //@owner:miyawei
 //@description:高考大卡测试
@@ -130,7 +131,7 @@ describe("testGaokaoCard", () => {
           path: imgPath
         });
         await addAttach({attach: image, description: "高考时间卡片截图"});
-        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_gaokaocardstyle.png');
+        let diffPercent = await getSimilarity(basedir+'static/pic/test_gaokaocardstyle.png', basedir+'static/pic_diff/test_gaokaocardstyle.png');
         await expect(0.9).toBeLessThan(Number(diffPercent));
         break;
       } catch (e) {
