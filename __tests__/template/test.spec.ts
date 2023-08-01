@@ -7,8 +7,7 @@ import {
 import { setup } from "../../lib/utils/setup";
 import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
-import { addAttach, addMsg } from "jest-html-reporters/helper";
-import { bizWeAppClass, bizWeAppsList } from "../../lib/utils/resultMap";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 
 
 let page: Page;

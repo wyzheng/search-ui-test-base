@@ -145,10 +145,10 @@ describe("testHolidayCard", () => {
 
   //@description: q=中秋节，验证节日大卡日期高亮正确
   test("testZhongqiujie", async () => {
-    await addMsg({
+    /*await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=中秋节,发起搜索\n  2. 检查节日大卡日期高亮是否正确`
-    });
+    });*/
     let num = 3;
     while (num != 0) {
       try {
@@ -158,7 +158,7 @@ describe("testHolidayCard", () => {
         const image = await ele.screenshot({
           path: imgPath
         });
-        await addAttach({attach: image, description: "中秋节截图"});
+        //await addAttach({attach: image, description: "中秋节截图"});
         let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_testZhongqiujie.png');
         await expect(0.9).toBeLessThan(Number(diffPercent));
         break;
@@ -169,7 +169,14 @@ describe("testHolidayCard", () => {
         num--;
       }
     }
-    fs.copyFileSync(`./static/pic/test_testZhongqiujie.png`, `./static/pic_diff/test_testZhongqiujie.png`);
+    try {
+      fs.copyFileSync(`./static/pic/test_testZhongqiujie.png`, `./static/pic_diff/test_testZhongqiujie.png`);
+    }catch(e){
+      await addMsg({
+        context: undefined,
+        message: e
+      });
+    }
   }, 50000);
 
   //@description: q=春节，验证节日大卡日期高亮正确
