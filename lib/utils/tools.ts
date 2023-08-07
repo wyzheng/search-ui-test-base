@@ -11,13 +11,10 @@ const logger = new LoggerService().getLogger();
 
 export async function getHighlightContent(page, selector) {
   let content = await page.evaluate((selector) => {
-    let items =  document.querySelectorAll(selector + ' ' + 'em[class="highlight"]');
-    let content = [];
-    for (let i = 0; i < items.length; i++) {
-      content.push(items[i].innerHTML);
-    }
+    let item =  document.querySelector(selector + ' ' + 'em');
+    content = item.innerHTML.match(/[\u4e00-\u9fa5_a-zA-Z0-9]/g).join("");
     return content;
-  },selector)
+  }, selector)
   return content;
 }
 

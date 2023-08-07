@@ -45,7 +45,7 @@ describe("testJingjia", () => {
     while(num != 0){
       try {
         const image =  await page.screenshot({
-          path: "./static/pic/test_cpad.png"
+          path:  basedir + "./static/pic/test_cpad.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement("div.h-animate");
@@ -70,7 +70,7 @@ describe("testJingjia", () => {
       try {
         await page.waitForSelector(wxCpAdClass.title);
         let ele =  await page.$(wxCpAdClass.title);
-        let path = './static/pic/ad_cp_title.png';
+        let path = basedir + './static/pic/ad_cp_title.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告头部截图"});
         let lineNum = await getLineNum(path);
@@ -101,7 +101,7 @@ describe("testJingjia", () => {
       try {
         await page.waitForSelector(wxCpAdClass.desc);
         let ele =  await page.$(wxCpAdClass.desc);
-        let path = './static/pic/ad_cp_desc.png';
+        let path = basedir + './static/pic/ad_cp_desc.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告头部截图"});
         let lineNum = await getLineNum(path);
@@ -135,7 +135,7 @@ describe("testJingjia", () => {
       try {
         await page.waitForSelector(wxCpAdClass.source);
         let ele =  await page.$(wxCpAdClass.source);
-        let path = './static/pic/ad_cp_desc.png';
+        let path = basedir + './static/pic/ad_cp_desc.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告头部截图"});
 
@@ -166,7 +166,7 @@ describe("testJingjia", () => {
       try {
         await page.waitForSelector(wxCpAdClass.desc);
         let ele =  await page.$(wxCpAdClass.desc);
-        let path = './static/pic/ad_cp_desc.png';
+        let path = basedir + './static/pic/ad_cp_desc.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告头部截图"});
         await page.click(wxCpAdClass.desc);
@@ -193,7 +193,7 @@ describe("testJingjia", () => {
       try {
         await page.waitForSelector(wxCpAdClass.feedback);
         let ele =  await page.$(wxCpAdClass.feedback);
-        let path = './static/pic/ad_cp_feedback.png';
+        let path = basedir + './static/pic/ad_cp_feedback.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告头部截图"});
         await page.click(wxCpAdClass.feedback);
@@ -228,7 +228,7 @@ describe("testJingjia", () => {
       try {
         await page.waitForSelector(wxCpAdClass.feedback);
         let ele =  await page.$(wxCpAdClass.feedback);
-        let path = './static/pic/ad_cp_feedback.png';
+        let path = basedir + './static/pic/ad_cp_feedback.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告反馈按钮截图"});
         await page.click(wxCpAdClass.feedback);
@@ -245,7 +245,7 @@ describe("testJingjia", () => {
 
         let page2 = await pageExtend.click("outer");
         const screenshotBuffer = await page2.screenshot({
-          path: "./static/pic/test_feedback.png"
+          path:  basedir + "./static/pic/test_feedback.png"
         })
         await addAttach({attach: screenshotBuffer, description: "广告反馈页面截图"});
         await page2.close();
@@ -270,7 +270,7 @@ describe("testJingjia", () => {
       try {
         await page.waitForSelector(wxCpAdClass.feedback);
         let ele =  await page.$(wxCpAdClass.feedback);
-        let path = './static/pic/ad_cp_feedback.png';
+        let path = basedir + './static/pic/ad_cp_feedback.png';
         let image =  await ele.screenshot({path: path});
         //await addAttach({attach: image, description: "广告头部截图"});
         await page.click(wxCpAdClass.feedback);
@@ -282,11 +282,11 @@ describe("testJingjia", () => {
         await page.click(feedbackDialogClass(1).action);
 
         ele =  await page.$("div.weui-toast");
-        path = './static/pic/ad_cp_toast.png';
+        path = basedir + './static/pic/ad_cp_toast.png';
         image =  await ele.screenshot({path: path});
         // 出现已反馈弹窗
         await expect(page).toHaveElement("div.weui-toast")
-        path = './static/pic/ad_cp_feedback1.png';
+        path = basedir + './static/pic/ad_cp_feedback1.png';
         image =  await page.screenshot({path: path});
         await page.waitForTimeout(700);
 
@@ -320,7 +320,7 @@ describe("testJingjia", () => {
       try {
         await page.waitForSelector(wxCpAdClass.feedback);
         let ele =  await page.$(wxCpAdClass.feedback);
-        let path = './static/pic/ad_cp_feedback.png';
+        let path = basedir + './static/pic/ad_cp_feedback.png';
         let image =  await ele.screenshot({path: path});
         //await addAttach({attach: image, description: "广告头部截图"});
         await page.click(wxCpAdClass.feedback);
@@ -331,7 +331,7 @@ describe("testJingjia", () => {
         //pageExtend.logid = 26805
         await page.click(feedbackDialogClass(2).action);
         ele =  await page.$(feedbackDialogClass(0).dialog);
-        path = './static/pic/ad_cp_dialog.png';
+        path = basedir + './static/pic/ad_cp_dialog.png';
         image =  await ele.screenshot({path: path});
 
         // 验证标题
@@ -368,12 +368,12 @@ describe("testJingjia", () => {
         await expect(page).toHaveElement(feedbackDialogClass(0).button);
 
         ele =  await page.$(feedbackDialogClass(0).dialog);
-        path = './static/pic/ad_cp_dialog.png';
+        path = basedir + './static/pic/ad_cp_dialog.png';
         image =  await ele.screenshot({path: path});
 
         await page.click(feedbackDialogClass(0).button);
         await expect(page).toHaveElement("div.weui-toast")
-        path = './static/pic/ad_cp_feedback1.png';
+        path = basedir + './static/pic/ad_cp_feedback1.png';
         image =  await page.screenshot({path: path});
         await page.waitForTimeout(700);
         await addAttach({attach: image, description: "广告反馈页面截图"});

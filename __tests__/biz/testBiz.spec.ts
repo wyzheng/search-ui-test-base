@@ -8,7 +8,7 @@ import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import { bizWeAppClass, bizWeAppsList } from "../../lib/utils/resultMap";
-
+let  basedir = __dirname.split("__tests__")[0];
 
 let page: Page ;
 let browser:  Browser;
@@ -49,7 +49,7 @@ describe("testBizBox", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_testBiz.png"
+          path:  basedir + "./static/pic/test_testBiz.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).account);
@@ -75,7 +75,7 @@ describe("testBizBox", () => {
         await page.waitForSelector(bizWeAppClass.title)
         let ele = await page.$(bizWeAppClass.title)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testBiztitle.png"
+          path:  basedir + "./static/pic/test_testBiztitle.png"
         })
         await addAttach({attach: image, description: "标题截图"});
         let content = await page.evaluate(async (eleClass)  => {
@@ -84,7 +84,7 @@ describe("testBizBox", () => {
           return item.innerHTML;
         }, bizWeAppClass);
         await expect(content).toBe("果壳");
-        let ocrres = await getOCRRes("./static/pic/test_testBiztitle.png")
+        let ocrres = await getOCRRes( basedir + "./static/pic/test_testBiztitle.png")
         console.log(ocrres);
         await expect(ocrres.ocr_comm_res.items[0].text.replace(" ", "")).toBe("果壳-公众号");
         break;
@@ -109,10 +109,10 @@ describe("testBizBox", () => {
         await page.waitForSelector(bizWeAppsList(1,0,0).accountTitle);
         let ele = await page.$(bizWeAppsList(1,0,0).accountTitle);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testbiztitlec.png"
+          path:  basedir + "./static/pic/test_testbiztitlec.png"
         })
         // await addAttach({attach: image, description: "公众号账号标题"});
-        let linNum = await getLineNum("./static/pic/test_testbiztitlec.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_testbiztitlec.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
@@ -136,11 +136,11 @@ describe("testBizBox", () => {
         await page.waitForSelector(bizWeAppsList(1,0,0).accountDesc);
         let ele = await page.$(bizWeAppsList(1,0,0).accountDesc);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeappdesc.png"
+          path:  basedir + "./static/pic/test_testWeappdesc.png"
         })
         await addAttach({attach: image, description: "公众号描述"});
 
-        let linNum = await getLineNum("./static/pic/test_testWeappdesc.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_testWeappdesc.png");
         expect(linNum).toBeLessThanOrEqual(2);
 
         break;
@@ -191,7 +191,7 @@ describe("testBizBox", () => {
         await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).bizService);
         let ele = await page.waitForSelector(bizWeAppsList(1, 0, 0).bizService);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testbizservice.png"
+          path:  basedir + "./static/pic/test_testbizservice.png"
         });
         let item = await page.$$(bizWeAppsList(1, 0, 0).bizService).then((arr) =>{
           return arr.length;
@@ -231,7 +231,7 @@ describe("testBizBox", () => {
         await page.click(bizWeAppClass.more);
         await page.waitForTimeout(2000);
         const image = await page.screenshot({
-          path: "./static/pic/test_testbiztab.png"
+          path:  basedir + "./static/pic/test_testbiztab.png"
         })
         await addAttach({attach: image, description: "垂搜截图"});
         break;
@@ -255,7 +255,7 @@ describe("testBizBox", () => {
       try {
         await pageExtend.change("随申办");
         const image = await page.screenshot({
-          path: "./static/pic/test_testBiz.png"
+          path:  basedir + "./static/pic/test_testBiz.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).account);
@@ -382,7 +382,7 @@ describe("testBizBox", () => {
         //await pageExtend.change("中医蔡锦芳");
         let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).accountSourceText)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testbiztag.png"
+          path:  basedir + "./static/pic/test_testbiztag.png"
         })
 
         let content = await page.evaluate(async (eleClass)  => {
@@ -411,7 +411,7 @@ describe("testBizBox", () => {
       try {
         //await pageExtend.change("极摄会");
         const image = await page.screenshot({
-          path: "./static/pic/test_testbiztag.png"
+          path:  basedir + "./static/pic/test_testbiztag.png"
         })
         await expect(page).not.toHaveElement(bizWeAppsList(1, 0, 0).accountSourceIcon);
         break;
@@ -435,7 +435,7 @@ describe("testBizBox", () => {
       try {
         //await pageExtend.change("中医蔡锦芳");
         const image = await page.screenshot({
-          path: "./static/pic/test_testbiztag.png"
+          path:  basedir + "./static/pic/test_testbiztag.png"
         })
         await expect(page).not.toHaveElement(bizWeAppsList(0, 0, 0).account.split(":")[0]);
         break;

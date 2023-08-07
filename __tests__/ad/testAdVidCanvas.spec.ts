@@ -47,7 +47,7 @@ describe("testAdVidCanvas", () => {
       try {
         await page.waitForTimeout(1000);
         const image =  await page.screenshot({
-          path: "./static/pic/test_VidCanvas.png",
+          path:  basedir + "./static/pic/test_VidCanvas.png",
         })
         await addAttach({attach: image, description: "页面截图"});
         expect(page).toHaveElement("div.ui-zone-ad");
@@ -72,7 +72,7 @@ describe("testAdVidCanvas", () => {
       try {
         await page.waitForSelector(wxAdClass.head);
         let ele =  await page.$(wxAdClass.head);
-        let path = './static/pic/ad_head.png';
+        let path = basedir + './static/pic/ad_head.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告头部截图"});
         await page.click(wxAdClass.head);
@@ -100,7 +100,7 @@ describe("testAdVidCanvas", () => {
         await page.bringToFront();
         await page.waitForSelector(wxAdClass.extent);
         let ele =  await page.$(wxAdClass.extent);
-        let path = './static/pic/ad_extent.png';
+        let path = basedir + './static/pic/ad_extent.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告外链截图"});
 
@@ -135,7 +135,7 @@ describe("testAdVidCanvas", () => {
         //广告按钮
         await page.waitForSelector(wxAdClass.feedback);
         let ele =  await page.$(wxAdClass.feedback);
-        let path = './static/pic/ad_feedback.png';
+        let path = basedir + './static/pic/ad_feedback.png';
         let image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告标截图"});
         await page.click(wxAdClass.feedback);
@@ -144,14 +144,14 @@ describe("testAdVidCanvas", () => {
         await page.waitForTimeout(700);
         await page.waitForSelector(wxAdClass.complaint);
         ele =  await page.$(wxAdClass.complaint);
-        path = './static/pic/ad_complaint.png';
+        path = basedir + './static/pic/ad_complaint.png';
         image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "投诉按钮截图"});
         await page.click(wxAdClass.complaint);
         await page.waitForTimeout(1000);
         let page2 = await pageExtend.click("outer");
         const screenshotBuffer = await page2.screenshot({
-          path: "./static/pic/test_feedback.png",
+          path:  basedir + "./static/pic/test_feedback.png",
           fullPage: true
         })
         await addAttach({attach: screenshotBuffer, description: "广告投诉落地页截图"});
@@ -225,14 +225,14 @@ describe("testAdVidCanvas", () => {
         await page.bringToFront();
         await page.waitForSelector(wxAdClass.loc);
         let ele =  await page.$(wxAdClass.loc);
-        let path = './static/pic/ad_loc.png';
+        let path = basedir + './static/pic/ad_loc.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "地址按钮截图"});
         await page.click(wxAdClass.loc);
         await page.waitForTimeout(700);
         let page2 = await pageExtend.click("outer");
         const screenshotBuffer = await page2.screenshot({
-          path: "./static/pic/test_baidu.png"
+          path:  basedir + "./static/pic/test_baidu.png"
         })
         await addAttach({attach: screenshotBuffer, description: "地址落地页截图"});
         expect(await page2.title()).toBe("百度一下");
@@ -258,7 +258,7 @@ describe("testAdVidCanvas", () => {
         await page.bringToFront();
         await page.waitForSelector(wxAdClass.helper);
         let ele =  await page.$(wxAdClass.helper);
-        let path = './static/pic/ad_helper.png';
+        let path = basedir + './static/pic/ad_helper.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "在线客服截图"});
         await page.click(wxAdClass.helper);
@@ -291,7 +291,7 @@ describe("testAdVidCanvas", () => {
         expect(phone_height).toBeCloseTo(loc_height, 2);
 
         let ele =  await page.$$(wxAdClass.headTitle);
-        let path = './static/pic/ad_title.png';
+        let path = basedir + './static/pic/ad_title.png';
         const image =  await ele.at(1).screenshot({path: path});
         await addAttach({attach: image, description: "信息截图"});
         break;
@@ -316,7 +316,7 @@ describe("testAdVidCanvas", () => {
         await page.bringToFront();
         await page.waitForSelector(wxAdClass.account);
         let ele =  await page.$(wxAdClass.account);
-        let path = './static/pic/ad_gzh.png';
+        let path = basedir + './static/pic/ad_gzh.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "公众号账号截图"});
 
@@ -369,7 +369,7 @@ describe("testAdVidCanvas", () => {
         }, wxAdClass);
 
         let ele =  await page.$(wxAdClass.account);
-        let image1 =  await ele.screenshot({path: './static/pic/ad_gzh1.png'});
+        let image1 =  await ele.screenshot({path: basedir + './static/pic/ad_gzh1.png'});
         await addAttach({attach: image1, description: "公众号账号已关注截图"});
         await bizOperation("DelBizContact", 3094043316, 3191187942);
         expect(content).toBe("已关注");
@@ -397,14 +397,14 @@ describe("testAdVidCanvas", () => {
         await page.hover(adActivityClass(1, 0).activity);
         await page.waitForTimeout(7000);
         let ele =  await page.$(adActivityClass(1, 0).activity);
-        let path = './static/pic/ad_activity_menu.png';
+        let path = basedir + './static/pic/ad_activity_menu.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "活动菜单截图"});
         await page.click(adActivityClass(1, 0).activity);
         await page.waitForTimeout(700);
         let page2 = await pageExtend.click("outer");
         const screenshotBuffer = await page2.screenshot({
-          path: "./static/pic/test_baidu.png",
+          path:  basedir + "./static/pic/test_baidu.png",
           fullPage: true
         })
         await addAttach({attach: screenshotBuffer, description: "活动菜单截图"});
@@ -485,14 +485,14 @@ describe("testAdVidCanvas", () => {
         await page.hover(adActivityClass(2, 0).activity);
         await page.waitForTimeout(7000);
         /*let ele =  await page.$(adActivityClass(2, 0).activity);
-        let path = './static/pic/ad_activity_menu.png';
+        let path = basedir + './static/pic/ad_activity_menu.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "活动菜单截图"});*/
         await page.click(adActivityClass(2, 0).activity);
         await page.waitForTimeout(700);
         let page2 = await pageExtend.click("outer");
         const screenshotBuffer = await page2.screenshot({
-          path: "./static/pic/test_baidu.png",
+          path:  basedir + "./static/pic/test_baidu.png",
           fullPage: true
         })
         await addAttach({attach: screenshotBuffer, description: "活动菜单截图"});
@@ -573,14 +573,14 @@ describe("testAdVidCanvas", () => {
         await page.hover(adActivityClass(3, 0).activity);
         await page.waitForTimeout(7000);
         /*let ele =  await page.$(adActivityClass(3, 0).activity);
-        let path = './static/pic/ad_activity_menu.png';
+        let path = basedir + './static/pic/ad_activity_menu.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "活动菜单截图"});*/
         await page.click(adActivityClass(3, 0).activity);
         await page.waitForTimeout(700);
         let page2 = await pageExtend.click("outer");
         const screenshotBuffer = await page2.screenshot({
-          path: "./static/pic/test_baidu.png",
+          path:  basedir + "./static/pic/test_baidu.png",
           fullPage: true
         })
         await addAttach({attach: screenshotBuffer, description: "活动菜单截图"});
@@ -609,14 +609,14 @@ describe("testAdVidCanvas", () => {
         await page.hover(adActivityClass(3, 0).activity_button);
         await page.waitForTimeout(7000);
         /*let ele =  await page.$(adActivityClass(3, 0).activity);
-        let path = './static/pic/ad_activity_menu.png';
+        let path = basedir + './static/pic/ad_activity_menu.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "活动菜单截图"});*/
         await page.click(adActivityClass(3, 0).activity_button);
         await page.waitForTimeout(700);
         let page2 = await pageExtend.click("outer");
         const screenshotBuffer = await page2.screenshot({
-          path: "./static/pic/test_baidu.png"
+          path:  basedir + "./static/pic/test_baidu.png"
         })
         await addAttach({attach: screenshotBuffer, description: "活动菜单截图"});
         expect(await page2.title()).toBe("百度一下");
@@ -644,14 +644,14 @@ describe("testAdVidCanvas", () => {
         await page.hover(adActivityClass(4, 0).activity);
         await page.waitForTimeout(7000);
         /*let ele =  await page.$(adActivityClass(3, 0).activity);
-        let path = './static/pic/ad_activity_menu.png';
+        let path = basedir + './static/pic/ad_activity_menu.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "活动菜单截图"});*/
         await page.click(adActivityClass(4, 0).activity);
         await page.waitForTimeout(700);
         let page2 = await pageExtend.click("outer");
         const screenshotBuffer = await page2.screenshot({
-          path: "./static/pic/test_baidu.png",
+          path:  basedir + "./static/pic/test_baidu.png",
           fullPage: true
         })
         await addAttach({attach: screenshotBuffer, description: "活动菜单截图"});
@@ -680,14 +680,14 @@ describe("testAdVidCanvas", () => {
         await page.hover(adActivityClass(4, 0).activity_button);
         await page.waitForTimeout(7000);
         /*let ele =  await page.$(adActivityClass(3, 0).activity);
-        let path = './static/pic/ad_activity_menu.png';
+        let path = basedir + './static/pic/ad_activity_menu.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "活动菜单截图"});*/
         await page.click(adActivityClass(4, 0).activity_button);
         await page.waitForTimeout(700);
         let page2 = await pageExtend.click("outer");
         const screenshotBuffer = await page2.screenshot({
-          path: "./static/pic/test_baidu.png"
+          path:  basedir + "./static/pic/test_baidu.png"
         })
         await addAttach({attach: screenshotBuffer, description: "活动菜单截图"});
         expect(await page2.title()).toBe("百度一下");
@@ -715,7 +715,7 @@ describe("testAdVidCanvas", () => {
         await page.hover(adActivityClass(5, 0).activity);
         await page.waitForTimeout(700);
         /*let ele =  await page.$(adActivityClass(4, 0).activity);
-        let path = './static/pic/ad_activity_button.png';
+        let path = basedir + './static/pic/ad_activity_button.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "活动按钮截图"});*/
         await page.click(adActivityClass(5, 0).activity);
@@ -745,7 +745,7 @@ describe("testAdVidCanvas", () => {
         await page.hover(adActivityClass(5, 0).activity_button);
         await page.waitForTimeout(7000);
         /*let ele =  await page.$(adActivityClass(3, 0).activity);
-        let path = './static/pic/ad_activity_menu.png';
+        let path = basedir + './static/pic/ad_activity_menu.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "活动菜单截图"});*/
         await page.click(adActivityClass(5, 0).activity_button);
@@ -775,7 +775,7 @@ describe("testAdVidCanvas", () => {
         let ele = await page.$(wxAdClass.phone);
         await page.click(wxAdClass.phone);
         await page.waitForTimeout(1000);
-        let path = './static/pic/ad_phone.png';
+        let path = basedir + './static/pic/ad_phone.png';
         let image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "联系电话"});
         await page.waitForSelector(wxAdClass.half_dialog);
@@ -798,7 +798,7 @@ describe("testAdVidCanvas", () => {
         }
         for (let i = 0; i < phoneArr.length; i++) {
           let selector = wxAdClass.call_button + `:nth-of-type(${i+1}) div.ui-half-screen-sheet-button-container a`;
-          let path = './static/pic/ad_call.png';
+          let path = basedir + './static/pic/ad_call.png';
           let ele = await page.$(selector);
           await ele.screenshot({path: path});
           await page.click(selector);

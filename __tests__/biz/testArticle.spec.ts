@@ -3,6 +3,7 @@ import { Page, Browser } from "puppeteer";
 import {PageExtend} from "../../lib/search-page/page-extend";
 import {getLeftOfEle, getLineNum, getOCRRes, getSizeOfEle, getTopHeightOfEle} from "../../lib/utils/tools";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
+import {articleClass} from "../../lib/utils/resultMap";
 
 
 let page: Page ;
@@ -13,6 +14,7 @@ let num = 0;
 let pass = 0;
 let fail = 0;
 let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:miyawei
 //@description:文章组件测试
@@ -44,7 +46,7 @@ describe("testArticle", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_articlerecall.png"
+          path:  basedir + "./static/pic/test_articlerecall.png"
         })
         // await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement("div.basic-block-article-info");
@@ -121,10 +123,10 @@ describe("testArticle", () => {
         await page.waitForSelector(articleClass.title);
         let ele = await page.$(articleClass.title);
         const image = await ele.screenshot({
-          path: "./static/pic/test_articletitle.png"
+          path:  basedir + "./static/pic/test_articletitle.png"
         })
         await addAttach({attach: image, description: "标题截图"});
-        let linNum = await getLineNum("./static/pic/test_articletitle.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_articletitle.png");
         expect(linNum).toBeLessThanOrEqual(1);
         break;
       } catch (e) {
@@ -157,10 +159,10 @@ describe("testArticle", () => {
         await page.waitForSelector(articleClass.desc);
         let ele = await page.$(articleClass.desc);
         const image = await ele.screenshot({
-          path: "./static/pic/test_articledesc.png"
+          path:  basedir + "./static/pic/test_articledesc.png"
         })
         //await addAttach({attach: image, description: "描述截图"});
-        let linNum = await getLineNum("./static/pic/test_articledesc.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_articledesc.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
@@ -261,7 +263,7 @@ describe("testArticle", () => {
         await page.click(articleClass.box);
         await page.waitForTimeout(2000);
         const image = await page.screenshot({
-          path: "./static/pic/test_articleclick.png"
+          path:  basedir + "./static/pic/test_articleclick.png"
         })
         await addAttach({attach: image, description: "垂搜截图"});
         break;

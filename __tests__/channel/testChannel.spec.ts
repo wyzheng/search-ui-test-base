@@ -20,6 +20,7 @@ let num = 0;
 let pass = 0;
 let fail = 0;
 let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:miyawei
 //@description:视频号动态组件测试
@@ -51,7 +52,7 @@ describe("testChannel", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_channelrecall.png"
+          path:  basedir + "./static/pic/test_channelrecall.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(channelClass.channel);
@@ -75,7 +76,7 @@ describe("testChannel", () => {
     while (num != 0) {
       try {
         let channelBoxEle = await page.$(channelClass.boxBound);
-        let imgPath = "./static/pic/test_channelstyle.png"
+        let imgPath =  basedir + "./static/pic/test_channelstyle.png"
         const image = await channelBoxEle.screenshot({
           path: imgPath
         })
@@ -174,10 +175,10 @@ describe("testChannel", () => {
         await page.waitForSelector(channelClass.descLeft);
         let ele = await page.$(channelClass.descLeft);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channeldesc1.png"
+          path:  basedir + "./static/pic/test_channeldesc1.png"
         })
         await addAttach({attach: image, description: "无点赞描述截图"});
-        let linNum = await getLineNum("./static/pic/test_channeldesc1.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_channeldesc1.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
@@ -203,10 +204,10 @@ describe("testChannel", () => {
         await page.waitForSelector(channelClass.descRight);
         let ele = await page.$(channelClass.descRight);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channeldesc2.png"
+          path:  basedir + "./static/pic/test_channeldesc2.png"
         })
         await addAttach({attach: image, description: "有点赞描述截图"});
-        let linNum = await getLineNum("./static/pic/test_channeldesc2.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_channeldesc2.png");
         //调用接口取消点赞该视频号动态
         await channelOperation("cutebot111", 4, 13852287066425727020);
         expect(linNum).toBeLessThanOrEqual(1);
@@ -236,10 +237,10 @@ describe("testChannel", () => {
         await page.waitForSelector(channelClass.socialInfo);
         let ele = await page.$(channelClass.socialInfo);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelsocialinfo.png"
+          path:  basedir + "./static/pic/test_channelsocialinfo.png"
         })
         await addAttach({attach: image, description: "social信息截图"});
-        let socialInfo = await getOCRRes("./static/pic/test_channelsocialinfo.png");
+        let socialInfo = await getOCRRes( basedir + "./static/pic/test_channelsocialinfo.png");
         let likeNum = parseInt(socialInfo["ocr_comm_res"]["items"][0]["text"].match(/\d+/g));
         expect(likeNum).toBe(3);
         break;
@@ -264,7 +265,7 @@ describe("testChannel", () => {
         await page.waitForSelector(channelClass.boxLeft);
         await page.click(channelClass.boxLeft);
         const image = await page.screenshot({
-          path: "./static/pic/test_channellick.png"
+          path:  basedir + "./static/pic/test_channellick.png"
         })
         await addAttach({attach: image, description: "落地页截图"});
         break;
@@ -289,7 +290,7 @@ describe("testChannel", () => {
         await page.waitForSelector(channelClass.playerIcon);
         await page.click(channelClass.playerIcon);
         const image = await page.screenshot({
-          path: "./static/pic/test_channelplayerlick.png"
+          path:  basedir + "./static/pic/test_channelplayerlick.png"
         })
         await addAttach({attach: image, description: "落地页截图"});
         expect(pageExtend.extendInfo).toBe("14078879530265676091");
@@ -315,7 +316,7 @@ describe("testChannel", () => {
         await page.waitForSelector(channelClass.boxLeft);
         await page.click(channelClass.boxLeft);
         const image = await page.screenshot({
-          path: "./static/pic/test_channelid.png"
+          path:  basedir + "./static/pic/test_channelid.png"
         })
         await addAttach({attach: image, description: "动态落地页截图"});
         await expect(pageExtend.extendInfo).toBe("14078879530265676091")

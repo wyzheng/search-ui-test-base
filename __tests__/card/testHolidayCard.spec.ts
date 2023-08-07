@@ -1,6 +1,6 @@
 import {getHeightOfEle, getLeftOfEle, getOCRRes, getSimilarity, getSizeOfEle} from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
-import { Page, Browser} from "puppeteer";
+import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import {holidayCardClass} from "../../lib/utils/resultMap";
@@ -11,6 +11,7 @@ let page: Page ;
 let browser:  Browser;
 let pageExtend: PageExtend;
 let num = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:miyawei
 //@description:节日大卡测试
@@ -40,10 +41,10 @@ describe("testHolidayCard", () => {
     let num = 3;
     while (num != 0) {
       try {
-        let firstbox = await page.$(`div.search_result div:nth-child(1)`);
-        let jieriCard = await page.$(holidayCardClass.box);
+        let firstbox = await page.waitForSelector(`div.search_result div:nth-child(1)`);
+        let jieriCard = await page.waitForSelector(holidayCardClass.box);
         let image = await page.screenshot({
-          path: "./static/pic/test_Holidaybox.png"
+          path:  basedir + "./static/pic/test_Holidaybox.png"
         })
         await addAttach({ attach: image, description: "页面截图" });
         await expect(firstbox).toStrictEqual(jieriCard);
@@ -67,7 +68,7 @@ describe("testHolidayCard", () => {
     while (num != 0) {
       try {
         let ele = await page.$(holidayCardClass.box);
-        let imgPath = "./static/pic/test_testDuanwujie.png"
+        let imgPath =  basedir + "./static/pic/test_testDuanwujie.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -96,7 +97,7 @@ describe("testHolidayCard", () => {
       try {
         await pageExtend.change("劳动节");
         let ele = await page.$(holidayCardClass.box);
-        let imgPath = "./static/pic/test_testLaodongjie.png"
+        let imgPath =  basedir + "./static/pic/test_testLaodongjie.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -125,7 +126,7 @@ describe("testHolidayCard", () => {
       try {
         await pageExtend.change("国庆节");
         let ele = await page.$(holidayCardClass.box);
-        let imgPath = "./static/pic/test_testGuoqingjie.png"
+        let imgPath =  basedir + "./static/pic/test_testGuoqingjie.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -154,7 +155,7 @@ describe("testHolidayCard", () => {
       try {
         await pageExtend.change("中秋节");
         let ele = await page.$(holidayCardClass.box);
-        let imgPath = "./static/pic/test_testZhongqiujie.png"
+        let imgPath =  basedir + "./static/pic/test_testZhongqiujie.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -190,7 +191,7 @@ describe("testHolidayCard", () => {
       try {
         await pageExtend.change("春节");
         let ele = await page.$(holidayCardClass.box);
-        let imgPath = "./static/pic/test_testChunjie.png"
+        let imgPath =  basedir + "./static/pic/test_testChunjie.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -219,7 +220,7 @@ describe("testHolidayCard", () => {
       try {
         await pageExtend.change("元旦");
         let ele = await page.$(holidayCardClass.box);
-        let imgPath = "./static/pic/test_testYuandan.png"
+        let imgPath =  basedir + "./static/pic/test_testYuandan.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -248,7 +249,7 @@ describe("testHolidayCard", () => {
       try {
         await pageExtend.change("清明节");
         let ele = await page.$(holidayCardClass.box);
-        let imgPath = "./static/pic/test_testQingmingjie.png"
+        let imgPath =  basedir + "./static/pic/test_testQingmingjie.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -277,7 +278,7 @@ describe("testHolidayCard", () => {
       try {
         await pageExtend.change("植树节");
         let ele = await page.$(holidayCardClass.box);
-        let imgPath = "./static/pic/test_testZhishujie.png"
+        let imgPath =  basedir + "./static/pic/test_testZhishujie.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -306,7 +307,7 @@ describe("testHolidayCard", () => {
       try {
         await pageExtend.change("世界艾滋病日");
         let ele = await page.$(holidayCardClass.box);
-        let imgPath = "./static/pic/test_testAIDSday.png"
+        let imgPath =  basedir + "./static/pic/test_testAIDSday.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -337,15 +338,15 @@ describe("testHolidayCard", () => {
         await page.click(holidayCardClass.month_picker_left);
         let calendar = await page.waitForSelector(holidayCardClass.calendar);
         const image1 = await calendar.screenshot({
-          path: "./static/pic/test_calendar.png"
+          path:  basedir + "./static/pic/test_calendar.png"
         });
         await addAttach({attach: image1, description: "日历截图"});
         let month_picker = await page.waitForSelector(holidayCardClass.month_picker)
         const image2 = await month_picker.screenshot({
-          path: "./static/pic/test_monthPicker.png"
+          path:  basedir + "./static/pic/test_monthPicker.png"
         });
         await addAttach({attach: image2, description: "月份选择器截图"});
-        let ocr_res = await getOCRRes("./static/pic/test_monthPicker.png");
+        let ocr_res = await getOCRRes( basedir + "./static/pic/test_monthPicker.png");
         let month = await ocr_res.ocr_comm_res.items[0].text;
         expect(month).toBe("2023年8月");
         break;
@@ -371,15 +372,15 @@ describe("testHolidayCard", () => {
         await page.click(holidayCardClass.month_picker_right);
         let calendar = await page.waitForSelector(holidayCardClass.calendar);
         let image2 = await calendar.screenshot({
-          path: "./static/pic/test_calendar.png"
+          path:  basedir + "./static/pic/test_calendar.png"
         });
         await addAttach({attach: image2, description: "日历截图"});
         let month_picker = await page.waitForSelector(holidayCardClass.month_picker)
         let image1 = await month_picker.screenshot({
-          path: "./static/pic/test_monthPicker.png"
+          path:  basedir + "./static/pic/test_monthPicker.png"
         });
         await addAttach({attach: image1, description: "月份选择器截图"});
-        let ocr_res = await getOCRRes("./static/pic/test_monthPicker.png");
+        let ocr_res = await getOCRRes( basedir + "./static/pic/test_monthPicker.png");
         let month = ocr_res.ocr_comm_res.items[0].text;
         expect(month).toBe("2023年10月");
         break;
@@ -405,15 +406,15 @@ describe("testHolidayCard", () => {
         await page.click(holidayCardClass.day_picker1);
         let calendar = await page.waitForSelector(holidayCardClass.calendar);
         let image2 = await calendar.screenshot({
-          path: "./static/pic/test_calendar.png"
+          path:  basedir + "./static/pic/test_calendar.png"
         });
         await addAttach({attach: image2, description: "日历截图"});
         let test_monthPicker = await page.waitForSelector(holidayCardClass.month_picker, {timeout: 3000})
         let image1 = await test_monthPicker.screenshot({
-          path: "./static/pic/test_monthPicker.png"
+          path:  basedir + "./static/pic/test_monthPicker.png"
         });
         await addAttach({attach: image1, description: "月份选择器截图"});
-        let ocr_res = await getOCRRes("./static/pic/test_monthPicker.png");
+        let ocr_res = await getOCRRes( basedir + "./static/pic/test_monthPicker.png");
         let month = ocr_res.ocr_comm_res.items[0].text;
         expect(month).toBe("2023年8月");
         break;
@@ -461,15 +462,15 @@ describe("testHolidayCard", () => {
         await page.click(holidayCardClass.day_picker3);
         let calendar = await page.$(holidayCardClass.calendar);
         let image2 = await calendar.screenshot({
-          path: "./static/pic/test_calendar.png"
+          path:  basedir + "./static/pic/test_calendar.png"
         });
         await addAttach({attach: image2, description: "日历截图"});
         let test_monthPicker = await page.waitForSelector(holidayCardClass.month_picker, {timeout: 3000});
         let image1 = await test_monthPicker.screenshot({
-          path: "./static/pic/test_monthPicker.png"
+          path:  basedir + "./static/pic/test_monthPicker.png"
         });
         await addAttach({attach: image1, description: "月份选择器截图"});
-        let ocr_res = await getOCRRes("./static/pic/test_monthPicker.png");
+        let ocr_res = await getOCRRes( basedir + "./static/pic/test_monthPicker.png");
         let month = ocr_res.ocr_comm_res.items[0].text;
         expect(month).toBe("2023年10月");
         break;

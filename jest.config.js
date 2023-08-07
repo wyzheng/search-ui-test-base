@@ -1,7 +1,7 @@
 var args = require('minimist')(process.argv.slice(2));
 console.log("ahahahahah")
 console.log(args)
-const template = "fts_template-alpha-03291857-v80010188"
+const template = "fts_template-alpha-05221933-v80010629"
 const resPath = "test"
 
 module.exports = {
@@ -12,8 +12,9 @@ module.exports = {
   testPathIgnorePatterns: ["/node_modules/"],
   setupFilesAfterEnv: ["./jest.setup.js",'./lib/utils/jest-extend.ts'],
   transform: {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.tsx?$": "ts-jest",
   },
+  verbose: true,
   rootDir: ".",
   globals: {
     __TEMPLATE__: template,

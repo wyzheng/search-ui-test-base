@@ -46,13 +46,13 @@ describe("testMusicCard", () => {
     while (num != 0) {
       try {
         let image = await page.screenshot({
-          path: "./static/pic/test_testMusicCard.png"
+          path:  basedir + "./static/pic/test_testMusicCard.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(musicCardClass(0).box);
         let ele = await page.$(musicCardClass(0).box);
         let img = await ele.screenshot({
-          path: "./static/pic/test_testmusicCardbox.png"
+          path:  basedir + "./static/pic/test_testmusicCardbox.png"
         })
         await addAttach({attach: img, description: "音乐大卡截图"});
         break;
@@ -77,7 +77,7 @@ describe("testMusicCard", () => {
         let ele = await page.$(musicCardClass(0).box);
 
         let img = await ele.screenshot({
-          path: "./static/pic/test_testmusicCardbox.png"
+          path:  basedir + "./static/pic/test_testmusicCardbox.png"
         })
         await addAttach({attach: img, description: "音乐box截图"});
 
@@ -165,7 +165,7 @@ describe("testMusicCard", () => {
       try {
         let ele = await page.$(musicCardClass(0).musicOpts);
         let img = await ele.screenshot({
-          path: "./static/pic/test_testmusicCardOpts.png"
+          path:  basedir + "./static/pic/test_testmusicCardOpts.png"
         })
         await addAttach({attach: img, description: "音乐大卡操作按钮截图"});
 
@@ -195,7 +195,7 @@ describe("testMusicCard", () => {
       try {
         let ele = await page.$(musicCardClass(0).musicLyric);
         let img = await ele.screenshot({
-          path: "./static/pic/test_testmusicCardLyric.png"
+          path:  basedir + "./static/pic/test_testmusicCardLyric.png"
         })
         await addAttach({attach: img, description: "音乐大卡歌词按钮截图"});
 
@@ -222,7 +222,7 @@ describe("testMusicCard", () => {
       try {
         let ele = await page.$(musicCardClass(0).musicK);
         let img = await ele.screenshot({
-          path: "./static/pic/test_testmusicCardK.png"
+          path:  basedir + "./static/pic/test_testmusicCardK.png"
         })
         await addAttach({attach: img, description: "音乐大卡K歌按钮截图"});
 
@@ -249,7 +249,7 @@ describe("testMusicCard", () => {
       try {
         let ele = await page.$(musicCardClass(0).musicPlay);
         let img = await ele.screenshot({
-          path: "./static/pic/test_testmusicCardPlay.png"
+          path:  basedir + "./static/pic/test_testmusicCardPlay.png"
         })
         await addAttach({attach: img, description: "音乐大卡播放按钮截图"});
 
@@ -291,7 +291,7 @@ describe("testMusicCard", () => {
       try {
         let ele = await page.$(musicCardClass(0).musicMore);
         let img = await ele.screenshot({
-          path: "./static/pic/test_testmusicCardMore.png"
+          path:  basedir + "./static/pic/test_testmusicCardMore.png"
         })
         await addAttach({attach: img, description: "音乐大卡更多入口截图"});
 
@@ -304,7 +304,7 @@ describe("testMusicCard", () => {
         await page.waitForTimeout(3000);
 
         const image = await page.screenshot({
-          path: "./static/pic/test_testMusicCardTab.png"
+          path:  basedir + "./static/pic/test_testMusicCardTab.png"
         })
         await addAttach({attach: image, description: "垂搜tab截图"});
 

@@ -1,5 +1,5 @@
-import { devices, HTTPRequest, Page, Browser } from "puppeteer";
 import puppeteer from "puppeteer";
+import { devices, HTTPRequest, Page, Browser } from "puppeteer";
 import { CaseCTx, PageJsapi, WebSearchResponse } from "./interfaces/web-search-page";
 import { Page as WebSearchPage, PageConfig } from "@tencent/web-search-puppeteer-page";
 import { PageAssetService } from "./service/page-asset.service";
@@ -50,6 +50,7 @@ export class PageExtend {
         `--window-size=414,2000`
         //`--proxy-server=${proxy_svr}`
       ],
+      dumpio: true,
       headless: false
       //headless:true
     });
@@ -122,9 +123,6 @@ export class PageExtend {
     this.uin = uin;
     // const browser = await this.allowBrowser();
     const page = await (await this.allowBrowser()).newPage();
-    let image = await page.screenshot({
-      path: "./static/pic/test_testMusic1111.png"
-    })
     const webSearchPage = new WebSearchPage(page);
     if (isSuperview) {
       await webSearchPage.instance.waitForTimeout(30000);
@@ -204,9 +202,6 @@ export class PageExtend {
       hookGlobalImage: renderRemoteImage
     });
     await webSearchPage.waitForTimeout(500);
-    image = await page.screenshot({
-      path: "./static/pic/test_testMusic.png"
-    })
     await webSearchPage.validateBridgeEventCheckpoint();
     await webSearchPage.validateResourceCheckPoint();
     await webSearchPage.validateImageCompleteCheckpoint();
@@ -331,6 +326,8 @@ export class PageExtend {
         url = url + "&pass_ticket=TBBNHOQ%2FJPvpvKRj4W9xy2nvn%2F8l0nMQl3pKptZ03IHyUa0zMOYv5jq%2BHo4SRAiK";
       }
       console.log(url);
+      this.extendInfo = {};
+      this.extendInfo = params["userName"];
       this.url = url;
     }
     if (func === "openCustomerServiceChat") {
@@ -416,11 +413,10 @@ export class PageExtend {
       await page2.emulate(devices["iPhone 11 Pro Max"]);
       let func: Function = page2["goto"];
       await func.call(page2, this.url, { waitUntil: "networkidle0" });
-      await page2.waitForTimeout(7000);
+      await page2.waitForTimeout(2000);
       /*await page2.evaluate(async () => {
         await scrollDown();
       });*/
-      await page2.waitForTimeout(7000);
       return page2;
     }
   }

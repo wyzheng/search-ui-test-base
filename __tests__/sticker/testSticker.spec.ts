@@ -51,7 +51,7 @@ describe("testSticker", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_sticker.png"
+          path:  basedir + "./static/pic/test_sticker.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(stickersClass(0).box);
@@ -116,7 +116,7 @@ describe("testSticker", () => {
         await page.waitForSelector(stickersClass(0).title)
         let ele = await page.$(stickersClass(0).title)
         const image = await ele.screenshot({
-          path: "./static/pic/test_teststickertitle.png"
+          path:  basedir + "./static/pic/test_teststickertitle.png"
         })
         await addAttach({attach: image, description: "标题截图"});
         let content = await page.evaluate(async (eleClass)  => {
@@ -124,7 +124,7 @@ describe("testSticker", () => {
           return item.innerHTML;
         }, stickersClass(0).title);
         await expect(content).toBe("吃饭表情");
-        let ocrres = await getOCRRes("./static/pic/test_teststickertitle.png")
+        let ocrres = await getOCRRes( basedir + "./static/pic/test_teststickertitle.png")
         console.log(ocrres);
         await expect(ocrres.ocr_comm_res.items[0].text.replace(" ", "")).toBe("吃饭表情-表情");
         break;
@@ -252,7 +252,7 @@ describe("testSticker", () => {
         await page.waitForTimeout(4000);
 
         const image = await page.screenshot({
-          path: "./static/pic/test_teststickertab.png"
+          path:  basedir + "./static/pic/test_teststickertab.png"
         })
 
         await addAttach({attach: image, description: "垂搜截图"});
@@ -288,7 +288,7 @@ describe("testSticker", () => {
         await expect(page).toHaveElement(stickersClass(0).album);
         let ele = await page.$(stickersClass(0).album)
         const image = await ele.screenshot({
-          path: "./static/pic/test_teststickertabalbum.png"
+          path:  basedir + "./static/pic/test_teststickertabalbum.png"
         })
         await addAttach({attach: image, description: "垂搜页面专辑截图"});
         break;
@@ -318,7 +318,7 @@ describe("testSticker", () => {
 
         let ele = await page.$(stickersClass(0).stickerBox)
         const image = await ele.screenshot({
-          path: "./static/pic/test_stickertabbox.png"
+          path:  basedir + "./static/pic/test_stickertabbox.png"
         })
         await addAttach({attach: image, description: "垂搜页面表情单品截图"});
 

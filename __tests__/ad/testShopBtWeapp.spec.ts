@@ -44,7 +44,7 @@ describe("testShopBtWeapp", () => {
     while(num != 0){
       try  {
         const image =  await page.screenshot({
-          path: "./static/pic/test_shopWeapp.png"
+          path:  basedir + "./static/pic/test_shopWeapp.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         expect(page).toHaveElement("div.ui-zone-ad");
@@ -70,7 +70,7 @@ describe("testShopBtWeapp", () => {
         await page.bringToFront();
         await page.waitForSelector(wxGoodAd.header);
         let ele =  await page.$(wxGoodAd.header);
-        let path = './static/pic/ad_good_head.png';
+        let path = basedir + './static/pic/ad_good_head.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告头部截图"});
         await page.click(wxGoodAd.header);
@@ -100,7 +100,7 @@ describe("testShopBtWeapp", () => {
         //广告按钮
         await page.waitForSelector(wxGoodAd.feedback);
         let ele =  await page.$(wxGoodAd.feedback);
-        let path = './static/pic/ad_feedback.png';
+        let path = basedir + './static/pic/ad_feedback.png';
         let image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告反馈按钮"});
         await page.click(wxGoodAd.feedback);
@@ -109,14 +109,14 @@ describe("testShopBtWeapp", () => {
         await page.waitForTimeout(700);
         await page.waitForSelector(wxGoodAd.complaint);
         ele =  await page.$(wxGoodAd.complaint);
-        path = './static/pic/ad_complaint.png';
+        path = basedir + './static/pic/ad_complaint.png';
         image =  await ele.screenshot({path: path});
         //await addAttach({attach: image, description: "投诉弹窗"});
         await page.click(wxGoodAd.complaint);
         await page.waitForTimeout(1000);
         let page2 = await pageExtend.click("outer");
         const screenshotBuffer = await page2.screenshot({
-          path: "./static/pic/test_feedback.png",
+          path:  basedir + "./static/pic/test_feedback.png",
           fullPage: true
         })
         await addAttach({attach: screenshotBuffer, description: "广告反馈页面截图"});
@@ -162,7 +162,7 @@ describe("testShopBtWeapp", () => {
         expect(content[1]).toBe("官方");
 
         let ele =  await page.$(wxGoodAd.title);
-        let path = './static/pic/ad_title.png';
+        let path = basedir + './static/pic/ad_title.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告名称截图"});
 
@@ -192,7 +192,7 @@ describe("testShopBtWeapp", () => {
         await page.bringToFront();
         await page.waitForSelector(wxGoodAd.title);
         let ele =  await page.$(wxGoodAd.title);
-        let path = './static/pic/ad_title.png';
+        let path = basedir + './static/pic/ad_title.png';
         const image =  await ele.screenshot({path: path});
         //await addAttach({attach: image, description: "广告名称截图"});
         await page.click(wxAdClass.headTitle);
@@ -222,7 +222,7 @@ describe("testShopBtWeapp", () => {
         await page.waitForSelector(wxGoodAd.firstGoodTile);
 
         let first = await page.$(wxGoodAd.firstGood);
-        let path = './static/pic/ad_first_good.png';
+        let path = basedir + './static/pic/ad_first_good.png';
         const image =  await first.screenshot({path: path});
         await addAttach({attach: image, description: "首位商品截图"});
 
@@ -380,7 +380,7 @@ describe("testShopBtWeapp", () => {
         await page.bringToFront();
 
         let goodele = await page.$(relatedGoods(0).relatedGoods)
-        let path = './static/pic/ad_goods.png';
+        let path = basedir + './static/pic/ad_goods.png';
         const image =  await goodele.screenshot({path: path});
         await addAttach({attach: image, description: "相关商品截图"});
 
