@@ -634,6 +634,16 @@ export const shebaoCardClass = {
   other_service_item4: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(4)`
 }
 
+export const HPFCardClass = {
+  box: `div.search_result div.service-search-block-container`,
+  title: `div.search_result div.service-search-block-container div.big-card-header span`,
+  poi: `div.search_result div.service-search-block-container div.big-card-header div.poi`,
+  subtitle_link: `div.search_result div.service-search-block-container div.default-sub-header div.text-info:nth-child(2) span.more-link`,
+  btn_query: `div.search_result div.service-search-block-container div.ui-menu a:nth-child(1)`,
+  btn_withdraw: `div.search_result div.service-search-block-container div.ui-menu a:nth-child(2)`,
+  btn_loan: `div.search_result div.service-search-block-container div.ui-menu a:nth-child(3)`,
+}
+
 export const holidayCardClass = {
   box: `div.search_result div.service-search-container`,
   title: `div.search_result div.service-search-container div.title`,
@@ -759,5 +769,31 @@ export const wxIndexClass = {
   foot: `div.widget-webview div.ft div.line.widget-source`,
   icon: `div.widget-webview div.ft div.line.widget-source img`,
   source: `div.widget-webview div.ft div.line.widget-source div.widget-source__wording`
+}
+
+export const UinCardClass = {
+  box: `div.service-search-container`,
+  title_hihtlight: `div.service-search-container div.hd-title-content h2 em`,
+  weapp: `div.service-search-container div.zone-accounts div.zone-weapp`,
+  account: `div.service-search-container div.zone-accounts div.zone-accounts`,
+  more: `div.service-search-container div.zone-accounts div.account-action`,
+}
+
+export const MajorCardClass = {
+  box: `div.service-search-container`,
+  title_hihtlight: `div.service-search-container div.big-card-header h2`,
+  body: `div.service-search-container div.service-search-block-body`,
+  desc: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(1)`,
+  panel_1: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(2)`,
+  panel_1_title: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(2) div.ui-section-title span`,
+  panel_1_content: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(2) div.text-infos`,
+  panel_2: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(3)`,
+  panel_2_title: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(3) div.ui-section-title span`,
+  panel_2_content: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(3) div.text-infos`,
+  panel_2_more: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(3) div.text-infos-action`,
+  desc_basic: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(1) div.default-sub-header:nth-child(1)`,
+  desc_content: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(1) div.default-sub-header:nth-child(2)`,
+  desc_more: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(1) div.default-sub-header:nth-child(2) span.more-link`,
+  source: `div.service-search-container div.block__source`,
 }
 

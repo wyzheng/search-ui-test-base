@@ -21,6 +21,7 @@ let num = 0;
 let pass = 0;
 let fail = 0;
 let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:miyawei
 //@description:视频号大卡组件测试
@@ -52,7 +53,7 @@ describe("testChannelCard", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_channelcard.png"
+          path:  basedir + "./static/pic/test_channelcard.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(channelCardClass.box);
@@ -78,7 +79,7 @@ describe("testChannelCard", () => {
         let channelEle = await page.$(channelCardClass.box);
         let highlightEle = await page.$$(channelCardClass.box);
         const image = await channelEle.screenshot({
-          path: "./static/pic/test_Channelhighlight.png"
+          path:  basedir + "./static/pic/test_Channelhighlight.png"
         })
         const matchingElements = await Promise.all(
           highlightEle.map(async (el) => await el.evaluate((el) => el.outerHTML))
@@ -114,7 +115,7 @@ describe("testChannelCard", () => {
     while (num != 0) {
       try {
         let channelBoxEle = await page.$(channelCardClass.box);
-        let imgPath = "./static/pic/test_channelcardstyle.png"
+        let imgPath =  basedir + "./static/pic/test_channelcardstyle.png"
         const image = await channelBoxEle.screenshot({
           path: imgPath
         });
@@ -144,10 +145,10 @@ describe("testChannelCard", () => {
         await page.waitForSelector(channelCardClass.title)
         let ele = await page.$(channelCardClass.title)
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelcardtitle.png"
+          path:  basedir + "./static/pic/test_channelcardtitle.png"
         })
         await addAttach({attach: image, description: "标题截图"});
-        let ocrres = await getOCRRes("./static/pic/test_channelcardtitle.png")
+        let ocrres = await getOCRRes( basedir + "./static/pic/test_channelcardtitle.png")
         console.log(ocrres);
         await expect(ocrres.ocr_comm_res.items[0].text.replace(" ", "")).toBe("湖北发布-视频号");
         break;
@@ -172,10 +173,10 @@ describe("testChannelCard", () => {
         await page.waitForSelector(channelCardClass.accountName);
         let ele = await page.$(channelCardClass.accountName);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelcardname.png"
+          path:  basedir + "./static/pic/test_channelcardname.png"
         })
         await addAttach({attach: image, description: "名称截图"});
-        let linNum = await getLineNum("./static/pic/test_channelcardname.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_channelcardname.png");
         expect(linNum).toBeLessThanOrEqual(1);
         break;
       } catch (e) {
@@ -199,10 +200,10 @@ describe("testChannelCard", () => {
         await page.waitForSelector(channelCardClass.accountCert);
         let ele = await page.$(channelCardClass.accountCert);
         const image = await ele.screenshot({
-          path: "./static/pic/testchannelcardcert.png"
+          path:  basedir + "./static/pic/testchannelcardcert.png"
         })
         await addAttach({attach: image, description: "认证信息截图"});
-        let linNum = await getLineNum("./static/pic/testchannelcardcert.png");
+        let linNum = await getLineNum( basedir + "./static/pic/testchannelcardcert.png");
         expect(linNum).toBeLessThanOrEqual(1);
         break;
       } catch (e) {
@@ -227,10 +228,10 @@ describe("testChannelCard", () => {
         await page.waitForSelector(channelCardClass.accountDesc);
         let ele = await page.$(channelCardClass.accountDesc);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelcarddesc.png"
+          path:  basedir + "./static/pic/test_channelcarddesc.png"
         })
         await addAttach({attach: image, description: "描述截图"});
-        let linNum = await getLineNum("./static/pic/test_channelcarddesc.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_channelcarddesc.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
@@ -332,7 +333,7 @@ describe("testChannelCard", () => {
         await page.waitForTimeout(3000);
         let ele = await page.$(tabClass.select_tab);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelcardmore.png"
+          path:  basedir + "./static/pic/test_channelcardmore.png"
         })
         await addAttach({attach: image, description: "tab截图"});
         let content = await getOCRRes(`./static/pic/test_channelcardmore.png`)
@@ -363,7 +364,7 @@ describe("testChannelCard", () => {
         await page.waitForTimeout(3000);
         let ele = await page.$(tabClass.select_tab);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelcardswitchtab.png"
+          path:  basedir + "./static/pic/test_channelcardswitchtab.png"
         })
         //await addAttach({attach: image, description: "切tab截图"});
         let content = await getOCRRes(`./static/pic/test_channelcardswitchtab.png`)
@@ -393,7 +394,7 @@ describe("testChannelCard", () => {
         await page.click(channelCardClass.accountContainer);
         await page.waitForTimeout(3000);
         const image = await page.screenshot({
-          path: "./static/pic/test_channelcardclick.png"
+          path:  basedir + "./static/pic/test_channelcardclick.png"
         })
         await addAttach({attach: image, description: "视频号落地页截图"});
         await expect(pageExtend.extendInfo).toBe("v2_060000231003b20faec8c6e48118c3d1ca05e933b0778d8942e832097e41c28af96c7a4a3282@finder");

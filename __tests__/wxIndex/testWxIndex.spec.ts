@@ -41,7 +41,7 @@ describe("testWxIndex", () => {
     while (num != 0) {
       try {
         let image = await page.screenshot({
-          path: "./static/pic/test_wxindex.png"
+          path:  basedir + "./static/pic/test_wxindex.png"
         })
         await addAttach({ attach: image, description: "页面截图" });
         await expect(page).toHaveElement(wxIndexClass.box);
@@ -66,7 +66,7 @@ describe("testWxIndex", () => {
       try {
         let ele = await page.$(wxIndexClass.title);
         let image = await ele.screenshot({
-          path: "./static/pic/test_wxindex_title.png"
+          path:  basedir + "./static/pic/test_wxindex_title.png"
         })
         await addAttach({ attach: image, description: "标题截图" });
         let content = await page.evaluate(async (eleClass)  => {
@@ -95,7 +95,7 @@ describe("testWxIndex", () => {
       try {
         let ele = await page.$(wxIndexClass.foot);
         let image = await ele.screenshot({
-          path: "./static/pic/test_wxindex_foot.png"
+          path:  basedir + "./static/pic/test_wxindex_foot.png"
         })
         await addAttach({ attach: image, description: "来源截图" });
         let h1 = await getHeightOfEle(page, wxIndexClass.icon);
@@ -122,7 +122,7 @@ describe("testWxIndex", () => {
       try {
         let ele = await page.$(wxIndexClass.source);
         let image = await ele.screenshot({
-          path: "./static/pic/test_wxindex_sourceWord.png"
+          path:  basedir + "./static/pic/test_wxindex_sourceWord.png"
         })
         await addAttach({ attach: image, description: "标题截图" });
         let content = await page.evaluate(async (eleClass)  => {

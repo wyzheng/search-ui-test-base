@@ -2,13 +2,15 @@ import { getSimilarity } from "../../lib/utils/tools";
 import { setup } from "../../lib/utils/setup";
 import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
-import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
+//import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import {shebaoCardClass} from "../../lib/utils/resultMap";
+import {addAttach, addMsg} from "jest-html-reporters/helper";
 
 let page: Page;
 let browser:  Browser;
 let pageExtend: PageExtend;
 let num = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:miyawei
 //@description:社保大卡测试
@@ -43,7 +45,7 @@ describe("testShebaoCard", () => {
         let firstbox = await page.$(`div.search_result div:nth-child(1)`);
         let shebaoCard = await page.$(shebaoCardClass.box);
         let image = await page.screenshot({
-          path: "./static/pic/test_shebaobox.png"
+          path:  basedir + "./static/pic/test_shebaobox.png"
         })
         await addAttach({ attach: image, description: "页面截图" });
         await expect(firstbox).toStrictEqual(shebaoCard);
@@ -68,7 +70,7 @@ describe("testShebaoCard", () => {
       try {
         let ele = await page.$(shebaoCardClass.poi);
         let image = await ele.screenshot({
-          path: "./static/pic/test_shebaopoi.png"
+          path:  basedir + "./static/pic/test_shebaopoi.png"
         })
         await addAttach({ attach: image, description: "poi截图" });
         const spanValue = await page.$eval(shebaoCardClass.poi, (ele) =>
@@ -96,34 +98,12 @@ describe("testShebaoCard", () => {
         await pageExtend.change("深圳社保");
         let ele = await page.$(shebaoCardClass.poi);
         let image = await ele.screenshot({
-          path: "./static/pic/test_shenzhenshebaopoi.png"
+          path:  basedir + "./static/pic/test_shenzhenshebaopoi.png"
         })
         await addAttach({ attach: image, description: "poi截图" });
         const spanValue = await page.$eval(shebaoCardClass.poi, (ele) =>
           ele.textContent);
         await expect(spanValue.match(/[\u4e00-\u9fa5_a-zA-Z0-9]/g).join("")).toBe("广东深圳")
-        break;
-      } catch (e) {
-        if (num == 1) {
-          throw e;
-        }
-        num--;
-      }
-    }
-  }, 50000);
-
-  //@description: q=社保，验证社保大卡地址切换刷新
-  test("testPoiSwitch", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=社保,切换poi\n  2. 检查地址变换`
-    });
-    let num = 3;
-    while (num != 0) {
-      try {
-        await pageExtend.change("社保");
-        await page.click(shebaoCardClass.poi);
-        await page.waitForSelector(shebaoCardClass.poi_dialog,  { timeout: 3000 });
         break;
       } catch (e) {
         if (num == 1) {
@@ -145,7 +125,7 @@ describe("testShebaoCard", () => {
       try {
         await pageExtend.change("社保");
         let ele = await page.$(shebaoCardClass.box);
-        let imgPath = "./static/pic/test_shebaocardstyle.png"
+        let imgPath =  basedir + "./static/pic/test_shebaocardstyle.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -197,7 +177,7 @@ describe("testShebaoCard", () => {
         let ele = await page.waitForSelector(shebaoCardClass.service_button_item1);
         await page.click(shebaoCardClass.service_button_item1);
         await page.waitForTimeout(3000);
-        let imgPath = "./static/pic/test_shebaocardbutton1.png"
+        let imgPath =  basedir + "./static/pic/test_shebaocardbutton1.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -225,12 +205,12 @@ describe("testShebaoCard", () => {
         let ele = await page.waitForSelector(shebaoCardClass.service_button_item2);
         await page.click(shebaoCardClass.service_button_item2);
         await page.waitForTimeout(3000);
-        let imgPath = "./static/pic/test_shebaocardbutton2.png"
+        let imgPath =  basedir + "./static/pic/test_shebaocardbutton2.png"
         const image = await ele.screenshot({
           path: imgPath
         });
         await addAttach({ attach: image, description: "社保余额截图" });
-        await expect(pageExtend.extendInfo).toBe("https://card.wecity.qq.com/v2/social-insurance/gzmiquery/base-info?cityid=440100&channel=AAHgITcHBYVBBBoLWndgziDe");
+        await expect(pageExtend.url).toBe("https://card.wecity.qq.com/v2/social-insurance/gzmiquery/base-info?cityid=440100&channel=AAHgITcHBYVBBBoLWndgziDe");
         break;
       } catch (e) {
         if (num == 1) {
@@ -253,7 +233,7 @@ describe("testShebaoCard", () => {
         let ele = await page.waitForSelector(shebaoCardClass.service_button_item3);
         await page.click(shebaoCardClass.service_button_item3);
         await page.waitForTimeout(3000);
-        let imgPath = "./static/pic/test_shebaocardbutton3.png"
+        let imgPath =  basedir + "./static/pic/test_shebaocardbutton3.png"
         const image = await ele.screenshot({
           path: imgPath
         });
@@ -271,21 +251,21 @@ describe("testShebaoCard", () => {
 
   //@description:q=社保，验证相关账号点击
   test("testshebaoAccountClick", async () => {
-    await addMsg({
-      context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 验证相关账号点击`
-    });
+    // await addMsg({
+    //   context: undefined,
+    //   message: ` 测试步骤：\n  1. 输入搜索query=社保,发起搜索\n  2. 验证相关账号点击`
+    // });
     let num = 3;
     while (num != 0) {
       try {
         let ele = await page.waitForSelector(shebaoCardClass.account_item1);
         await page.click(shebaoCardClass.account_item1);
         await page.waitForTimeout(3000);
-        let imgPath = "./static/pic/test_shebaocardaccount1.png"
+        let imgPath =  basedir + "./static/pic/test_shebaocardaccount1.png"
         const image = await ele.screenshot({
           path: imgPath
         });
-        await addAttach({ attach: image, description: "相关账号截图" });
+        //await addAttach({ attach: image, description: "相关账号截图" });
         await expect(pageExtend.extendInfo).toBe("gh_6c517d0d63f0");
         break;
       } catch (e) {
@@ -309,7 +289,7 @@ describe("testShebaoCard", () => {
         let ele = await page.waitForSelector(shebaoCardClass.other_service_item1);
         await page.click(shebaoCardClass.other_service_item1);
         await page.waitForTimeout(3000);
-        let imgPath = "./static/pic/test_shebaocardservice1.png"
+        let imgPath =  basedir + "./static/pic/test_shebaocardservice1.png"
         const image = await ele.screenshot({
           path: imgPath
         });

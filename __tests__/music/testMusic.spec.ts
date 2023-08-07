@@ -41,14 +41,14 @@ describe("testMusic", () => {
     while (num != 0) {
       try {
         let image = await page.screenshot({
-          path: "./static/pic/test_testMusic.png"
+          path:  basedir + "./static/pic/test_testMusic.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(musicClass(0).box);
         let ele = await page.$(musicClass(0).box);
 
          let img = await ele.screenshot({
-          path: "./static/pic/test_testmusicbox.png"
+          path:  basedir + "./static/pic/test_testmusicbox.png"
         })
         await addAttach({attach: img, description: "音乐box截图"});
         break;
@@ -73,7 +73,7 @@ describe("testMusic", () => {
         await page.waitForSelector(musicClass(0).title);
         let ele = await page.$(musicClass(0).title);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testmusictitle.png"
+          path:  basedir + "./static/pic/test_testmusictitle.png"
         });
         await addAttach({attach: image, description: "标题截图"});
         let content = await page.evaluate(async (eleClass)  => {
@@ -81,7 +81,7 @@ describe("testMusic", () => {
           return item.innerHTML;
         }, musicClass(0).title);
         await expect(content).toBe("胡彦斌");
-        let ocrres = await getOCRRes("./static/pic/test_testmusictitle.png");
+        let ocrres = await getOCRRes( basedir + "./static/pic/test_testmusictitle.png");
         console.log(ocrres);
         await expect(ocrres.ocr_comm_res.items[0].text.replace(" ", "")).toBe("胡彦斌-音乐");
         break;
@@ -325,7 +325,7 @@ describe("testMusic", () => {
         await page.waitForTimeout(3000);
 
         const image = await page.screenshot({
-          path: "./static/pic/test_testMusicTab.png"
+          path:  basedir + "./static/pic/test_testMusicTab.png"
         })
         await addAttach({attach: image, description: "垂搜tab截图"});
 
@@ -388,7 +388,7 @@ describe("testMusic", () => {
       try {
 
         const image = await page.screenshot({
-          path: "./static/pic/test_testMusicTabK.png"
+          path:  basedir + "./static/pic/test_testMusicTabK.png"
         })
         await addAttach({attach: image, description: "垂搜tab截图"});
 
@@ -418,7 +418,7 @@ describe("testMusic", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_testMusicTabPlay.png"
+          path:  basedir + "./static/pic/test_testMusicTabPlay.png"
         })
         await addAttach({attach: image, description: "垂搜tab截图"});
         let musicItems = await page.$$(musicClass(1).musicAll);
@@ -463,7 +463,7 @@ describe("testMusic", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_testMusicTabPlay.png"
+          path:  basedir + "./static/pic/test_testMusicTabPlay.png"
         })
         await addAttach({attach: image, description: "垂搜tab截图"});
         let musicItems = await page.$$(musicClass(1).musicAll);
@@ -562,7 +562,7 @@ describe("testMusic", () => {
         await page.waitForTimeout(2000);
         let ele = await page.$(musicClass(0).box);
         let img = await ele.screenshot({
-          path: "./static/pic/test_testMusicLyric.png"
+          path:  basedir + "./static/pic/test_testMusicLyric.png"
         })
         await addAttach({attach: img, description: "歌词音乐截图"});
         let musicItems = await page.$$(musicClass(1).musicAll);
@@ -605,7 +605,7 @@ describe("testMusic", () => {
         await page.waitForTimeout(2000);
         let ele = await page.$(musicClass(0).box);
         let img = await ele.screenshot({
-          path: "./static/pic/test_testMusicLyric.png"
+          path:  basedir + "./static/pic/test_testMusicLyric.png"
         })
         await addAttach({attach: img, description: "歌词音乐截图"});
         let musicItems = await page.$$(musicClass(1).musicAll);
@@ -634,7 +634,7 @@ describe("testMusic", () => {
       try {
         let ele = await page.$(musicClass(0).box);
         let img = await ele.screenshot({
-          path: "./static/pic/test_testMusicLyricTab.png"
+          path:  basedir + "./static/pic/test_testMusicLyricTab.png"
         })
         await addAttach({attach: img, description: "歌词音乐截图"});
 

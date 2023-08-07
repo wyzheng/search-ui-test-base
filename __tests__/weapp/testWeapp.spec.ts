@@ -50,7 +50,7 @@ describe("testWeappBox", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_testWeapp.png"
+          path:  basedir + "./static/pic/test_testWeapp.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).account);
@@ -76,7 +76,7 @@ describe("testWeappBox", () => {
         await page.waitForSelector(bizWeAppClass.title)
         let ele = await page.$(bizWeAppClass.title)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeapptitle.png"
+          path:  basedir + "./static/pic/test_testWeapptitle.png"
         })
         await addAttach({attach: image, description: "标题截图"});
         let content = await page.evaluate(async (eleClass)  => {
@@ -85,7 +85,7 @@ describe("testWeappBox", () => {
           return item.innerHTML;
         }, bizWeAppClass);
         await expect(content).toBe("美团外卖");
-        let ocrres = await getOCRRes("./static/pic/test_testWeapptitle.png")
+        let ocrres = await getOCRRes( basedir + "./static/pic/test_testWeapptitle.png")
         console.log(ocrres);
         await expect(ocrres.ocr_comm_res.items[0].text).toBe("美团外卖-小程序");
         break;
@@ -110,11 +110,11 @@ describe("testWeappBox", () => {
         await page.waitForSelector(bizWeAppsList(1,0,0).accountTitle);
         let ele = await page.$(bizWeAppsList(1,0,0).accountTitle);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeapptitlec.png"
+          path:  basedir + "./static/pic/test_testWeapptitlec.png"
         })
         await addAttach({attach: image, description: "小程序账号标题"});
 
-        let linNum = await getLineNum("./static/pic/test_testWeapptitlec.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_testWeapptitlec.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
@@ -138,11 +138,11 @@ describe("testWeappBox", () => {
         await page.waitForSelector(bizWeAppsList(1,0,0).accountDesc);
         let ele = await page.$(bizWeAppsList(1,0,0).accountDesc);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeappdesc.png"
+          path:  basedir + "./static/pic/test_testWeappdesc.png"
         })
         await addAttach({attach: image, description: "小程序描述"});
 
-        let linNum = await getLineNum("./static/pic/test_testWeappdesc.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_testWeappdesc.png");
         expect(linNum).toBeLessThanOrEqual(2);
 
         break;
@@ -193,7 +193,7 @@ describe("testWeappBox", () => {
         await page.click(bizWeAppClass.more);
         await page.waitForTimeout(2000);
         const image = await page.screenshot({
-          path: "./static/pic/test_testWeapptab.png"
+          path:  basedir + "./static/pic/test_testWeapptab.png"
         })
         await addAttach({attach: image, description: "垂搜截图"});
 
@@ -227,7 +227,7 @@ describe("testWeappBox", () => {
       try {
         await pageExtend.change("饿了么外卖");
         const image = await page.screenshot({
-          path: "./static/pic/test_testWeapp.png"
+          path:  basedir + "./static/pic/test_testWeapp.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(bizWeAppsList(1, 0, 0).account);
@@ -253,11 +253,11 @@ describe("testWeappBox", () => {
         await page.waitForSelector(bizWeAppsList(1,0,0).accountDesc);
         let ele = await page.$(bizWeAppsList(1,0,0).accountDesc);
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeappdesc.png"
+          path:  basedir + "./static/pic/test_testWeappdesc.png"
         })
         await addAttach({attach: image, description: "小程序描述"});
 
-        let linNum = await getLineNum("./static/pic/test_testWeappdesc.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_testWeappdesc.png");
         expect(linNum).toBeLessThanOrEqual(1);
 
         break;
@@ -282,7 +282,7 @@ describe("testWeappBox", () => {
         await expect(page).toHaveElement(bizWeAppsList(1,0, 1).weappService)
         let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).weappService)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeappservice.png"
+          path:  basedir + "./static/pic/test_testWeappservice.png"
         })
 
         let content = await page.evaluate(async (eleClass)  => {
@@ -314,7 +314,7 @@ describe("testWeappBox", () => {
         await expect(page).toHaveElement(bizWeAppsList(1,0, 0).accountSourceText)
         let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).accountSourceText)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeapptag.png"
+          path:  basedir + "./static/pic/test_testWeapptag.png"
         })
 
         let content = await page.evaluate(async (eleClass)  => {
@@ -324,7 +324,7 @@ describe("testWeappBox", () => {
         }, bizWeAppsList(1, 0, 1).accountSourceText);
         await expect(content).toBe("上海拉扎斯信息科技有限公司");
 
-        let lineNum = await getLineNum("./static/pic/test_testWeapptag.png")
+        let lineNum = await getLineNum( basedir + "./static/pic/test_testWeapptag.png")
         expect(lineNum).toBe(1);
 
         let h1 = await getHeightOfEle(page, bizWeAppsList(1, 0, 1).accountSourceText);
@@ -353,7 +353,7 @@ describe("testWeappBox", () => {
         await expect(page).toHaveElement(bizWeAppsList(1,0, 0).accountSourceTag)
         let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).accountSourceTag)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeapptag.png"
+          path:  basedir + "./static/pic/test_testWeapptag.png"
         })
 
         let content = await page.evaluate(async (eleClass)  => {
@@ -384,7 +384,7 @@ describe("testWeappBox", () => {
         await pageExtend.change("美妆娃娃");
         let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).accountSourceText)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeapptag.png"
+          path:  basedir + "./static/pic/test_testWeapptag.png"
         })
 
         let content = await page.evaluate(async (eleClass)  => {
@@ -415,7 +415,7 @@ describe("testWeappBox", () => {
         await expect(page).toHaveElement(bizWeAppsList(1,0, 0).accountSourceTag)
         let ele = await page.waitForSelector(bizWeAppsList(1, 0, 1).accountSourceTag)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeapptag.png"
+          path:  basedir + "./static/pic/test_testWeapptag.png"
         })
 
         let content = await page.evaluate(async (eleClass)  => {
@@ -446,7 +446,7 @@ describe("testWeappBox", () => {
         await expect(page).toHaveElement(bizWeAppsList(1,1, 0).accountTag)
         let ele = await page.waitForSelector(bizWeAppsList(1, 1, 0).accountTag)
         const image = await ele.screenshot({
-          path: "./static/pic/test_testWeapptag1.png"
+          path:  basedir + "./static/pic/test_testWeapptag1.png"
         })
 
         let content = await page.evaluate(async (eleClass)  => {

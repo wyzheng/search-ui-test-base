@@ -19,6 +19,7 @@ let num = 0;
 let pass = 0;
 let fail = 0;
 let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:miyawei
 //@description:视频号账号组件测试
@@ -50,7 +51,7 @@ describe("testChannelAccount", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_channelaccount.png"
+          path:  basedir + "./static/pic/test_channelaccount.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement(channelAccountClass.box);
@@ -74,7 +75,7 @@ describe("testChannelAccount", () => {
     while (num != 0) {
       try {
         let ele = await page.$(channelAccountClass.box);
-        let imgPath = "./static/pic/test_channelaccountstyle.png"
+        let imgPath =  basedir + "./static/pic/test_channelaccountstyle.png"
         const image = await ele.screenshot({
           path: imgPath
         })
@@ -104,7 +105,7 @@ describe("testChannelAccount", () => {
         await page.waitForSelector(channelAccountClass.box)
         let ele = await page.$(channelAccountClass.box)
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelaccounttitle.png"
+          path:  basedir + "./static/pic/test_channelaccounttitle.png"
         })
         await addAttach({attach: image, description: "视频号账号标题"});
         let content = await page.evaluate(async (eleClass)  => {
@@ -112,7 +113,7 @@ describe("testChannelAccount", () => {
           return item.innerHTML;
         }, channelAccountClass);
         await expect(content).toBe("微信广告助手");
-        let ocrres = await getOCRRes("./static/pic/test_channelaccounttitle.png")
+        let ocrres = await getOCRRes( basedir + "./static/pic/test_channelaccounttitle.png")
         console.log(ocrres);
         await expect(ocrres.ocr_comm_res.items[0].text.replace(" ", "")).toBe("微信广告助手-视频号");
         break;
@@ -137,10 +138,10 @@ describe("testChannelAccount", () => {
         await page.waitForSelector(channelAccountClass.accountTitle);
         let ele = await page.$(channelAccountClass.accountTitle);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelaccounttitlec.png"
+          path:  basedir + "./static/pic/test_channelaccounttitlec.png"
         })
         await addAttach({attach: image, description: "视频号账号名称"});
-        let linNum = await getLineNum("./static/pic/test_channelaccounttitlec.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_channelaccounttitlec.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
@@ -164,10 +165,10 @@ describe("testChannelAccount", () => {
         await page.waitForSelector(channelAccountClass.accountDesc);
         let ele = await page.$(channelAccountClass.accountDesc);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelaccountdesc.png"
+          path:  basedir + "./static/pic/test_channelaccountdesc.png"
         })
         await addAttach({attach: image, description: "公众号账号描述"});
-        let linNum = await getLineNum("./static/pic/test_channelaccountdesc.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_channelaccountdesc.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
@@ -222,10 +223,10 @@ describe("testChannelAccount", () => {
         await page.waitForSelector(channelAccountClass.accountInfo);
         let ele = await page.$(channelAccountClass.accountInfo);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelaccountinfo1.png"
+          path:  basedir + "./static/pic/test_channelaccountinfo1.png"
         })
         await addAttach({attach: image, description: "带认证的视频号信息"});
-        let linNum = await getLineNum("./static/pic/test_channelaccountinfo1.png");
+        let linNum = await getLineNum( basedir + "./static/pic/test_channelaccountinfo1.png");
         await expect(page).toHaveElement(channelAccountClass.tag);
         expect(linNum).toBeLessThanOrEqual(4);
         break;
@@ -252,7 +253,7 @@ describe("testChannelAccount", () => {
         await page.click(channelAccountClass.more);
         let ele = await page.$('div.search_result div.unit__outer div.unit__wrap div.selected');
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelaccountmore.png"
+          path:  basedir + "./static/pic/test_channelaccountmore.png"
         })
         await addAttach({attach: image, description: "垂搜截图"});
         let content = await getOCRRes(`./static/pic/test_channelaccountmore.png`)
@@ -279,7 +280,7 @@ describe("testChannelAccount", () => {
         await page.waitForSelector(channelAccountClass.box);
         await page.click(channelAccountClass.box);
         const image = await page.screenshot({
-          path: "./static/pic/test_channelAccountclick.png"
+          path:  basedir + "./static/pic/test_channelAccountclick.png"
         })
         await addAttach({attach: image, description: "视频号账号截图"});
         await expect(pageExtend.extendInfo).toBe("v2_060000231003b20faec8cae28f1cc1d1cf03e435b077c150c1b4e9f8a1b3e3be8df4eb537b44@finder");
@@ -305,7 +306,7 @@ describe("testChannelAccount", () => {
         let ele = await page.waitForSelector(channelAccountClass.tag);
         await expect(page).toHaveElement(channelAccountClass.tag);
         const image = await ele.screenshot({
-          path: "./static/pic/test_channelaccounttag.png"
+          path:  basedir + "./static/pic/test_channelaccounttag.png"
         })
         await addAttach({attach: image, description: "企业标截图"});
         let tag = await page.evaluate(async (eleClass)  => {
@@ -335,7 +336,7 @@ describe("testChannelAccount", () => {
       try {
         await pageExtend.change("磐石圣经");
         const image = await page.screenshot({
-          path: "./static/pic/test_nochannelaccount.png"
+          path:  basedir + "./static/pic/test_nochannelaccount.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).not.toHaveElement(channelAccountClass.box);
@@ -359,7 +360,7 @@ describe("testChannelAccount", () => {
     while (num != 0) {
       try {
         const image = await page.screenshot({
-          path: "./static/pic/test_nochannelaccount.png"
+          path:  basedir + "./static/pic/test_nochannelaccount.png"
         })
         await addAttach({attach: image, description: "页面截图"});
         await expect(page).not.toHaveElement(channelAccountClass.box);

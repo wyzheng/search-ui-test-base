@@ -1,7 +1,7 @@
 import { WebSearchPageConfig } from "../search-page/interfaces/web-search-page-config";
 import { CaseCTx} from "../search-page/interfaces/web-search-page";
 import { PageExtend } from "../search-page/page-extend";
-import {PageConfig} from '@tencent/web-search-puppeteer-page'
+import { PageConfig } from '@tencent/web-search-puppeteer-page'
 
 
 const defaultConfig: PageConfig = {
