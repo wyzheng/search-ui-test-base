@@ -1,7 +1,7 @@
 var args = require('minimist')(process.argv.slice(2));
 console.log("ahahahahah")
 console.log(args)
-const template = "fts_template-alpha-05221933-v80010629"
+const template = "fts_template-alpha-08042229-v80010629"
 const resPath = "test"
 
 module.exports = {

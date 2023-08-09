@@ -4,7 +4,7 @@ import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 //import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import {shebaoCardClass} from "../../lib/utils/resultMap";
-import {addAttach, addMsg} from "jest-html-reporters/helper";
+import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 
 let page: Page;
 let browser:  Browser;

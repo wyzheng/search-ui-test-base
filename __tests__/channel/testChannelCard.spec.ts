@@ -120,7 +120,7 @@ describe("testChannelCard", () => {
           path: imgPath
         });
         await addAttach({attach: image, description: "box截图"});
-        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_channelcardstyle.png');
+        let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_channelcardstyle.png');
         await expect(0.9).toBeLessThan(Number(diffPercent));
         break;
       } catch (e) {
@@ -130,7 +130,7 @@ describe("testChannelCard", () => {
         num--;
       }
     }
-    fs.copyFileSync(`./static/pic/test_channelcardstyle.png`, `./static/pic_diff/test_channelcardstyle.png`);
+    fs.copyFileSync(basedir + `./static/pic/test_channelcardstyle.png`, basedir + `./static/pic_diff/test_channelcardstyle.png`);
   },50000);
 
   //@description:query = 湖北发布，验证视频号大卡title为：湖北发布-视频号
@@ -330,13 +330,13 @@ describe("testChannelCard", () => {
         await pageExtend.change("人民日报");
         await page.waitForSelector(channelCardClass.moreHandler);
         await page.click(channelCardClass.moreHandler);
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(5000);
         let ele = await page.$(tabClass.select_tab);
         const image = await ele.screenshot({
           path:  basedir + "./static/pic/test_channelcardmore.png"
         })
         await addAttach({attach: image, description: "tab截图"});
-        let content = await getOCRRes(`./static/pic/test_channelcardmore.png`)
+        let content = await getOCRRes(basedir + `./static/pic/test_channelcardmore.png`)
         expect(content.ocr_comm_res.items[0].text).toBe('视频号')
         break;
       } catch (e) {
@@ -361,13 +361,13 @@ describe("testChannelCard", () => {
         await pageExtend.change("人民日报");
         await page.waitForSelector(channelCardClass.more);
         await page.click(channelCardClass.more);
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(5000);
         let ele = await page.$(tabClass.select_tab);
         const image = await ele.screenshot({
           path:  basedir + "./static/pic/test_channelcardswitchtab.png"
         })
         //await addAttach({attach: image, description: "切tab截图"});
-        let content = await getOCRRes(`./static/pic/test_channelcardswitchtab.png`)
+        let content = await getOCRRes(basedir + `./static/pic/test_channelcardswitchtab.png`)
         expect(content.ocr_comm_res.items[0].text).toBe('视频号')
         break;
       } catch (e) {
@@ -394,7 +394,7 @@ describe("testChannelCard", () => {
         await page.click(channelCardClass.accountContainer);
         await page.waitForTimeout(3000);
         const image = await page.screenshot({
-          path:  basedir + "./static/pic/test_channelcardclick.png"
+          path:  basedir + "./static/pic/test_channelcardclicked.png"
         })
         await addAttach({attach: image, description: "视频号落地页截图"});
         await expect(pageExtend.extendInfo).toBe("v2_060000231003b20faec8c6e48118c3d1ca05e933b0778d8942e832097e41c28af96c7a4a3282@finder");
