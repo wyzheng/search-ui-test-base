@@ -642,6 +642,7 @@ export const HPFCardClass = {
   btn_query: `div.search_result div.service-search-block-container div.ui-menu a:nth-child(1)`,
   btn_withdraw: `div.search_result div.service-search-block-container div.ui-menu a:nth-child(2)`,
   btn_loan: `div.search_result div.service-search-block-container div.ui-menu a:nth-child(3)`,
+  item_title: `div.search_result div.service-search-block-container div.service-search-item div.ui-section-title span`,
 }
 
 export const holidayCardClass = {
@@ -797,3 +798,10 @@ export const MajorCardClass = {
   source: `div.service-search-container div.block__source`,
 }
 
+export const HospitalCardClass = {
+  box: `div.service-search-container`,
+  head_bg: `div.service-search-container div.ui-zone__hd div.ui-zone__hd-inner`,
+  body: `div.service-search-container div.service-search-block-body`,
+  title: `div.service-search-container div.hd-title-content`,
+
+}

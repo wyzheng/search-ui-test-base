@@ -10,7 +10,7 @@ import {
 import { channelClass} from "../../lib/utils/resultMap";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import fs from "fs";
-
+import BigNumber from "bignumber.js";
 
 let page: Page ;
 let browser:  Browser;
@@ -231,9 +231,12 @@ describe("testChannel", () => {
     while (num != 0) {
       try {
         //调用接口点赞该视频号动态
-        await channelOperation("cutebot111", 3, 13852287066425727020);
-        await channelOperation("miyawyzzzz", 3, 13852287066425727020);
-        await channelOperation("cutebot333", 3, 13852287066425727020);
+        let channelLeft = await page.$(channelClass.boxLeft);
+        await page.click(channelClass.boxLeft);
+        let objectid = await String(pageExtend.extendInfo);
+        await channelOperation("cutebot111", 3, objectid);
+        await channelOperation("miyawyzzzz", 3, objectid);
+        await channelOperation("cutebot333", 3, objectid);
         await page.waitForSelector(channelClass.socialInfo);
         let ele = await page.$(channelClass.socialInfo);
         const image = await ele.screenshot({
@@ -319,7 +322,7 @@ describe("testChannel", () => {
           path:  basedir + "./static/pic/test_channelid.png"
         })
         await addAttach({attach: image, description: "动态落地页截图"});
-        await expect(pageExtend.extendInfo).toBe("14078879530265676091")
+        await expect(pageExtend.extendInfo).toBe("14102678676997806327")
         break;
       } catch (e) {
          if (num == 1) {
