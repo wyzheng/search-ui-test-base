@@ -38,10 +38,10 @@ describe("testArticle", () => {
 
   //@description:query = 《漫长的季节》里，最“爹”的人，验证混排页召回文章
   test("testArticleRecall", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查混排页是否召回公众号box`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查混排页是否召回公众号box`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -149,10 +149,10 @@ describe("testArticle", () => {
 
   //@description:query = 《漫长的季节》里，最“爹”的人，验证文章描述不超过两行
   test("testArticleDesc", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查文章描述不超过两行`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查文章描述不超过两行`
+    });
     let num = 3;
     while (num != 0) {
       try {
