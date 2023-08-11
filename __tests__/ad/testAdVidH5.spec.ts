@@ -14,6 +14,7 @@ let num = 0;
 let pass = 0;
 let fail = 0;
 let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:joycesong
 //@description:微信品专广告

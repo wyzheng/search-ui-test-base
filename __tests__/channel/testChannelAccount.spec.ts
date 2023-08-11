@@ -6,7 +6,7 @@ import {
 import { setup } from "../../lib/utils/setup";
 import { Page, Browser} from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
-import {channelAccountClass, tabClass} from "../../lib/utils/resultMap";
+import { channelAccountClass, tabClass } from "../../lib/utils/resultMap";
 import fs from "fs";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 
@@ -80,7 +80,7 @@ describe("testChannelAccount", () => {
           path: imgPath
         })
         await addAttach({attach: image, description: "box截图"});
-        let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_channelaccountstyle.png')
+        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_channelaccountstyle.png')
         await expect(0.9).toBeLessThan(Number(diffPercent))
         break;
       } catch (e) {
@@ -90,7 +90,7 @@ describe("testChannelAccount", () => {
         num--;
       }
     }
-    fs.copyFileSync(basedir + `./static/pic/test_channelaccountstyle.png`, basedir + `./static/pic_diff/test_channelaccountstyle.png`);
+    fs.copyFileSync(`./static/pic/test_channelaccountstyle.png`, `./static/pic_diff/test_channelaccountstyle.png`);
   },50000);
 
   //@description:query = 微信广告助手，验证视频号账号title
@@ -108,7 +108,13 @@ describe("testChannelAccount", () => {
           path:  basedir + "./static/pic/test_channelaccounttitle.png"
         })
         await addAttach({attach: image, description: "视频号账号标题"});
+        let content = await page.evaluate(async (eleClass)  => {
+          let item = document.querySelector(eleClass.title + " >em");
+          return item.innerHTML;
+        }, channelAccountClass);
+        await expect(content).toBe("微信广告助手");
         let ocrres = await getOCRRes( basedir + "./static/pic/test_channelaccounttitle.png")
+        console.log(ocrres);
         await expect(ocrres.ocr_comm_res.items[0].text.replace(" ", "")).toBe("微信广告助手-视频号");
         break;
       } catch (e) {
@@ -245,17 +251,13 @@ describe("testChannelAccount", () => {
         await pageExtend.change("微信视频号");
         await page.waitForSelector(channelAccountClass.more);
         await page.click(channelAccountClass.more);
-        let ele = await page.waitForSelector(tabClass.selected);
-        await page.waitForTimeout(5000);
+        let ele = await page.$('div.search_result div.unit__outer div.unit__wrap div.selected');
         const image = await ele.screenshot({
-          path:  basedir + "./static/pic/test_channelaccountmore.png"
+          path:  basedir + "./static/pic/test_channelaccountmore1.png"
         })
-        await addAttach({attach: image, description: "垂搜tab截图"});
-        let content = await page.evaluate((ele) => {
-            let el = document.querySelector(ele);
-            return el.innerHTML;
-        }, tabClass.selected);
-        await expect(content).toBe('视频号')
+        await addAttach({attach: image, description: "垂搜截图"});
+        let content = await getOCRRes(`./static/pic/test_channelaccountmore.png`)
+        expect(content.ocr_comm_res.items[0].text).toBe('视频号')
         break;
       } catch (e) {
         if (num == 1){
@@ -275,10 +277,9 @@ describe("testChannelAccount", () => {
     let num = 3;
     while (num != 0) {
       try {
-        await pageExtend.change("微信广告助手");
-        let ele = await page.waitForSelector(channelAccountClass.box);
+        await page.waitForSelector(channelAccountClass.box);
         await page.click(channelAccountClass.box);
-        const image = await ele.screenshot({
+        const image = await page.screenshot({
           path:  basedir + "./static/pic/test_channelAccountclick.png"
         })
         await addAttach({attach: image, description: "视频号账号截图"});
@@ -308,7 +309,7 @@ describe("testChannelAccount", () => {
           path:  basedir + "./static/pic/test_channelaccounttag.png"
         })
         await addAttach({attach: image, description: "企业标截图"});
-        let tag = await page.evaluate((eleClass)  => {
+        let tag = await page.evaluate(async (eleClass)  => {
           let item = document.querySelector(eleClass.tag);
           let tag = getComputedStyle(item, "style").backgroundImage;
           return tag;

@@ -14,6 +14,7 @@ let page: Page ;
 let browser:  Browser;
 let pageExtend: PageExtend;
 let num = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 
 //@owner:joycesong

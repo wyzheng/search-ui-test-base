@@ -19,6 +19,7 @@ let num = 0;
 let pass = 0;
 let fail = 0;
 let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:joycesong
 //@description:小程序账号box测试
@@ -63,6 +64,7 @@ describe("testWeappBox", () => {
       }
     }
   },50000);
+
 
   //@description:美团外卖，小程序box标题为"query-小程序"
   test("testWeappBoxTitle", async () => {
