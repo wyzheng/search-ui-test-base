@@ -45,6 +45,10 @@ describe("testJingjia", () => {
     let num = 3;
     while(num != 0){
       try {
+        if (num != 3){
+          await page.waitForTimeout(7000);
+          await pageExtend.change("testBidPicAlt")
+        }
         const image =  await page.screenshot({
           path:  basedir + "./static/pic/test_cpad.png"
         })

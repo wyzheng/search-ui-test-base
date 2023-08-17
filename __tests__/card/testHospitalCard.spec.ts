@@ -20,7 +20,7 @@ let  basedir = __dirname.split("__tests__")[0];
 //@description:医院大卡测试
 describe("testHospitalCard", () => {
     beforeAll(async () => {
-        pageExtend = await setup("广东省第二人民医院", 20, 3192443972, true);
+        pageExtend = await setup("广东省第二人民医院", 20, 3192443972, false);
         page = pageExtend.webSearchPage.instance;
         browser = pageExtend.browser;
     });

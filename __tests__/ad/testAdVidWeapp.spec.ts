@@ -46,11 +46,15 @@ describe("testAdVidWeapp", () => {
     let num = 3;
     while(num != 0){
       try  {
+        if (num != 3){
+          await page.waitForTimeout(7000);
+          await pageExtend.change("wxadtestVidWeapp")
+        }
         const image =  await page.screenshot({
           path:  basedir + "./static/pic/test_VidWeapp.png"
         })
         await addAttach({attach: image, description: "页面截图"});
-        expect(page).toHaveElement("div.ui-zone-ad");
+        await expect(page).toHaveElement("div.ui-zone-ad");
         break;
       } catch (e) {
         if (num == 1){
@@ -59,7 +63,7 @@ describe("testAdVidWeapp", () => {
         num--;
       }
     }
-  },50000);
+  },70000);
 
   //@description:点击广告头部，验证是否正确跳转到"唯品会特卖"小程序
   test("testAdHead", async () => {

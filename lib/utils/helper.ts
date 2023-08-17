@@ -36,6 +36,12 @@ export async function getSearchData(data){
     "Content-Type": "application/json; charset=utf-8"
   };
   let url = "http://9.134.52.227:8080/cgi/GetS1SResult"
+  //随机等待避免限频
+  const shouldWait = Math.floor(Math.random() * 2); // 随机生成0或1
+  if (shouldWait) {
+    setTimeout(() => {
+    }, 1000);
+  }
   let resp = await got( {method: 'post', url: url, body: JSON.stringify(data), decompress: false, headers: header_dict, timeout: 15000});
   if (resp.statusCode == 200){
     let rawData = resp.body;

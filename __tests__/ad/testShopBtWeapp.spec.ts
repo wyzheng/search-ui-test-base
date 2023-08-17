@@ -20,8 +20,8 @@ let  basedir = __dirname.split("__tests__")[0];
 describe("testShopBtWeapp", () => {
 
   beforeAll(async () => {
-    await superView(8587407707, "wxid_0l9zlk043rq212");
-    pageExtend = await setup("testshopbtweapp", 20, 3191396391, true);
+    await superView(8587470101, "wxid_0l9zlk043rq212");
+    pageExtend = await setup("testshopbtcs", 20, 3191396391, true);
     page = pageExtend.webSearchPage.instance;
     browser = pageExtend.browser;
   });
@@ -44,11 +44,15 @@ describe("testShopBtWeapp", () => {
     let num = 3;
     while(num != 0){
       try  {
+        if (num != 3){
+          await page.waitForTimeout(7000);
+          await pageExtend.change("wxadtestVidWeapp");
+        }
         const image =  await page.screenshot({
           path:  basedir + "./static/pic/test_shopWeapp.png"
         })
         await addAttach({attach: image, description: "页面截图"});
-        expect(page).toHaveElement("div.ui-zone-ad");
+        await expect(page).toHaveElement("div.ui-zone-ad");
         break;
       } catch (e) {
         if (num == 1){
@@ -153,7 +157,7 @@ describe("testShopBtWeapp", () => {
         await page.bringToFront();
         let content = await page.evaluate(async (eleClass)  => {
           let item = document.querySelector(eleClass.title + " >em");
-          //let color = getComputedStyle(item).color;
+          let color = getComputedStyle(item).color;
           let inner = item.innerHTML;
           let tagTitle = document.querySelector(eleClass.tag + " > div >div > div").innerHTML;
           return  [inner, tagTitle];

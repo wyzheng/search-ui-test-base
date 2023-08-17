@@ -660,8 +660,8 @@ export const holidayCardClass = {
 }
 
 export const bizWeAppClass = {
-  title: `div.basic-block-unified-account div.search-block__hd > div > div.search-block__title span`,
-  more: `div.basic-block-unified-account div.search-block__hd > div > div:nth-child(2) > div.more__item.active__mask`,
+  title: `#search_result > div.search_data > div > div.basic-block-unified-account > div.search-block__hd > div.search-block__title > span`,
+  more: `#search_result > div.search_data > div > div.basic-block-unified-account > div.search-block__hd > div:nth-child(2) > div.more__item`,
 }
 
 // id：box位次，从1开始，tid：账号tag位次，sid： 账号服务id
