@@ -509,12 +509,12 @@ export function feedbackDialogClass(id){
 
 //商品品专
 export const wxGoodAd = {
-  header: `div.ui-zone-ad__hd div.ad-goods-header__bg`,
+  header: `div.ui-zone-ad__hd`,
   feedback: `div.ui-zone-ad__hd div.ad-goods-header__complaint-entry`,
   complaint: "div.complaint-content",
   feedback_mask: 'div.mask.ad-complaint-popover',
-  title: "#search_result > div:nth-child(4) > div > div.exposure-block.search_result_block.box-without-card-style > div > div.ui-zone-ad__bd > div.ui-zone-ad__bd-slot > div > div.service-search-block-body > div:nth-child(1) > div.service-search-item-content-wrapper > div > div.ad-sub-header__slot.ad-sub-header__slot--without-title.ad-sub-header__slot--without-padding > div > div.hd-title-wrapper > div > h2 > span.ellipsis_1",
-  tag: `#search_result > div:nth-child(4) > div > div.exposure-block.search_result_block.box-without-card-style > div > div.ui-zone-ad__bd > div.ui-zone-ad__bd-slot > div > div.service-search-block-body > div:nth-child(1) > div.service-search-item-content-wrapper > div > div.ad-sub-header__slot.ad-sub-header__slot--without-title.ad-sub-header__slot--without-padding > div > div.hd-title-wrapper > div > h2 > span.ui-tags.hd-ui-tags.ui-tags-vertical-align`,
+  title: "#search_result > div.search_data > div > div.exposure-block.search_result_block.box-without-card-style > div > div.ui-zone-ad__bd > div.ui-zone-ad__bd-slot > div > div.service-search-block-body > div:nth-child(1) > div > div > div.ad-sub-header__slot.ad-sub-header__slot--without-title.ad-sub-header__slot--without-padding > div > div > div.hd-title-wrapper > div > h2 > span.ellipsis_1",
+  tag: `#search_result > div.search_data > div > div.exposure-block.search_result_block.box-without-card-style > div > div.ui-zone-ad__bd > div.ui-zone-ad__bd-slot > div > div.service-search-block-body > div:nth-child(1) > div > div > div.ad-sub-header__slot.ad-sub-header__slot--without-title.ad-sub-header__slot--without-padding > div > div > div.hd-title-wrapper > div > h2 > span.ui-tags.hd-ui-tags.ui-tags-vertical-align`,
   headSpan: 'div.ad-sub-header__slot div.hd-title-content h2.hd-title span',
 
   firstGood: 'div.ui-zone-ad__bd div.ad-sub-header div.ad-goods-info',
