@@ -3,7 +3,7 @@ import { setup } from "../../lib/utils/setup";
 import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
-import {holidayCardClass} from "../../lib/utils/resultMap";
+import {holidayCardClass, searchRes} from "../../lib/utils/resultMap";
 import fs from "fs";
 
 
@@ -41,7 +41,7 @@ describe("testHolidayCard", () => {
     let num = 3;
     while (num != 0) {
       try {
-        let firstbox = await page.waitForSelector(`div.search_result div:nth-child(1)`);
+        let firstbox = await page.waitForSelector(searchRes.first_box);
         let jieriCard = await page.waitForSelector(holidayCardClass.box);
         let image = await page.screenshot({
           path:  basedir + "./static/pic/test_Holidaybox.png"
@@ -58,7 +58,7 @@ describe("testHolidayCard", () => {
     }
   }, 50000);
 
-  //@description: q=端午节，验证节日大卡日期高亮正确
+  //@description: q=端午节，验证节日大卡截图相似度大于0.9
   test("testDuanwujie", async () => {
     await addMsg({
       context: undefined,
@@ -74,8 +74,13 @@ describe("testHolidayCard", () => {
           path: imgPath
         });
         await addAttach({attach: image, description: "端午节截图"});
-        let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_testDuanwujie.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        try {
+          await fs.statSync('./static/pic_diff/test_testDuanwujieDiff.png')
+        } catch (e) {
+          fs.copyFileSync(imgPath, `./static/pic_diff/test_testDuanwujieDiff.png`);
+        }
+        let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_testDuanwujieDiff.png');
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {
@@ -84,10 +89,10 @@ describe("testHolidayCard", () => {
         num--;
       }
     }
-    fs.copyFileSync(basedir + `./static/pic/test_testDuanwujie.png`, basedir + `./static/pic_diff/test_testDuanwujie.png`);
+    fs.copyFileSync(basedir + `./static/pic/test_testDuanwujieDiff.png`, basedir + `./static/pic_diff/test_testDuanwujieDiff.png`);
   }, 50000);
 
-  //@description: q=劳动节，验证节日大卡日期高亮正确
+  //@description: q=劳动节，验证节日大卡截图相似度大于0.9
   test("testLaodongjie", async () => {
     await addMsg({
      context: undefined,
@@ -104,7 +109,7 @@ describe("testHolidayCard", () => {
         });
         await addAttach({attach: image, description: "劳动节截图"});
         let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_testLaodongjie.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {
@@ -116,7 +121,7 @@ describe("testHolidayCard", () => {
     fs.copyFileSync(basedir + `./static/pic/test_testLaodongjie.png`, basedir + `./static/pic_diff/test_testLaodongjie.png`);
   }, 50000);
 
-  //@description: q=国庆节，验证节日大卡日期高亮正确
+  //@description: q=国庆节，验证节日大卡截图相似度大于0.9
   test("testGuoqingjie", async () => {
     await addMsg({
       context: undefined,
@@ -133,7 +138,7 @@ describe("testHolidayCard", () => {
         });
         await addAttach({attach: image, description: "国庆节截图"});
         let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_testGuoqingjie.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {
@@ -145,7 +150,7 @@ describe("testHolidayCard", () => {
     fs.copyFileSync(basedir + `./static/pic/test_testGuoqingjie.png`, basedir + `./static/pic_diff/test_testGuoqingjie.png`);
   }, 50000);
 
-  //@description: q=中秋节，验证节日大卡日期高亮正确
+  //@description: q=中秋节，验证节日大卡截图相似度大于0.9
   test("testZhongqiujie", async () => {
     /*await addMsg({
       context: undefined,
@@ -162,7 +167,7 @@ describe("testHolidayCard", () => {
         });
         //await addAttach({attach: image, description: "中秋节截图"});
         let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_testZhongqiujie.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {
@@ -174,7 +179,7 @@ describe("testHolidayCard", () => {
     fs.copyFileSync(basedir + `./static/pic/test_testZhongqiujie.png`, basedir + `./static/pic_diff/test_testZhongqiujie.png`);
   }, 50000);
 
-  //@description: q=春节，验证节日大卡日期高亮正确
+  //@description: q=春节，验证节日大卡截图相似度大于0.9
   test("testChunjie", async () => {
     await addMsg({
       context: undefined,
@@ -191,7 +196,7 @@ describe("testHolidayCard", () => {
         });
         await addAttach({attach: image, description: "春节截图"});
         let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_testChunjie.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {
@@ -203,7 +208,7 @@ describe("testHolidayCard", () => {
     fs.copyFileSync(basedir + `./static/pic/test_testChunjie.png`, basedir + `./static/pic_diff/test_testChunjie.png`);
   }, 50000);
 
-  //@description: q=元旦，验证节日大卡日期高亮正确
+  //@description: q=元旦，验证节日大卡截图相似度大于0.9
   test("testYuandan", async () => {
     await addMsg({
       context: undefined,
@@ -220,7 +225,7 @@ describe("testHolidayCard", () => {
         });
         await addAttach({attach: image, description: "元旦截图"});
         let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_testYuandan.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {
@@ -232,7 +237,7 @@ describe("testHolidayCard", () => {
     fs.copyFileSync(basedir + `./static/pic/test_testYuandan.png`, basedir + `./static/pic_diff/test_testYuandan.png`);
   }, 50000);
 
-  //@description: q=清明节，验证节日大卡日期高亮正确
+  //@description: q=清明节，验证节日大卡截图相似度大于0.9
   test("testQingmingjie", async () => {
     await addMsg({
       context: undefined,
@@ -249,7 +254,7 @@ describe("testHolidayCard", () => {
         });
         await addAttach({attach: image, description: "清明节截图"});
         let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_testQingmingjie.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {
@@ -261,7 +266,7 @@ describe("testHolidayCard", () => {
     fs.copyFileSync(basedir + `./static/pic/test_testQingmingjie.png`, basedir + `./static/pic_diff/test_testQingmingjie.png`);
   }, 50000);
 
-  //@description: q=植树节，验证节日大卡日期高亮正确
+  //@description: q=植树节，验证节日大卡截图相似度大于0.9
   test("testZhishujie", async () => {
     await addMsg({
       context: undefined,
@@ -271,6 +276,7 @@ describe("testHolidayCard", () => {
     while (num != 0) {
       try {
         await pageExtend.change("植树节");
+        await page.waitForTimeout(5000)
         let ele = await page.$(holidayCardClass.box);
         let imgPath =  basedir + "./static/pic/test_testZhishujie.png"
         const image = await ele.screenshot({
@@ -278,7 +284,7 @@ describe("testHolidayCard", () => {
         });
         await addAttach({ attach: image, description: "植树节截图" });
         let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_testZhishujie.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {
@@ -290,7 +296,7 @@ describe("testHolidayCard", () => {
     fs.copyFileSync(basedir + `./static/pic/test_testZhishujie.png`, basedir + `./static/pic_diff/test_testZhishujie.png`);
   }, 50000);
 
-  //@description: q=世界艾滋病日，验证节日大卡日期高亮正确
+  //@description: q=世界艾滋病日，验证节日大卡截图相似度大于0.9
   test("testAIDSday", async () => {
     await addMsg({
       context: undefined,
@@ -307,7 +313,7 @@ describe("testHolidayCard", () => {
         });
         await addAttach({attach: image, description: "世界艾滋病日截图"});
         let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_testAIDSday.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {
@@ -427,7 +433,9 @@ describe("testHolidayCard", () => {
     let num = 3;
     while (num != 0) {
       try {
+        await pageExtend.change("中秋节");
         await page.click(holidayCardClass.day_picker2);
+        await page.waitForTimeout(5000)
         await page.waitForSelector(holidayCardClass.date_picked, {timeout: 3000});
         let date = await page.$eval(holidayCardClass.title, el => el.textContent);
         expect(date.trim()).toBe("2023年9月14日 星期四");

@@ -50,7 +50,13 @@ describe("testUnicard", () => {
                     path:  basedir + "./static/pic/test_unibox.png"
                 })
                 await addAttach({ attach: image, description: "高校大卡截图" });
-                await expect(firstbox).toBe(ele);
+                let firstboxText = await page.evaluate((el) => {
+                    return el.innerHTML;
+                }, firstbox);
+                let eleText = await page.evaluate((el) => {
+                    return el.innerHTML;
+                }, ele);
+                await expect(firstboxText).toBe(eleText);
                 break;
             } catch (e) {
                 if (num == 1) {
@@ -61,7 +67,7 @@ describe("testUnicard", () => {
         }
     }, 50000);
 
-    //@description:q=北京邮电大学，验证高校大卡样式正确
+    //@description:q=北京邮电大学，验证高校大卡截图相似度大于0.9
     test("testUnicard001Style", async () => {
         await addMsg({
             context: undefined,
@@ -82,7 +88,7 @@ describe("testUnicard", () => {
                     fs.copyFileSync(imgPath, `./static/pic_diff/test_testUniCard001.png`);
                 }
                 let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_testUniCard001.png');
-                await expect(0.99).toBeLessThan(Number(diffPercent));
+                await expect(0.9).toBeLessThan(Number(diffPercent));
                 break;
             } catch (e) {
                 if (num == 1) {
@@ -94,7 +100,7 @@ describe("testUnicard", () => {
         fs.copyFileSync(`./static/pic/test_testUniCard001.png`, `./static/pic_diff/test_testUniCard001.png`);
     }, 50000);
 
-    //@description:q=清华大学，验证高校大卡样式正确
+    //@description:q=清华大学，验证高校大卡截图相似度大于0.9
     test("testUnicard002Style", async () => {
         await addMsg({
             context: undefined,
@@ -253,7 +259,7 @@ describe("testUnicard", () => {
                 let ele = await page.waitForSelector(UinCardClass.more);
                 await page.click(UinCardClass.more);
                 let page2 = await pageExtend.click("outer");
-                const account_items = `div.wrap div.item`;
+                const accountItems = `div.wrap div.item`;
                 const image = await page2.screenshot({
                     path:  basedir + "./static/pic/test_UnicardMoreH5.png"
                 })

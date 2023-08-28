@@ -66,7 +66,7 @@ describe("testChannel", () => {
     }
   },5000000);
 
-  //@description:query = 李子柒，验证样式正确
+  //@description:query = 李子柒，验证截图相似度大于0.9
   test("testChannelDiff", async () => {
     await addMsg({
       context: undefined,
@@ -91,32 +91,28 @@ describe("testChannel", () => {
         num--;
       }
     }
-    fs.copyFileSync(`./static/pic/test_channelstyle.png`, `./static/pic_diff/test_channelstyle.png`);
+    fs.copyFileSync(basedir + `./static/pic/test_channelstyle.png`, basedir + `./static/pic_diff/test_channelstyle.png`);
   },50000);
 
-  //@description:query = 李子柒，验证视频号动态高亮
+  //@description:query = 李子柒，验证视频号动态文字信息中的“李子柒”高亮
   test("testChannelBoxHighlight", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查检查文章高亮`
+      message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查检查视频号动态高亮`
     });
     let num = 3;
     while (num != 0) {
       try {
-        let channelEle = await page.$(channelClass.boxLeft);
-        let highlightEle = await page.$$(channelClass.highlight);
-        const matchingElements = await Promise.all(
-          highlightEle.map(async (el) => await el.evaluate((el) => el.outerHTML))
-        );
-        const notMatchingElements = await channelEle.evaluate((el) =>
-          el.outerHTML.replace(/<em class="highlight">.*?<\/em>/g, ''));
-        const querySet = new Set("李子柒".split(''));
-        const matchingEleSet = new Set(matchingElements);
-        const notMatchingEleSet = new Set(notMatchingElements.split(''));
-        const match = new Set([...querySet].filter(x => matchingEleSet.has(x)));
-        const notMatch = new Set([...querySet].filter(x => notMatchingEleSet.has(x)));
-        expect(Array.from(match).join('') != '');
-        expect(Array.from(notMatch).join('') == '');
+        let highlightEle = await page.$(channelClass.highlight);
+        let res = await page.evaluate(el => {
+          let ele = document.querySelector(el);
+          let content = ele.textContent;
+          let color = window.getComputedStyle(ele).color;
+          return {content, color};
+        }, channelClass.highlight);
+        console.log(res.content, res.color);
+        await expect(res.content).toContain("李子柒");
+        await expect(res.color).toBe("rgb(6, 174, 86)");
         break;
       } catch (e) {
         if (num == 1) {
@@ -163,7 +159,7 @@ describe("testChannel", () => {
     }
   },50000);
 
-  //@description:query = 李子柒，验证无点赞信息的情况下视频号描述不超过2行
+  //@description:query = 李子柒，验证无点赞信息的情况下视频号描述大于一行、小于等于2行
   test("testChannelDescWithoutAvatar", async () => {
     await addMsg({
       context: undefined,
@@ -179,6 +175,7 @@ describe("testChannel", () => {
         })
         await addAttach({attach: image, description: "无点赞描述截图"});
         let linNum = await getLineNum( basedir + "./static/pic/test_channeldesc1.png");
+        expect(linNum).toBeGreaterThan(1);
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
@@ -190,27 +187,31 @@ describe("testChannel", () => {
     }
   },50000);
 
-  //@description:query = 李子柒，验证有点赞信息的情况下视频号描述不超过1行
+  //@description:query = 李子柒，点赞视频号，检查有点赞的情况下视频号描述不超过1行
   test("testChannelDescWithAvatar", async () => {
     await addMsg({
       context: undefined,
-      message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查视频号描述信息不超过1行`
+      message: ` 测试步骤：\n  1. 输入搜索query=李子柒,发起搜索\n  2. 检查有点赞的情况下视频号描述不超过1行`
     });
     let num = 3;
     while (num != 0) {
       try {
         //调用接口点赞该视频号动态
-        await channelOperation("cutebot111", 3, 13852287066425727020);
-        await page.waitForSelector(channelClass.descRight);
-        let ele = await page.$(channelClass.descRight);
+        let channelLeft = await page.waitForSelector(channelClass.boxLeft);
+        await page.click(channelClass.boxLeft);
+        const objectid = await String(pageExtend.extendInfo);
+        await channelOperation("cutebot111", 3, objectid);
+        await page.waitForTimeout(10000);
+        await pageExtend.change("李子柒");
+        let ele = await page.waitForSelector(channelClass.descLeft);
         const image = await ele.screenshot({
-          path:  basedir + "./static/pic/test_channeldesc2.png"
+          path:  basedir + "./static/pic/test_channeldescLeft.png"
         })
         await addAttach({attach: image, description: "有点赞描述截图"});
-        let linNum = await getLineNum( basedir + "./static/pic/test_channeldesc2.png");
-        //调用接口取消点赞该视频号动态
-        await channelOperation("cutebot111", 4, 13852287066425727020);
+        let linNum = await getLineNum( basedir + "./static/pic/test_channeldescLeft.png");
         expect(linNum).toBeLessThanOrEqual(1);
+        //调用接口取消点赞该视频号动态
+        await channelOperation("cutebot111", 4, objectid);
         break;
       } catch (e) {
          if (num == 1) {
@@ -221,7 +222,7 @@ describe("testChannel", () => {
     }
   },50000);
 
-  //@description:query = 李子柒，检查外显的点赞人数与实际点赞人数一致
+  //@description:query = 李子柒，隐私，检查外显的点赞人数与实际点赞人数一致
   test("testChannelSocialInfo", async () => {
     await addMsg({
       context: undefined,
@@ -233,10 +234,12 @@ describe("testChannel", () => {
         //调用接口点赞该视频号动态
         let channelLeft = await page.$(channelClass.boxLeft);
         await page.click(channelClass.boxLeft);
-        let objectid = await String(pageExtend.extendInfo);
+        const objectid = await String(pageExtend.extendInfo);
         await channelOperation("cutebot111", 3, objectid);
-        await channelOperation("miyawyzzzz", 3, objectid);
+        await channelOperation("cutebot222", 3, objectid);
         await channelOperation("cutebot333", 3, objectid);
+        await page.waitForTimeout(10000);
+        await pageExtend.change("李子柒");
         await page.waitForSelector(channelClass.socialInfo);
         let ele = await page.$(channelClass.socialInfo);
         const image = await ele.screenshot({
@@ -246,6 +249,9 @@ describe("testChannel", () => {
         let socialInfo = await getOCRRes( basedir + "./static/pic/test_channelsocialinfo.png");
         let likeNum = parseInt(socialInfo["ocr_comm_res"]["items"][0]["text"].match(/\d+/g));
         expect(likeNum).toBe(3);
+        await channelOperation("cutebot111", 4, objectid);
+        await channelOperation("cutebot222", 4, objectid);
+        await channelOperation("cutebot333", 4, objectid);
         break;
       } catch (e) {
         if (num == 1) {
@@ -256,7 +262,7 @@ describe("testChannel", () => {
     }
   },50000);
 
-  //@description:query = 李子柒，验证视频号动态点击
+  //@description:query = 李子柒，验证视频号动态点击跳转到对应的落地页
   test("testChannelClick", async () => {
     await addMsg({
       context: undefined,
@@ -267,10 +273,12 @@ describe("testChannel", () => {
       try {
         await page.waitForSelector(channelClass.boxLeft);
         await page.click(channelClass.boxLeft);
+        let objectid = await String(pageExtend.extendInfo);
         const image = await page.screenshot({
           path:  basedir + "./static/pic/test_channellick.png"
         })
         await addAttach({attach: image, description: "落地页截图"});
+        await expect(pageExtend.extendInfo).toBe(objectid);
         break;
       } catch (e) {
          if (num == 1) {
@@ -281,7 +289,7 @@ describe("testChannel", () => {
     }
   },50000);
 
-  //@description:query = 李子柒，验证视频号动态点击中的播放按钮点击
+  //@description:query = 李子柒，验证视频号动态点击中的播放按钮点击跳转到对应的落地页
   test("testVideoPlayerClick", async () => {
     await addMsg({
       context: undefined,
@@ -292,11 +300,12 @@ describe("testChannel", () => {
       try {
         await page.waitForSelector(channelClass.playerIcon);
         await page.click(channelClass.playerIcon);
+        let objectid = await String(pageExtend.extendInfo);
         const image = await page.screenshot({
           path:  basedir + "./static/pic/test_channelplayerlick.png"
         })
         await addAttach({attach: image, description: "落地页截图"});
-        expect(pageExtend.extendInfo).toBe("14078879530265676091");
+        expect(pageExtend.extendInfo).toBe(objectid);
         break;
       } catch (e) {
          if (num == 1) {

@@ -210,17 +210,8 @@ export async function channelOperation(user, optype, objectid, commentid=0){
   console.log("*************************")
   let url = `http://wxunitest.oa.com/mmcasehelperidc/mmfinder`
   let finder_username = ""  // 点赞者的finder username, 可为空
-  let req_data = {
-      'func_name': 'SetFinderLike',
-      'func_args': {
-          "username": user,
-          "finder_username": finder_username,
-          "optype": optype,
-          "objectid": objectid,
-          "commentid": commentid
-      }
-  }
-  let resp = await got( {method: 'post', url: url, body: JSON.stringify(req_data), decompress: false});
+  let req_data_str = `{"func_name": "SetFinderLike","func_args": {"username": "${user}","finder_username": "${finder_username}","optype": ${optype},"objectid": ${objectid},"commentid": ${commentid}}}`;
+  let resp = await got( {method: 'post', url: url, body: req_data_str, decompress: false});
   console.log(resp.body);
   /* logger.log("here addBizContact log something*********");
    logger.log(resp.body);*/

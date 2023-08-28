@@ -449,8 +449,6 @@ describe("testAdVidFeeds", () => {
         await page.click(wxAdClass.select_all);
         await page.waitForTimeout(1700);
 
-        //await addMsg({context: undefined, message: `关注视频号`});
-
         let image = await page.screenshot();
         await addAttach({attach: image, description: "页面截图"});
 
@@ -460,7 +458,7 @@ describe("testAdVidFeeds", () => {
         }, wxAdClass);
         let ele =  await page.$(wxAdClass.account);
         let image1 =  await ele.screenshot({path: basedir + './static/pic/ad_gzh1.png'});
-        //await addAttach({attach: image1, description: "视频号号账号已关注截图"});
+        await addAttach({attach: image1, description: "视频号号账号已关注截图"});
         expect(content).toBe("已关注");
         await finderOperation("v2_060000231003b20faec8c7e28d1ecad2c900ea34b077192ae8bad1b4f00e998bfc98c5f05d66@finder", 2, "wxid_3v5oigo9a2c212");
         //expect(content).toBe("已关注");
