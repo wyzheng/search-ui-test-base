@@ -281,7 +281,7 @@ describe("testCarCard", () => {
     }, 50000);
 
     //@description:query = 奥迪A6L，验证价格参数与右边图片左对齐、右边界不超过图片右边界
-       test("testCarCardPrice", async () => {
+    test("testCarCardPrice", async () => {
         await addMsg({
             context: undefined,
             message: ` 测试步骤：\n  1. 输入搜索query=奥迪A6L,发起搜索\n  2. 验证价格参数与左边图片左、右边界不超过图片右边界，\n  3. 且超长时换行`
