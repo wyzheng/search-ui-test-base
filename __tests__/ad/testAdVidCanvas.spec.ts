@@ -363,8 +363,6 @@ describe("testAdVidCanvas", () => {
         await page.click(wxAdClass.select_all);
         await page.waitForTimeout(1700);
 
-        //await addMsg({context: undefined, message: `关注公众号`});
-
         let image = await page.screenshot();
         await addAttach({attach: image, description: "页面截图"});
 

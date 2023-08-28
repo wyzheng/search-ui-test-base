@@ -83,7 +83,6 @@ describe("testShopBtWeapp", () => {
         const centerX = boundingBox.x + boundingBox.width / 2;
         const topY = boundingBox.y;
         await page.mouse.click(centerX, topY);
-        //await page.click(wxGoodAd.header);
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         expect(pageExtend.weappPath).toBeStartWith("pages/special/special.html?url=https%3A%2F%2Fmst.vip.com%2Fcmstopic%2Findex%2Fs%2FIpamof&tra_from=adp%3Aej1kk8ct%3A%3A%3A%3A")
@@ -121,7 +120,7 @@ describe("testShopBtWeapp", () => {
         ele =  await page.$(wxGoodAd.complaint);
         path = basedir + './static/pic/ad_complaint.png';
         image =  await ele.screenshot({path: path});
-        //await addAttach({attach: image, description: "投诉弹窗"});
+        await addAttach({attach: image, description: "投诉弹窗"});
         await page.click(wxGoodAd.complaint);
         await page.waitForTimeout(1000);
         let page2 = await pageExtend.click("outer");
@@ -203,7 +202,7 @@ describe("testShopBtWeapp", () => {
         let ele =  await page.$(wxGoodAd.title);
         let path = basedir + './static/pic/ad_title.png';
         const image =  await ele.screenshot({path: path});
-        //await addAttach({attach: image, description: "广告名称截图"});
+        await addAttach({attach: image, description: "广告名称截图"});
         await page.click(wxAdClass.headTitle);
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
