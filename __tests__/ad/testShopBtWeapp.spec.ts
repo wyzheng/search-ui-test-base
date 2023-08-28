@@ -13,6 +13,7 @@ let num = 0;
 let pass = 0;
 let fail = 0;
 let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:joycesong
 //@description:微信品专广告
@@ -43,11 +44,15 @@ describe("testShopBtWeapp", () => {
     let num = 3;
     while(num != 0){
       try  {
+        if (num != 3){
+          await page.waitForTimeout(7000);
+          await pageExtend.change("wxadtestVidWeapp");
+        }
         const image =  await page.screenshot({
           path:  basedir + "./static/pic/test_shopWeapp.png"
         })
         await addAttach({attach: image, description: "页面截图"});
-        expect(page).toHaveElement("div.ui-zone-ad");
+        await expect(page).toHaveElement("div.ui-zone-ad");
         break;
       } catch (e) {
         if (num == 1){
@@ -58,7 +63,7 @@ describe("testShopBtWeapp", () => {
     }
   },50000);
 
-  //@description:点击广告头部，验证是否正确跳转到"唯品会特卖"小程序
+  //@description:精确点击广告头部，验证是否正确跳转到"唯品会特卖"小程序
   test("testAdHead", async () => {
     await addMsg({
       context: undefined,
@@ -73,7 +78,12 @@ describe("testShopBtWeapp", () => {
         let path = basedir + './static/pic/ad_good_head.png';
         const image =  await ele.screenshot({path: path});
         await addAttach({attach: image, description: "广告头部截图"});
-        await page.click(wxGoodAd.header);
+        // 点击头部
+        const boundingBox = await ele.boundingBox();
+        const centerX = boundingBox.x + boundingBox.width / 2;
+        const topY = boundingBox.y;
+        await page.mouse.click(centerX, topY);
+        //await page.click(wxGoodAd.header);
         await page.waitForTimeout(700);
         expect(pageExtend.extendInfo).toBe("gh_8ed2afad9972@app");
         expect(pageExtend.weappPath).toBeStartWith("pages/special/special.html?url=https%3A%2F%2Fmst.vip.com%2Fcmstopic%2Findex%2Fs%2FIpamof&tra_from=adp%3Aej1kk8ct%3A%3A%3A%3A")
@@ -150,11 +160,10 @@ describe("testShopBtWeapp", () => {
     while(num != 0){
       try {
         await page.bringToFront();
-        let content = await page.evaluate(async (eleClass)  => {
-          let item = document.querySelector(eleClass.title + " >em");
-          //let color = getComputedStyle(item).color;
+        let content = await page.evaluate( (eleClass)  => {
+          let item = document.querySelector(eleClass.title + " > em");
           let inner = item.innerHTML;
-          let tagTitle = document.querySelector(eleClass.tag + " > div >div > div").innerHTML;
+          let tagTitle = document.querySelector(eleClass.tag + " > div > div > div").innerHTML;
           return  [inner, tagTitle];
         }, wxGoodAd);
         expect(content[0].split("<em>")[0]).toBe("商品品专自动化测试case1");

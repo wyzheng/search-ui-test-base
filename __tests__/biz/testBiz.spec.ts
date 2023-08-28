@@ -8,8 +8,8 @@ import { Page, Browser } from "puppeteer";
 import { PageExtend } from "../../lib/search-page/page-extend";
 import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import { bizWeAppClass, bizWeAppsList } from "../../lib/utils/resultMap";
-let  basedir = __dirname.split("__tests__")[0];
 
+let  basedir = __dirname.split("__tests__")[0];
 let page: Page ;
 let browser:  Browser;
 let pageExtend: PageExtend;

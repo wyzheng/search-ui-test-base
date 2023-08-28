@@ -19,6 +19,7 @@ let num = 0;
 let pass = 0;
 let fail = 0;
 let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:joycesong
 //@description:小程序账号box测试
@@ -64,6 +65,7 @@ describe("testWeappBox", () => {
     }
   },50000);
 
+
   //@description:美团外卖，小程序box标题为"query-小程序"
   test("testWeappBoxTitle", async () => {
     await addMsg({
@@ -79,9 +81,9 @@ describe("testWeappBox", () => {
           path:  basedir + "./static/pic/test_testWeapptitle.png"
         })
         await addAttach({attach: image, description: "标题截图"});
-        let content = await page.evaluate(async (eleClass)  => {
-          let item = document.querySelector(eleClass.title + " >em");
-          let color = getComputedStyle(item).color;
+        let content = await page.evaluate( eleClass => {
+          let item =  document.querySelector(eleClass.title + " > em");
+          console.log(item);
           return item.innerHTML;
         }, bizWeAppClass);
         await expect(content).toBe("美团外卖");
@@ -197,7 +199,7 @@ describe("testWeappBox", () => {
         })
         await addAttach({attach: image, description: "垂搜截图"});
 
-        let content = await page.evaluate(async (eleClass)  => {
+        let content = await page.evaluate( (eleClass)  => {
           let item = document.querySelector(eleClass);
           return item.innerHTML;
         }, tabClass.selected);
@@ -281,7 +283,7 @@ describe("testWeappBox", () => {
           path:  basedir + "./static/pic/test_testWeappservice.png"
         })
 
-        let content = await page.evaluate(async (eleClass)  => {
+        let content = await page.evaluate( (eleClass)  => {
           let item = document.querySelector(eleClass);
           return item.innerHTML;
         }, bizWeAppsList(1, 0, 1).weappServiceText);
@@ -313,7 +315,7 @@ describe("testWeappBox", () => {
           path:  basedir + "./static/pic/test_testWeapptag.png"
         })
 
-        let content = await page.evaluate(async (eleClass)  => {
+        let content = await page.evaluate( (eleClass)  => {
           let item = document.querySelector(eleClass);
           //let color = getComputedStyle(item).color;
           return item.innerHTML;
@@ -352,7 +354,7 @@ describe("testWeappBox", () => {
           path:  basedir + "./static/pic/test_testWeapptag.png"
         })
 
-        let content = await page.evaluate(async (eleClass)  => {
+        let content = await page.evaluate( (eleClass)  => {
           let item = document.querySelector(eleClass);
           //let color = getComputedStyle(item).color;
           return item.innerHTML;
@@ -383,7 +385,7 @@ describe("testWeappBox", () => {
           path:  basedir + "./static/pic/test_testWeapptag.png"
         })
 
-        let content = await page.evaluate(async (eleClass)  => {
+        let content = await page.evaluate( (eleClass)  => {
           let item = document.querySelector(eleClass);
           return item.innerHTML;
         }, bizWeAppsList(1, 0, 1).accountSourceText);
@@ -414,7 +416,7 @@ describe("testWeappBox", () => {
           path:  basedir + "./static/pic/test_testWeapptag.png"
         })
 
-        let content = await page.evaluate(async (eleClass)  => {
+        let content = await page.evaluate( (eleClass)  => {
           let item = document.querySelector(eleClass);
           return item.innerHTML;
         }, bizWeAppsList(1, 0, 1).accountSourceTag);
@@ -445,7 +447,7 @@ describe("testWeappBox", () => {
           path:  basedir + "./static/pic/test_testWeapptag1.png"
         })
 
-        let content = await page.evaluate(async (eleClass)  => {
+        let content = await page.evaluate( (eleClass)  => {
           let item = document.querySelector(eleClass);
           return item.innerHTML;
         }, bizWeAppsList(1, 0, 1).accountTagTitle);

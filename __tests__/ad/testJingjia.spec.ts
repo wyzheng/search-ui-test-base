@@ -13,6 +13,7 @@ let num = 0;
 let pass = 0;
 let fail = 0;
 let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:joycesong
 //@description:微信竞价直投广告
@@ -44,6 +45,10 @@ describe("testJingjia", () => {
     let num = 3;
     while(num != 0){
       try {
+        if (num != 3){
+          await page.waitForTimeout(7000);
+          await pageExtend.change("testBidPicAlt")
+        }
         const image =  await page.screenshot({
           path:  basedir + "./static/pic/test_cpad.png"
         })

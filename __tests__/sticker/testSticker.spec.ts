@@ -20,6 +20,7 @@ let num = 0;
 let pass = 0;
 let fail = 0;
 let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 //@owner:joycesong
 //@description:表情box测试
@@ -106,10 +107,10 @@ describe("testSticker", () => {
 
   //@description:q=吃饭表情，验证表情box标题为"query-表情"
   test("testStickerBoxTitle", async () => {
-    /*await addMsg({
+    await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入q=吃饭表情\n  2. 验证表情box标题为"query-表情"\n `
-    });*/
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -215,12 +216,7 @@ describe("testSticker", () => {
         expect(height3).toBe(height4);
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -253,12 +249,7 @@ describe("testSticker", () => {
         await expect(content).toBe("表情");
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -283,12 +274,7 @@ describe("testSticker", () => {
         await addAttach({attach: image, description: "垂搜页面专辑截图"});
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -316,12 +302,7 @@ describe("testSticker", () => {
 
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -346,12 +327,7 @@ describe("testSticker", () => {
         expect(stickerNum).toBe(21);
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -390,12 +366,7 @@ describe("testSticker", () => {
 
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -428,12 +399,7 @@ describe("testSticker", () => {
         expect(url1).toBe(url2)
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
+        if (num == 1){
           throw e;
         }
         num--;
@@ -472,12 +438,7 @@ describe("testSticker", () => {
 
         break;
       } catch (e) {
-        if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
+        if (num == 1){
           throw e;
         }
         num--;

@@ -12,7 +12,8 @@ let resArr = [];
 let num = 0;
 let pass = 0;
 let fail = 0;
-let err = 0;let  basedir = __dirname.split("__tests__")[0];
+let err = 0;
+let  basedir = __dirname.split("__tests__")[0];
 
 
 //@owner:joycesong
@@ -45,11 +46,15 @@ describe("testAdPicWeapp", () => {
         let num = 3;
         while(num != 0){
             try {
+                if (num != 3){
+                    await page.waitForTimeout(7000);
+                    await pageExtend.change("wxadtestPicWeapp")
+                }
                 const image =  await page.screenshot({
                     path:  basedir + "./static/pic/test_wxadPicWeapp.png"
                 })
                 await addAttach({attach: image, description: "页面截图"});
-                expect(page).toHaveElement("div.ui-zone-ad");
+                await expect(page).toHaveElement("div.ui-zone-ad");
                 break;
             } catch (e) {
                 if (num == 1){
@@ -58,7 +63,7 @@ describe("testAdPicWeapp", () => {
                 num--;
             }
         }
-    },50000);
+    },70000);
 
     //@description:点击广告头部，验证是否正确跳转到广告原生页
     test("testAdhead", async () => {
