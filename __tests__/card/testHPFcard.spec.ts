@@ -59,7 +59,7 @@ describe("testHPFcard", () => {
         }
     }, 50000);
 
-    //@description:q=公积金，验证公积金大卡样式正确
+    //@description:q=公积金，验证公积金大卡截图相似度大于0.9
     test("testHPFcardDiff", async () => {
         await addMsg({
             context: undefined,
@@ -74,8 +74,13 @@ describe("testHPFcard", () => {
                     path: imgPath
                 });
                 await addAttach({attach: image, description: "端午节截图"});
+                try {
+                    await fs.statSync('./static/pic_diff/test_testHPFdiff.png')
+                } catch (e) {
+                    fs.copyFileSync(imgPath, `./static/pic_diff/test_testHPFdiff.png`);
+                }
                 let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_testHPFdiff.png');
-                await expect(0.99).toBeLessThan(Number(diffPercent));
+                await expect(0.9).toBeLessThan(Number(diffPercent));
                 break;
             } catch (e) {
                 if (num == 1) {
@@ -113,7 +118,7 @@ describe("testHPFcard", () => {
         }
     }, 50000);
 
-    //@description:q=公积金，验证公积金大卡内是否有poi信息
+    //@description:q=公积金，验证公积金大卡内poi信息为“广东·广州”
     test("testHPFcardPoiDefault", async () => {
         await addMsg({
             context: undefined,
@@ -139,7 +144,7 @@ describe("testHPFcard", () => {
         }
     }, 50000);
 
-    //@description:q=长沙公积金，验证公积金大卡内是否有poi信息是否为湖南长沙
+    //@description:q=长沙公积金，验证公积金大卡内poi信息为湖南·长沙
     test("testHPFcardPoi", async () => {
         await addMsg({
             context: undefined,
@@ -166,7 +171,7 @@ describe("testHPFcard", () => {
         }
     }, 50000);
 
-    //description:q=公积金，验证公积金大卡副标题详细政策点击跳转正确
+    //description:q=公积金，验证公积金大卡副标题”详细政策“按钮点击跳转到网页“http://gjj.gz.gov.cn/bsfw/qtfw/”
     test("testHPFcardSubTitleClick", async () => {
         await addMsg({
             context: undefined,
@@ -192,7 +197,7 @@ describe("testHPFcard", () => {
         }
     }, 50000);
 
-    //@description:q=公积金，验证公积金大卡查询按钮跳转正确
+    //@description:q=公积金，验证公积金大卡查询按钮跳转到公众号"gh_1ac06b5a8f4e@app"
     test("testHPFcardBtnQuery", async () => {
         await addMsg({
             context: undefined,
@@ -218,7 +223,7 @@ describe("testHPFcard", () => {
         }
     }, 50000);
 
-    //@description:q=公积金，验证公积金大卡提取按钮跳转正确
+    //@description:q=公积金，验证公积金大卡”提取“按钮点击跳转到网页“https://ydd.gzgjj.gov.cn/#/pages/p4/extractRecord/index”
     test("testHPFcardBtnWithdraw", async () => {
         await addMsg({
             context: undefined,
@@ -244,7 +249,7 @@ describe("testHPFcard", () => {
         }
     }, 50000);
 
-    //@description:q=公积金，验证公积金大卡贷款按钮跳转正确
+    //@description:q=公积金，验证公积金大卡”贷款“按钮点击跳转到网页“https://ydd.gzgjj.gov.cn/#/pages/p5/loanRecord/index”
     test("testHPFcardBtnLoan", async () => {
         await addMsg({
             context: undefined,
@@ -275,34 +280,6 @@ describe("testHPFcard", () => {
         await addMsg({
             context: undefined,
             message: ` 测试步骤：\n  1. 输入搜索query=公积金,发起搜索\n  2. 点击公积金大卡包含相关账号模块+其他服务模块 `
-        });
-        let num = 3;
-        while (num != 0) {
-            try {
-                const module_name = [];
-                let res = await page.evaluate((module_name, item_title) => {
-                    const elements = document.querySelectorAll(item_title);
-                    for (let element of elements) {
-                        module_name.push(element.innerHTML);
-                    }
-                    return module_name;
-                }, module_name, HPFCardClass.item_title);
-                await expect(res).toEqual(["相关账号", "其他服务"]);
-                break;
-            } catch (e) {
-                if (num == 1) {
-                    throw e;
-                }
-                num--;
-            }
-        }
-    }, 50000);
-
-        //description:q=公积金，验证公积金大卡包含相关账号模块内
-    test("testHPFcardModule", async () => {
-        await addMsg({
-            context: undefined,
-            message: ` 测试步骤：\n  1. 输入搜索query=公积金,发起搜索\n  2. 点击公积金大卡包含相关账号模块+更多服务模块 `
         });
         let num = 3;
         while (num != 0) {

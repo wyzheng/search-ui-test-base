@@ -47,7 +47,8 @@ export class PageExtend {
         "--disable-web-security",
         "--disable-dev-shm-usage",
         "--shm-size=3gb",
-        `--window-size=414,2000`
+        `--window-size=414,2000`,
+        '--enable-features=AllowSyncXHRInPageDismissal'
         //`--proxy-server=${proxy_svr}`
       ],
       dumpio: true,

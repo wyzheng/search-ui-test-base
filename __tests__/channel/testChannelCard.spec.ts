@@ -67,7 +67,7 @@ describe("testChannelCard", () => {
     }
   },50000);
 
-  //@description:query = 湖北发布，验证视频号大卡高亮
+  //@description:query = 湖北发布，验证视频号大卡标题高亮
   test("testChannelBoxHighlight", async () => {
     await addMsg({
       context: undefined,
@@ -91,8 +91,8 @@ describe("testChannelCard", () => {
         const notMatchingEleSet = new Set(notMatchingElements.split(''));
         const match = new Set([...querySet].filter(x => matchingEleSet.has(x)));
         const notMatch = new Set([...querySet].filter(x => notMatchingEleSet.has(x)));
-        expect(Array.from(match).join('') != '');
-        expect(Array.from(notMatch).join('') == '');
+        expect(Array.from(match).join('') != '').toBe(true);
+        expect(Array.from(notMatch).join('') == '').toBe(true);
         break;
       } catch (e) {
         if (num == 1) {
@@ -105,7 +105,7 @@ describe("testChannelCard", () => {
     }
   },50000);
 
-    //@description:query = 湖北发布，验证样式正确
+  //@description:query = 湖北发布，验证视频号大卡截图相似度大于0.9
   test("testChannelCardDiff", async () => {
     await addMsg({
       context: undefined,
@@ -115,13 +115,18 @@ describe("testChannelCard", () => {
     while (num != 0) {
       try {
         let channelBoxEle = await page.$(channelCardClass.box);
-        let imgPath =  basedir + "./static/pic/test_channelcardstyle.png"
+        let imgPath =  basedir + "./static/pic/test_channelcardDiff.png"
         const image = await channelBoxEle.screenshot({
           path: imgPath
         });
         await addAttach({attach: image, description: "box截图"});
-        let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_channelcardstyle.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        try {
+          await fs.statSync('./static/pic_diff/test_channelcardDiff.png')
+        } catch (e) {
+          fs.copyFileSync(imgPath, `./static/pic_diff/test_channelcardDiff.png`);
+        }
+        let diffPercent = await getSimilarity(imgPath, basedir + './static/pic_diff/test_channelcardDiff.png');
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {
@@ -130,7 +135,7 @@ describe("testChannelCard", () => {
         num--;
       }
     }
-    fs.copyFileSync(basedir + `./static/pic/test_channelcardstyle.png`, basedir + `./static/pic_diff/test_channelcardstyle.png`);
+    fs.copyFileSync(basedir + `./static/pic/test_channelcardDiff.png`, basedir + `./static/pic_diff/test_channelcardDiff.png`);
   },50000);
 
   //@description:query = 湖北发布，验证视频号大卡title为：湖北发布-视频号

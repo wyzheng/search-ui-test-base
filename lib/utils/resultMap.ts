@@ -559,7 +559,7 @@ export const channelClass = {
   unmuteIcon: `div.mixed-box__bd > div:nth-child(1) div.svg-icon-unmute`,
   descLeft: `div.mixed-box__bd > div:nth-child(1) div.rich-media__info div.rich-media__title`,
   descRight: `div.mixed-box__bd > div:nth-child(2) div.rich-media__info div.rich-media__title`,
-  socialInfo: `div.mixed-box__bd > div:nth-child(2) div.rich-media__info div.rich-media__social-info__title`,
+  socialInfo: `div.mixed-box__bd > div:nth-child(1) div.rich-media__info div.rich-media__social-info__title`,
   thumb: `div.mixed-box__bd div.mixed-box__item div.ui-image-image ui-image rich-media__source__thumb`,
   title: `div.mixed-box__bd div.mixed-box__item div.rich-media__source__title`,
   badge: `div.mixed-box__bd div.mixed-box__item div.rich-media__source__badges`,
@@ -617,21 +617,23 @@ export const shebaoCardClass = {
   titile: `div.search_result div.service-search-container div.title-with-poi`,
   poi: `div.search_result div.service-search-container div.poi span.poi-title`,
   poi_dialog: `div.app div.weui-half-screen-dialog`,
-  desc: `div.search_result div.service-search-container div.safe-spacer`,
-  desc_link: `div.search_result div.service-search-container div.safe-spacer span.desc-action`,
+  desc: `div.search_result div.service-search-container div.safe-spacer.desc`,
+  desc_link: `div.search_result div.service-search-container div.safe-spacer.desc span.desc-action`,
   service_button: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(1)`,
   service_button_item1: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(1) div.ui-menu a:nth-child(1)`,
   service_button_item2: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(1) div.ui-menu a:nth-child(2)`,
   service_button_item3: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(1) div.ui-menu a:nth-child(3)`,
   account: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2)`,
-  account_item1: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-column div:nth-child(1)`,
-  account_item2: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-column div:nth-child(2)`,
-  account_item3: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-column div:nth-child(3)`,
+  account_title: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-section-title`,
+  accountItem: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-column`,
+  accountItem1: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-column div:nth-child(1)`,
+  accountItem2: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-column div:nth-child(2)`,
+  accountItem3: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(2) div.ui-column div:nth-child(3)`,
   other_service: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3)`,
-  other_service_item1: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(1)`,
-  other_service_item2: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(2)`,
-  other_service_item3: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(3)`,
-  other_service_item4: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(4)`
+  other_serviceItem1: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(1)`,
+  other_serviceItem2: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(2)`,
+  other_serviceItem3: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(3)`,
+  other_serviceItem4: `div.search_result div.service-search-container div.service-search-block-body div:nth-child(3) div.ui-column div:nth-child(4)`
 }
 
 export const HPFCardClass = {
@@ -695,7 +697,10 @@ export const tabClass = {
 
 //混排结果
 export const searchRes = {
-  first_box: `div.search_data > div > div:nth-child(1)`
+  first_box: `div.search_data > div > div:nth-child(2)`,
+  real_first_box: `div.search_data > div > div:nth-child(1)`,
+  half_dialog: `div.ui-half-screen-dialog`,
+  alert_dialog: `div.dialog__box.alert`,
 }
 
 // 表情
@@ -782,7 +787,7 @@ export const UinCardClass = {
 
 export const MajorCardClass = {
   box: `div.service-search-container`,
-  title_hihtlight: `div.service-search-container div.big-card-header h2`,
+  title: `div.service-search-container div.big-card-header h2`,
   body: `div.service-search-container div.service-search-block-body`,
   desc: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(1)`,
   panel_1: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(2)`,
@@ -800,8 +805,68 @@ export const MajorCardClass = {
 
 export const HospitalCardClass = {
   box: `div.service-search-container`,
-  head_bg: `div.service-search-container div.ui-zone__hd div.ui-zone__hd-inner`,
+  headBg: `div.service-search-container div.ui-zone__hd div.ui-zone__hd-inner`,
   body: `div.service-search-container div.service-search-block-body`,
-  title: `div.service-search-container div.hd-title-content`,
+  title: `div.service-search-container div.hd-title-content h2.hd-title span`,
+  alias: `div.service-search-container div.hd-title-content div.website-content span.website-content__desc`,
+  poi: `div.service-search-container div.service-search-block-body div.default-sub-header div.hd-option:nth-child(1)`,
+  tel: `div.service-search-container div.service-search-block-body div.default-sub-header div.hd-option:nth-child(2)`,
+  web: `div.service-search-container div.service-search-block-body div.default-sub-header div.hd-option:nth-child(3)`,
+  rank: `div.service-search-container div.service-search-block-body div.default-sub-header div.ui-notice`,
+  service: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(1)`,
+  serviceItem: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(1) div.ui-column-slot`,
+  account: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(2)`,
+  accountItem: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(2) div.ui-column-slot`,
+  accountArrow: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(2) div.ui-arrow-svg`,
+  department: `div.service-search-container div.service-search-block-body div.service-search-item:nth-child(3)`,
+  moreArrow: `div.service-search-container div.service-search-block-body div.service-search-item div.ui-arrow-svg`,
+}
 
+export const HospitalServiceCardClass = {
+  box: `div.service-search-container`,
+  titleHighlight: `div.service-search-container div.big-card-header h2`,
+  poi: `div.service-search-container div.poi`,
+  desc: `div.service-search-container div.service-search-block-body div.card-desc`,
+  hospitalItem: `div.service-search-container div.service-search-block-body div.service-item`,
+  more: `div.service-search-container div.service-search-block-body div.is-tail`
+}
+
+export const WidgetClass = {
+  box: `div.widget-webview`,
+  title: `div.widget-webview div.search-block__hd`,
+  subTitle: `div.widget-webview div.bd div.search-block__hd-subtitle`,
+  body: `div.widget-webview div.bd`,
+  item: `div.widget-webview div.bd div.phone-list div.flex`,
+  button: `div.widget-webview div.bd div.phone-list a.phone-button`,
+  source: `div.widget-webview div.ft`,
+  sourceItem: `div.ui-half-screen-dialog div.ui-half-screen-sheet-item`,
+}
+
+export const carCardClass = {
+  box: `div.service-search-container`,
+  title: `div.service-search-container div.hd-title-content h2`,
+  brand: `div.service-search-container div.hd-title-content div.website-content`,
+  img: `div.service-search-container div.gallery.service-search-sub-item div.ui-column-slot`,
+  imgTag: `div.service-search-container div.gallery.service-search-sub-item div.gallery-more.active__opacity`,
+  describe: `div.service-search-container div.describe`,
+  describeItem: `div.service-search-container div.describe div.ui-column-slot`,
+  describeItemKey: `div.service-search-container div.describe div.ui-column-slot div.describe__key`,
+  describeItemValue: `div.service-search-container div.describe div.ui-column-slot div.describe__value`,
+  color: `div.service-search-container div.describe div.ui-column-slot:nth-child(1)`,
+  price: `div.service-search-container div.describe div.ui-column-slot:nth-child(2)`,
+  energy: `div.service-search-container div.describe div.ui-column-slot:nth-child(3)`,
+  engine: `div.service-search-container div.describe div.ui-column-slot:nth-child(4)`,
+  colorIcon: `div.service-search-container div.describe i.color.color-ellipsis`,
+  etcIcon: `div.service-search-container div.describe div.ellipsis_1`,
+  typeTitle: `div.service-search-container div.header-title`,
+  more: `div.service-search-container div.header-button`,
+  tabs: `div.service-search-container div.tabs-wrapper`,
+  comp: `div.service-search-container div.comp-block div.ui-tabs`,
+  compItem: `div.service-search-container div.comp-block div.rich-item.comp-block__item`,
+  compItemInfo: `div.service-search-container div.comp-block div.rich-item.comp-block__item div.rich-item__title`,
+  source: `div.service-search-container div.block__source`,
+}
+
+export const baikeClass = {
+  boxBtn: `div.search_list.basic-block-pedia div.links.pedia__links div.ui-column-slot`
 }

@@ -76,14 +76,14 @@ describe("testMusic", () => {
           path:  basedir + "./static/pic/test_testmusictitle.png"
         });
         await addAttach({attach: image, description: "标题截图"});
+        let ocrres = await getOCRRes( basedir + "./static/pic/test_testmusictitle.png");
+        console.log(ocrres);
+        await expect(ocrres.ocr_comm_res.items[0].text.replace(" ", "")).toBe("胡彦斌-音乐");
         let content = await page.evaluate(async (eleClass)  => {
           let item = document.querySelector(eleClass + " >em");
           return item.innerHTML;
         }, musicClass(0).title);
         await expect(content).toBe("胡彦斌");
-        let ocrres = await getOCRRes( basedir + "./static/pic/test_testmusictitle.png");
-        console.log(ocrres);
-        await expect(ocrres.ocr_comm_res.items[0].text.replace(" ", "")).toBe("胡彦斌-音乐");
         break;
       } catch (e) {
         if (num == 1){
@@ -120,7 +120,7 @@ describe("testMusic", () => {
     }
   },50000);
 
-  //@description:q=胡彦斌，验证音乐召回K歌按钮，点击跳转全民K歌小程序
+  //@description:q=胡彦斌，验证音乐K歌按钮点击跳转全民K歌小程序"gh_4336286303e4@app"
   test("testMusicK", async () => {
     await addMsg({
       context: undefined,
@@ -278,7 +278,7 @@ describe("testMusic", () => {
   },50000);
 
 
-  //@description:q=胡彦斌，验证box来源展示为QQ音乐
+  //@description:q=胡彦斌，验证box来源为“QQ音乐”，且来源icon与文字一行展示
   test("testMusicSource", async () => {
     await addMsg({
       context: undefined,
@@ -357,6 +357,14 @@ describe("testMusic", () => {
     let num = 3;
     while (num != 0) {
       try {
+        await page.waitForSelector(musicClass(0).more);
+        await page.click(musicClass(0).more);
+        await page.waitForTimeout(3000);
+
+        const image = await page.screenshot({
+          path:  basedir + "./static/pic/test_testMusicTab.png"
+        })
+        await addAttach({attach: image, description: "垂搜tab截图"});
         let content = await page.evaluate(async (eleClass) => {
           let element = document.querySelector(eleClass.title);
           if (element){

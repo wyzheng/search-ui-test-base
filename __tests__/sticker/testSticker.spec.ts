@@ -130,11 +130,6 @@ describe("testSticker", () => {
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
           throw e;
         }
         num--;
@@ -161,11 +156,6 @@ describe("testSticker", () => {
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-          }
           throw e;
         }
         num--;

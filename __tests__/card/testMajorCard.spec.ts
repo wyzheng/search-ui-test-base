@@ -62,27 +62,27 @@ describe("testMajorCard", () => {
       }
     }, 50000);
 
-    //@description:q=会计学，验证专业大卡样式正确
-    test("testMajorCardStyle", async () => {
+    //@description:q=会计学，验证专业大卡截图相似度大于0.99
+    test("testMajorCardDiff", async () => {
         await addMsg({
             context: undefined,
-            message: ` 测试步骤：\n  1. 输入搜索query=会计学,发起搜索\n  2. 验证专业大卡样式正确`
+            message: ` 测试步骤：\n  1. 输入搜索query=会计学,发起搜索\n  2. 验证专业大卡样式Diff正确`
         });
         let num = 3;
         while (num != 0) {
             try {
                 let ele = await page.$(MajorCardClass.box);
-                let imgPath =  basedir + "./static/pic/test_testMajorCardQuery001.png";
+                let imgPath =  basedir + "./static/pic/test_testMajorCard.png";
                 const image = await ele.screenshot({
                     path: imgPath
                 });
-                await addAttach({attach: image, description: "石河子大学大卡截图"});
+                await addAttach({attach: image, description: "专业大卡截图"});
                 try {
-                    await fs.statSync( basedir + './static/pic_diff/test_testMajorCard001.png')
+                    await fs.statSync( basedir + './static/pic_diff/test_testMajorCard.png')
                 } catch (e) {
-                    fs.copyFileSync(imgPath,  basedir + `./static/pic_diff/test_testMajorCard001.png`);
+                    fs.copyFileSync(imgPath,  basedir + `./static/pic_diff/test_testMajorCard.png`);
                 }
-                let diffPercent = await getSimilarity(imgPath,  basedir + './static/pic_diff/test_testMajorCard001.png');
+                let diffPercent = await getSimilarity(imgPath,  basedir + './static/pic_diff/test_testMajorCard.png');
                 await expect(0.99).toBeLessThan(Number(diffPercent));
                 break;
             } catch (e) {
@@ -92,7 +92,7 @@ describe("testMajorCard", () => {
                 num--;
             }
         }
-        fs.copyFileSync( basedir + `./static/pic/test_testMajorCard001.png`,  basedir + `./static/pic_diff/test_testMajorCard001.png`);
+        fs.copyFileSync( basedir + `./static/pic/test_testMajorCard.png`,  basedir + `./static/pic_diff/test_testMajorCard.png`);
     }, 50000);
 
     //@description:q=会计学，验证专业大卡标题高亮
@@ -104,12 +104,15 @@ describe("testMajorCard", () => {
         let num = 3;
         while (num != 0) {
             try {
-                let ele = await page.waitForSelector(MajorCardClass.title_hihtlight);
+                let ele = await page.waitForSelector(MajorCardClass.title);
                 const image = await ele.screenshot({
                     path:  basedir + './static/pic/test_MajorCardTitleHighlight.png'
                 });
                 await addAttach({attach: image, description: "大卡标题截图"});
-                let content = await getHighlightContent(page, MajorCardClass.title_hihtlight);
+                let content = await page.evaluate((selector) => {
+                    let ele = document.querySelector(selector + ' em');
+                    return ele.innerHTML;
+                }, MajorCardClass.title);
                 await expect(content).toBe("会计学");
                 break;
             } catch (e) {

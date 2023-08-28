@@ -5,6 +5,7 @@ import { PageExtend } from "../../lib/search-page/page-extend";
 //import { addAttach, addMsg } from "@tencent/jest-report-search/lib/helper";
 import {gaokaoCardClass, searchRes} from "../../lib/utils/resultMap";
 import { addMsg, addAttach } from "@tencent/jest-report-search/lib/helper";
+import fs from "fs";
 
 
 let page: Page ;
@@ -34,7 +35,7 @@ describe("testGaokaoCard", () => {
   })
 
   //@description:q=高考时间，验证高考大卡是否召回且在首位
-  test("testDateCardRecall", async () => {
+  test("testGaokaoCardRecall", async () => {
     await addMsg({
       context: undefined,
       message: ` 测试步骤：\n  1. 输入搜索query=高考时间,发起搜索\n  2. 检查垂搜页是否召回高考box`
@@ -116,7 +117,7 @@ describe("testGaokaoCard", () => {
     }
   }, 50000);
 
-  //@description:q=高考时间，验证验证高考大卡样式与上个版本diff率不低于0.9
+  //@description:q=高考时间，验证验证高考大卡样式截图相似度大于0.9
   test("testGaokaoCardDiff", async () => {
     await addMsg({
       context: undefined,
@@ -127,13 +128,18 @@ describe("testGaokaoCard", () => {
       try {
         await pageExtend.change("高考时间");
         let ele = await page.$(gaokaoCardClass.box);
-        let imgPath =  basedir + "./static/pic/test_gaokaocardstyle.png"
+        let imgPath =  basedir + "./static/pic/test_gaokaocardDiff.png"
         const image = await ele.screenshot({
           path: imgPath
         });
         await addAttach({attach: image, description: "高考时间卡片截图"});
-        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_gaokaocardstyle.png');
-        await expect(0.9).toBeLessThan(Number(diffPercent));
+        try {
+          await fs.statSync('./static/pic_diff/test_gaokaocardDiff.png')
+        } catch (e) {
+          fs.copyFileSync(imgPath, `./static/pic_diff/test_gaokaocardDiff.png`);
+        }
+        let diffPercent = await getSimilarity(imgPath, './static/pic_diff/test_gaokaocardDiff.png');
+        await expect(Number(diffPercent)).toBeGreaterThan(0.9);
         break;
       } catch (e) {
         if (num == 1) {

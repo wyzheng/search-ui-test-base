@@ -38,30 +38,21 @@ describe("testArticle", () => {
 
   //@description:query = 《漫长的季节》里，最“爹”的人，验证混排页召回文章
   test("testArticleRecall", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查混排页是否召回公众号box`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查混排页是否召回公众号box`
+    });
     let num = 3;
     while (num != 0) {
       try {
         const image = await page.screenshot({
           path:  basedir + "./static/pic/test_articlerecall.png"
         })
-        // await addAttach({attach: image, description: "页面截图"});
+        await addAttach({attach: image, description: "页面截图"});
         await expect(page).toHaveElement("div.basic-block-article-info");
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -95,15 +86,6 @@ describe("testArticle", () => {
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -131,15 +113,6 @@ describe("testArticle", () => {
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -149,10 +122,10 @@ describe("testArticle", () => {
 
   //@description:query = 《漫长的季节》里，最“爹”的人，验证文章描述不超过两行
   test("testArticleDesc", async () => {
-    // await addMsg({
-    //   context: undefined,
-    //   message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查文章描述不超过两行`
-    // });
+    await addMsg({
+      context: undefined,
+      message: ` 测试步骤：\n  1. 输入搜索query=《漫长的季节》里，最“爹”的人,发起搜索\n  2. 检查文章描述不超过两行`
+    });
     let num = 3;
     while (num != 0) {
       try {
@@ -161,21 +134,12 @@ describe("testArticle", () => {
         const image = await ele.screenshot({
           path:  basedir + "./static/pic/test_articledesc.png"
         })
-        //await addAttach({attach: image, description: "描述截图"});
+        await addAttach({attach: image, description: "描述截图"});
         let linNum = await getLineNum( basedir + "./static/pic/test_articledesc.png");
         expect(linNum).toBeLessThanOrEqual(2);
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -202,15 +166,6 @@ describe("testArticle", () => {
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -234,15 +189,6 @@ describe("testArticle", () => {
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;
@@ -250,7 +196,7 @@ describe("testArticle", () => {
     }
   },50000);
 
-  //@description:query = 《漫长的季节》里，最“爹”的人，点击跳转到文章H5页
+  //@description:query = 《漫长的季节》里，最“爹”的人，点击文章跳转到url为https://mp.weixin.qq.com/s?search_click_id=9079140861221277054-1692265974580-3841856713&__biz=MzI5MzA0MDQ5Mw==&mid=2659023385&idx=2&sn=fe735f7df803c2582f26405c77522981&chksm=f7f1e21bc0866b0db087c2b3be8d912697c28fbeff82d6835be6f7f8e7c46bcefdec9e9a3950#rd
   test("testArticleBoxClick", async () => {
     await addMsg({
       context: undefined,
@@ -266,18 +212,10 @@ describe("testArticle", () => {
           path:  basedir + "./static/pic/test_articleclick.png"
         })
         await addAttach({attach: image, description: "垂搜截图"});
+        await expect(pageExtend.url).toBe("https://mp.weixin.qq.com/s?search_click_id=9079140861221277054-1692265974580-3841856713&__biz=MzI5MzA0MDQ5Mw==&mid=2659023385&idx=2&sn=fe735f7df803c2582f26405c77522981&chksm=f7f1e21bc0866b0db087c2b3be8d912697c28fbeff82d6835be6f7f8e7c46bcefdec9e9a3950#rd");
         break;
       } catch (e) {
         if (num == 1) {
-          if (e.constructor.name == "JestAssertionError") {
-            fail++;
-          } else {
-            err++;
-            await addMsg({
-              context: undefined,
-              message: `测试任务出错...`
-            });
-          }
           throw e;
         }
         num--;

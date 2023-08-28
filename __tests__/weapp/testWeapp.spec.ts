@@ -155,7 +155,7 @@ describe("testWeappBox", () => {
     }
   },50000);
 
-  //@description:query = 美团外卖，验证小程序描述、小程序标题、小程序来源是否左对齐
+  //@description:query = 美团外卖，验证小程序描述、小程序标题、小程序来源左对齐
   test("testWeappInfoStyle", async () => {
     await addMsg({
       context: undefined,
@@ -180,7 +180,7 @@ describe("testWeappBox", () => {
     }
   },50000);
 
-  //@description:query = 美团外卖，点击更多入口验证是否跳转到小程序垂搜页
+  //@description:query = 美团外卖，点击更多入口，验证跳转到小程序垂搜页
   test("testWeappBoxMore", async () => {
     await addMsg({
       context: undefined,
@@ -202,10 +202,6 @@ describe("testWeappBox", () => {
           return item.innerHTML;
         }, tabClass.selected);
         await expect(content).toBe("小程序");
-
-        await page.click(wxAdClass.select_all)
-        await page.waitForTimeout(1700);
-
         break;
       } catch (e) {
         if (num == 1){
@@ -302,7 +298,7 @@ describe("testWeappBox", () => {
     }
   },50000);
 
-  //@description:query = 饿了么外卖，验证小程序来源icon和文案在同一行
+  //@description:query = 饿了么外卖，验证小程序来源icon和文案一行展示
   test("testWeappSource", async () => {
     await addMsg({
       context: undefined,
@@ -341,7 +337,7 @@ describe("testWeappBox", () => {
     }
   },50000);
 
-  //@description:query = 饿了么外卖，验证小程序有xx人使用标签
+  //@description:query = 饿了么外卖，验证小程序标签为“xx人使用”
   test("testWeappUsedTag", async () => {
     await addMsg({
       context: undefined,
@@ -372,7 +368,7 @@ describe("testWeappBox", () => {
     }
   },50000);
 
-  //@description:query = 美妆娃娃，验证小程序来源为"个人"
+  //@description:query = 美妆娃娃，验证小程序来源标签为"个人"
   test("testPersonalWeapp", async () => {
     await addMsg({
       context: undefined,
@@ -402,7 +398,7 @@ describe("testWeappBox", () => {
     }
   },50000);
 
-  //@description:query = 腾讯视频，验证小程序有"使用过"标签
+  //@description:query = 腾讯视频，验证小程序标签为"使用过"
   test("testWeappUsed", async () => {
     await addMsg({
       context: undefined,
